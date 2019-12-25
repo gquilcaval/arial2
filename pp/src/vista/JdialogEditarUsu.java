@@ -262,6 +262,7 @@ public class JdialogEditarUsu extends JDialog {
 
 		int ok = gc.actualizarEmp_Priv(c, e);
 
+		JOptionPane.showMessageDialog(null, ok+ " "+"Datos actualizados");
 		if (ok == 0) {
 			dispose();
 		} else {

@@ -17,6 +17,7 @@ import model.HintTextField;
 import model.Privilegios;
 import model.RoundedCornerBorder;
 import model.Tabla;
+import model.Tipo_documento;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JPanel;
@@ -471,6 +472,7 @@ private  ButtonGroup genero;
 		Empleados ultimo=list.get(list.size() -1 );
 		System.out.println("la cantidad :"+list.get(list.size() -1 ));
 		id=ultimo.getId_emp()+1;
+
 		nom = txtNombre.getText();
 		apePat = txtApePat.getText();
 		apeMat = txtApeMat.getText();
@@ -483,9 +485,9 @@ private  ButtonGroup genero;
 	    dni=txtDni.getText();
 	    login=txtLogin.getText();
 	    psw=txtPsw.getText();
-	    tipUsu=Integer.toString(cboCargo.getSelectedIndex());
+	    tipUsu=Integer.toString(cboCargo.getSelectedIndex())+1;
 	    String usu=cboCargo.getSelectedItem().toString();
-	    System.out.println(usu);
+	  
 	    if (usu.equals("Vendedor")) {
 	    	e.add(new Privilegios(("ventas"),true));
 			e.add(new Privilegios(("compras"),true));
@@ -501,6 +503,11 @@ private  ButtonGroup genero;
 			System.out.println("entro al admi");
 		}
 
+	  
+
+
+	 
+	    
 			Empleados c = new Empleados();
 			c.setId_emp(id);
 			c.setNom_emp(nom);

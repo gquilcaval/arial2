@@ -18,7 +18,7 @@ public void setEstado_privilegio(boolean estado_privilegio) {
 	this.estado_privilegio = estado_privilegio;
 }
 public Privilegios(String nom_privilegio, boolean estado_privilegio) {
-	super();
+	
 	this.nom_privilegio = nom_privilegio;
 	this.estado_privilegio = estado_privilegio;
 }

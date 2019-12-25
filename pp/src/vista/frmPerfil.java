@@ -135,7 +135,7 @@ public class frmPerfil extends JDialog {
 					c.setLogin_emp(login);
 					c.setId_emp(FrmLogin.e.getId_emp());
 					
-				int i=new GestionEmpledos().actualizar(c);
+				int i=new GestionEmpledos().actualizarPerfilEmp(c);
 				
 				if (i!=0) {
 					JOptionPane.showMessageDialog(null, i + " Datos Actualizados");
