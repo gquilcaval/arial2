@@ -113,7 +113,6 @@ public class FrmMenuPrincipal extends JFrame {
 	private JLabel label_13;
 	private JPanel panel;
 	private JLabel lblSeguridad;
-	private JLabel label_2;
 	private JLabel label_3;
 	public static JLabel lblIconoUsu;
 	private JPanel panel_2;
@@ -526,15 +525,8 @@ public class FrmMenuPrincipal extends JFrame {
 					lblSeguridad.setForeground(new Color(152, 163, 175));
 					lblSeguridad.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
 					lblSeguridad.setBackground(new Color(44, 57, 68));
-					lblSeguridad.setBounds(71, 0, 98, 52);
+					lblSeguridad.setBounds(68, 0, 98, 52);
 					panel.add(lblSeguridad);
-					
-					label_2 = new JLabel("");
-					label_2.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/img/lock.png")));
-					label_2.setHorizontalTextPosition(SwingConstants.CENTER);
-					label_2.setHorizontalAlignment(SwingConstants.CENTER);
-					label_2.setBounds(2, 2, 59, 48);
-					panel.add(label_2);
 					
 					label_3 = new JLabel("");
 					label_3.setOpaque(false);

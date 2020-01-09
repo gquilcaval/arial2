@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.LabelUI;
 import javax.swing.table.DefaultTableModel;
 
 import hilos.Hilo_Tiempo;
@@ -35,23 +36,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
+import java.awt.Cursor;
 
 public class FrmRegistroCompra extends JDialog {
-	private JTextField textField;
 	private JTextField txtProveedor;
 	private JTextField txtRuc;
-	private JTextField textField_3;
 	public static JLabel lblReloj;
 	public static JLabel lblFecha;
-	private JTextField textField_4;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField txtDireccion;
 	private JTextField txtOrdenCompra;
 	DefaultTableModel model=new DefaultTableModel();
 	private JTable tblRegistroCompra;
-	private JTextField txtSubtotal;
-	private JTextField txtImpuesto;
 	private JTextField txtTotal;
 	public static double importe;
 	public static double subtotal;
@@ -68,6 +64,7 @@ public class FrmRegistroCompra extends JDialog {
 		try {
 			FrmRegistroCompra dialog = new FrmRegistroCompra();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocationRelativeTo(null);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,6 +75,7 @@ public class FrmRegistroCompra extends JDialog {
 	 * Create the dialog.
 	 */
 	public FrmRegistroCompra() {
+		setModal(true);
 		
 		/*model para el registro de compra*/
 		
@@ -86,14 +84,17 @@ public class FrmRegistroCompra extends JDialog {
 		model.addColumn("Cantidad");
 		
 		model.addColumn("Valor unitatio");
-		model.addColumn("Precion unitario");
+		/*el precio unitario es el valor unitario mas el impuesto */
+		/*model.addColumn("Precion unitario");*/
+		
+		/*el neto es el valor unitario * cantidad*/
 		model.addColumn("Neto");
 		model.addColumn("Impuesto");
 		model.addColumn("Total");
+		model.addColumn("fecha Caducidad");
 		
 		
-		
-		setBounds(100, 100, 1266, 979);
+		setBounds(100, 100, 1370, 830);
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
@@ -101,13 +102,13 @@ public class FrmRegistroCompra extends JDialog {
 		panel.setLayout(null);
 		panel.setBorder(new MatteBorder(1, 1, 2, 1, (Color) new Color(0, 0, 0)));
 		panel.setBackground(new Color(45, 54, 63));
-		panel.setBounds(0, 0, 1250, 66);
+		panel.setBounds(0, 0, 1354, 66);
 		getContentPane().add(panel);
 		
 		JLabel lblRegistroDeCompra = new JLabel("REGISTRO DE COMPRA");
 		lblRegistroDeCompra.setForeground(Color.WHITE);
 		lblRegistroDeCompra.setFont(new Font("Segoe UI", Font.BOLD, 17));
-		lblRegistroDeCompra.setBounds(10, 0, 194, 66);
+		lblRegistroDeCompra.setBounds(34, 0, 194, 66);
 		panel.add(lblRegistroDeCompra);
 		
 		GestionCompra g=new GestionCompra();
@@ -117,21 +118,22 @@ public class FrmRegistroCompra extends JDialog {
 		JLabel lblNumeroOrden = new JLabel(numeroCompra);
 		lblNumeroOrden.setForeground(Color.WHITE);
 		lblNumeroOrden.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblNumeroOrden.setBounds(1140, 27, 84, 14);
+		lblNumeroOrden.setBounds(1216, 27, 78, 14);
 		panel.add(lblNumeroOrden);
 		
 		JLabel label = new JLabel("Usuario :");
 		label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label.setBounds(12, 83, 64, 14);
+		label.setBounds(34, 83, 64, 14);
 		getContentPane().add(label);
 		
-		JLabel label_1 = new JLabel("");
-		label_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_1.setBounds(84, 82, 100, 14);
-		getContentPane().add(label_1);
+		lblUsuario = new JLabel("");
+		lblUsuario.setForeground(Color.BLACK);
+		lblUsuario.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblUsuario.setBounds(104, 77, 100, 20);
+		getContentPane().add(lblUsuario);
 		
 		JLabel label_2 = new JLabel("________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________");
-		label_2.setBounds(0, 96, 1250, 14);
+		label_2.setBounds(0, 96, 1367, 14);
 		getContentPane().add(label_2);
 		
 		lblFecha = new JLabel("");
@@ -147,36 +149,9 @@ public class FrmRegistroCompra extends JDialog {
 		getContentPane().add(lblReloj);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 130, 390, 245);
+		panel_1.setBounds(34, 130, 390, 245);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setLayout(null);
-		panel_2.setBackground(new Color(45, 54, 63));
-		panel_2.setBounds(0, 0, 445, 50);
-		panel_1.add(panel_2);
-		
-		JLabel label_5 = new JLabel("Proveedor");
-		label_5.setForeground(Color.WHITE);
-		label_5.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		label_5.setBounds(10, 0, 73, 50);
-		panel_2.add(label_5);
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(133, 17, 222, 20);
-		panel_2.add(textField);
-		
-		JLabel label_6 = new JLabel("");
-		label_6.setBounds(365, 17, 20, 20);
-		panel_2.add(label_6);
-		
-		JLabel label_7 = new JLabel("");
-		label_7.setForeground(Color.WHITE);
-		label_7.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		label_7.setBounds(466, 0, 56, 50);
-		panel_2.add(label_7);
 		
 		JLabel label_8 = new JLabel("Razon Social  :");
 		label_8.setFont(new Font("Segoe UI", Font.PLAIN, 13));
@@ -205,76 +180,38 @@ public class FrmRegistroCompra extends JDialog {
 		txtRuc.setBounds(135, 130, 221, 20);
 		panel_1.add(txtRuc);
 		
-		JPanel panel_5 = new JPanel();
-		panel_5.setLayout(null);
-		panel_5.setBounds(0, 0, 522, 305);
-		panel_1.add(panel_5);
+		JPanel panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panel_2.setBackground(new Color(45, 54, 63));
+		panel_2.setBounds(0, 0, 389, 50);
+		panel_1.add(panel_2);
 		
-		JPanel panel_6 = new JPanel();
-		panel_6.setLayout(null);
-		panel_6.setBackground(new Color(45, 54, 63));
-		panel_6.setBounds(0, 0, 522, 50);
-		panel_5.add(panel_6);
+		JLabel label_1 = new JLabel("Proveedor");
+		label_1.setForeground(Color.WHITE);
+		label_1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		label_1.setBounds(10, 0, 73, 50);
+		panel_2.add(label_1);
 		
-		JLabel label_3 = new JLabel("Proveedor");
-		label_3.setForeground(Color.WHITE);
-		label_3.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		label_3.setBounds(10, 0, 73, 50);
-		panel_6.add(label_3);
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(133, 17, 222, 20);
+		panel_2.add(textField);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(133, 17, 222, 20);
-		panel_6.add(textField_4);
+		JLabel label_3 = new JLabel("");
+		label_3.setBounds(365, 17, 20, 20);
+		panel_2.add(label_3);
 		
-		JLabel label_13 = new JLabel("");
-		label_13.setBounds(365, 17, 20, 20);
-		panel_6.add(label_13);
-		
-		JLabel label_14 = new JLabel("");
-		label_14.setForeground(Color.WHITE);
-		label_14.setFont(new Font("Segoe UI", Font.BOLD, 16));
-		label_14.setBounds(466, 0, 56, 50);
-		panel_6.add(label_14);
-		
-		JLabel label_15 = new JLabel("Razon Social  :");
-		label_15.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		label_15.setBounds(10, 88, 115, 14);
-		panel_5.add(label_15);
-		
-		JLabel label_16 = new JLabel("RUC              :     ");
-		label_16.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		label_16.setBounds(10, 132, 115, 14);
-		panel_5.add(label_16);
-		
-		JLabel label_17 = new JLabel("Direccion       :");
-		label_17.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		label_17.setBounds(10, 180, 115, 14);
-		panel_5.add(label_17);
-		
-		textField_8 = new JTextField();
-		textField_8.setOpaque(false);
-		textField_8.setColumns(10);
-		textField_8.setBounds(135, 86, 221, 20);
-		panel_5.add(textField_8);
-		
-		textField_9 = new JTextField();
-		textField_9.setOpaque(false);
-		textField_9.setColumns(10);
-		textField_9.setBounds(135, 130, 221, 20);
-		panel_5.add(textField_9);
+		JLabel label_5 = new JLabel("");
+		label_5.setForeground(Color.WHITE);
+		label_5.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		label_5.setBounds(466, 0, 56, 50);
+		panel_2.add(label_5);
 		
 		txtDireccion = new JTextField();
-		txtDireccion.setOpaque(false);
-		txtDireccion.setColumns(10);
 		txtDireccion.setBounds(135, 178, 221, 20);
-		panel_5.add(txtDireccion);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(135, 178, 221, 20);
-		panel_5.add(textField_3);
-		textField_3.setOpaque(false);
-		textField_3.setColumns(10);
+		txtDireccion.setOpaque(false);
+		panel_1.add(txtDireccion);
+		txtDireccion.setColumns(10);
 		
 		JLabel lblComprobante = new JLabel("Comprobante");
 		lblComprobante.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -331,7 +268,7 @@ public class FrmRegistroCompra extends JDialog {
 		JComboBox cboFormaPago; 
 		cboFormaPago= new JComboBox();
 		cboFormaPago.setModel(new DefaultComboBoxModel(new String[] {"credito 30 ", "credito 90"}));
-		cboFormaPago.setBounds(146, 110, 115, 20);
+		cboFormaPago.setBounds(146, 110, 94, 20);
 		panel_3.add(cboFormaPago);
 		
 		dtmEmision = new JDateChooser();
@@ -344,7 +281,7 @@ public class FrmRegistroCompra extends JDialog {
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setLayout(null);
-		panel_7.setBounds(921, 130, 319, 245);
+		panel_7.setBounds(975, 130, 319, 245);
 		getContentPane().add(panel_7);
 		
 		JPanel panel_8 = new JPanel();
@@ -387,7 +324,8 @@ public class FrmRegistroCompra extends JDialog {
 				int codigoRegisCompra=Integer.parseInt(txtOrdenCompra.getText());
 				
 				ArrayList<OrdenCompra>lista= g.listaOrdenCompra(codigoRegisCompra);
-				System.out.println(codigoRegisCompra);
+				System.out.println(lista.get(0).getNomUsuario());
+				lblUsuario.setText(lista.get(0).getNomUsuario());
 				txtProveedor.setText(lista.get(0).getNomProveedor());
 				txtRuc.setText(lista.get(0).getRuc());
 				txtDireccion.setText(lista.get(0).getDirecProveedor());
@@ -396,13 +334,23 @@ public class FrmRegistroCompra extends JDialog {
 				
 				
 				
-				
+				int total=0;
+				Date fecha=new Date();
+				SimpleDateFormat dft=new SimpleDateFormat("dd/MM/yyyy");
+				String fecha1=dft.format(fecha);
 				for (OrdenCompra cl : lista) {
-					Object datos[] = { cl.getIdprodu(),cl.getNomProd(),cl.getCantidad(),cl.getPrecio(),"","",cl.getTotal() };
+					double neto=cl.getCantidad()*cl.getPrecio();
+					double impuesto=neto*0.18;
+					
+					Object datos[] = { cl.getIdprodu(),cl.getNomProd(),cl.getCantidad(),cl.getPrecio(),neto,impuesto,cl.getTotal(),
+							fecha1};
 					model.addRow(datos);
-					System.out.println(cl.getIdprodu());
+					total+=cl.getTotal();
 
 				}
+				
+				
+				txtTotal.setText(""+total);
 				/* calcular el importe */
 			/*
 				double precio = Double.parseDouble(tblRegistroCompra.getValueAt(1, 4).toString());
@@ -432,74 +380,58 @@ public class FrmRegistroCompra extends JDialog {
 		panel_7.add(btnPoner);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 421, 1228, 235);
+		scrollPane.setBounds(34, 422, 1260, 235);
 		getContentPane().add(scrollPane);
 		
 		tblRegistroCompra = new JTable();
 		tblRegistroCompra.setModel(model);
 		scrollPane.setViewportView(tblRegistroCompra);
 		
-		JLabel label_10 = new JLabel("Sub total");
-		label_10.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_10.setBounds(616, 680, 91, 29);
-		getContentPane().add(label_10);
-		
-		txtSubtotal = new JTextField();
-		txtSubtotal.setEditable(false);
-		txtSubtotal.setColumns(10);
-		txtSubtotal.setBounds(691, 686, 86, 20);
-		getContentPane().add(txtSubtotal);
-		
-		JLabel label_18 = new JLabel("Impuesto(18%)");
-		label_18.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_18.setBounds(853, 684, 106, 21);
-		getContentPane().add(label_18);
-		
-		txtImpuesto = new JTextField();
-		txtImpuesto.setEditable(false);
-		txtImpuesto.setColumns(10);
-		txtImpuesto.setBounds(969, 686, 86, 20);
-		getContentPane().add(txtImpuesto);
-		
 		JLabel label_19 = new JLabel("Total");
 		label_19.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_19.setBounds(1098, 687, 46, 14);
+		label_19.setBounds(1158, 687, 46, 14);
 		getContentPane().add(label_19);
 		
 		txtTotal = new JTextField();
 		txtTotal.setEditable(false);
 		txtTotal.setColumns(10);
-		txtTotal.setBounds(1154, 686, 86, 20);
+		txtTotal.setBounds(1208, 686, 86, 20);
 		getContentPane().add(txtTotal);
 		
-		JButton btnGrabar = new JButton("Grabar");
-		
-		
-		btnGrabar.addMouseListener(new MouseAdapter() {
+		label_6 = new JLabel("Grabar");
+		label_6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-				grabar();
-				
-				
+			grabar();
 			}
 		});
-		btnGrabar.setBounds(1151, 747, 89, 23);
-		getContentPane().add(btnGrabar);
+		label_6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		label_6.setOpaque(true);
+		label_6.setHorizontalAlignment(SwingConstants.CENTER);
+		label_6.setForeground(Color.WHITE);
+		label_6.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		label_6.setBorder(new LineBorder(Color.decode("#28a745")));
+		label_6.setBackground(new Color(40, 167, 69));
+		label_6.setBounds(1194, 739, 100, 25);
+		getContentPane().add(label_6);
 		
 		iniciaReloj();
 	}
 	
 	ArrayList<DetalleCompra> carrito = new ArrayList<>();
+	private JLabel lblUsuario;
+	private JTextField textField;
+	private JTextField txtDireccion;
+	private JLabel label_6;
+	
+	
+	
 	void iniciaReloj() {
 		Hilo_Tiempo h=new Hilo_Tiempo();
 		h.start();
 	}
 	
-	
-	
-	
-	void grabar() {
+void grabar() {
 		
 		int nroOrdenCompra;
 		String comprovante,fechaRegis,fechaVenci;
@@ -547,7 +479,5 @@ public class FrmRegistroCompra extends JDialog {
 			JOptionPane.showMessageDialog(null, "registro Exitosa");
 		}
 	
-	}
-	
-	
+}
 }

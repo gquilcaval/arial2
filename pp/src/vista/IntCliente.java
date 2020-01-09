@@ -212,7 +212,7 @@ public class IntCliente extends JInternalFrame {
 		lblIconSearch.setIcon(ic);
 		dk.add(lblIconSearch);
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(92, 84, 1496, 606);
+		scrollPane.setBounds(103, 95, 1496, 606);
 		dk.add(scrollPane);
 		tblClientes = new JTable();
 	

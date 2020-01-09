@@ -43,13 +43,13 @@ public class FrmBuscarProducto extends JDialog {
 	private JTextField textField;
 	private JTable tblProducto;
 
-	public static ArrayList<DetalleCompra> carrito=new ArrayList<DetalleCompra>();;
+	
 
 	public static double importe;
 	public static double subtotal;
 	public static double igv;
 	public static double total;
-	
+	public static JButton btnEliminar;
 	/* listado productos */
 	DefaultTableModel model = new DefaultTableModel();
 	
@@ -153,7 +153,17 @@ public class FrmBuscarProducto extends JDialog {
 				importe = precio * cantidad;
 				filas[4]=importe;
 				
+				/*le envio el boton eliminar*/
 				
+				
+				btnEliminar = new JButton("eliminar");
+			        ImageIcon delete = new ImageIcon(getClass().getResource("/img/eliminar.png"));
+			    	Image i = delete.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+			    	Icon ic = new ImageIcon(i);
+			    	btnEliminar.setIcon(ic);
+			    	btnEliminar.setName("eliminar");
+			
+				filas[5]=btnEliminar.getName();
 				
 				FrmOrdenDeCompra.model1.addRow(filas);
 				
@@ -169,18 +179,6 @@ public class FrmBuscarProducto extends JDialog {
 				total = subtotal + igv;
 				
 			
-				DetalleCompra dv = new DetalleCompra();
-				GestionCompra g=new GestionCompra();
-				dv.setNroCompra(g.ObtenerNumero());
-				dv.setIdprodu(Integer.parseInt(filas[0].toString()));
-				dv.setCantidad(Integer.parseInt(filas[2].toString()));
-				dv.setPrecio(Double.parseDouble(filas[3].toString()));
-				System.out.println("1"+filas[0].toString());
-				System.out.println("2"+filas[2].toString());
-				System.out.println("3"+filas[3].toString());
-				
-				carrito.add(dv);
-				System.out.println("en el buscar es "+carrito);
 				
 
 				

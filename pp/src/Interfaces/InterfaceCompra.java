@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import model.Compra;
 import model.DetalleCompra;
 import model.OrdenCompra;
+import model.OrdenRegistroCompra;
 
 
 public interface InterfaceCompra {
@@ -24,6 +25,12 @@ public interface InterfaceCompra {
 	/*gestion orden de compra*/
 	public ArrayList<OrdenCompra> listadoOrdenCompra();
 	
-	/*gestion registro de compra*/
+	/*gestion orden de compra*/
 	public ArrayList<OrdenCompra> listaOrdenCompra(int codigo);
+	
+	/*gestion registro de compra*/
+	public ArrayList<OrdenRegistroCompra> listadoRegistroCompra();
+	
+	/*gestion registro de compra*/
+	public ArrayList<OrdenRegistroCompra> listadoXcodigoRegisCompra(int codigo);
 }

@@ -23,6 +23,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.rollover.TableRolloverController;
@@ -40,8 +42,13 @@ import javax.swing.event.InternalFrameEvent;
 public class IntGestionOrdenDeCompra extends JInternalFrame {
 	
 	private JTextField textField;
-	DefaultTableModel model=new DefaultTableModel();
-	private JTable table;
+	public static DefaultTableModel model=new DefaultTableModel();
+	public static JTable table;
+	private JLabel lblAprovada;
+	private JLabel lblGenerada;
+	private JLabel lblEmitida;
+	private JLabel lblCerrada;
+	private JLabel lblAnulada;
 	/**
 	 * Launch the application.
 	 */
@@ -63,16 +70,19 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public IntGestionOrdenDeCompra() {
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameOpened(InternalFrameEvent arg0) {
 				
 				/*listar gestion orden de compra internal*/
 				listaOrdeCompra();
+			
 				
 			}
 		});
-		
+		model.setColumnCount(0);
+		model.setRowCount(0);
 		model.addColumn("Nro");
 		model.addColumn("Usuario");
 		model.addColumn("Fecha de orden");
@@ -87,63 +97,9 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		
 		
 		
-		setBounds(100, 100, 1600, 626);
+		setBounds(100, 100, 1600, 708);
 		getContentPane().setLayout(null);
-		getContentPane().setBackground(Color.decode("#ebf0f4"));
-		JPanel panel = new JPanel();
-		panel.setBounds(-1, 66, 318, 530);
-		getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 0, 308, 57);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Generada");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		lblNewLabel.setBounds(27, 17, 80, 28);
-		panel_1.add(lblNewLabel);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setLayout(null);
-		panel_2.setBounds(10, 77, 308, 57);
-		panel.add(panel_2);
-		
-		JLabel lblAprovada = new JLabel("Aprovada");
-		lblAprovada.setFont(new Font("Arial", Font.BOLD, 16));
-		lblAprovada.setBounds(27, 17, 80, 28);
-		panel_2.add(lblAprovada);
-		
-		JPanel panel_3 = new JPanel();
-		panel_3.setLayout(null);
-		panel_3.setBounds(10, 145, 308, 57);
-		panel.add(panel_3);
-		
-		JLabel lblEmitida = new JLabel("Emitida");
-		lblEmitida.setFont(new Font("Arial", Font.BOLD, 16));
-		lblEmitida.setBounds(27, 17, 80, 28);
-		panel_3.add(lblEmitida);
-		
-		JPanel panel_4 = new JPanel();
-		panel_4.setLayout(null);
-		panel_4.setBounds(10, 226, 308, 57);
-		panel.add(panel_4);
-		
-		JLabel lblCerrada = new JLabel("Cerrada");
-		lblCerrada.setFont(new Font("Arial", Font.BOLD, 16));
-		lblCerrada.setBounds(27, 17, 80, 28);
-		panel_4.add(lblCerrada);
-		
-		JPanel panel_5 = new JPanel();
-		panel_5.setLayout(null);
-		panel_5.setBounds(10, 302, 308, 57);
-		panel.add(panel_5);
-		
-		JLabel lblAnulada = new JLabel("Anulada");
-		lblAnulada.setFont(new Font("Arial", Font.BOLD, 16));
-		lblAnulada.setBounds(27, 17, 80, 28);
-		panel_5.add(lblAnulada);
+		getContentPane().setBackground(Color.WHITE);
 		textField = new JTextField(10) {
 			protected void paintComponent(Graphics g) {
 				
@@ -247,10 +203,13 @@ FrmMenuPrincipal f=new FrmMenuPrincipal();
 		label_1.setVerticalAlignment(SwingConstants.TOP);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(331, 66, 1243, 519);
+		scrollPane.setBounds(388, 66, 1186, 519);
+		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		scrollPane.getViewport().setBackground(Color.WHITE);
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		table.setRowHeight(25);
 		table.setIntercellSpacing(new Dimension(1, 3));
 		table.setGridColor(Color.LIGHT_GRAY);
@@ -260,16 +219,147 @@ FrmMenuPrincipal f=new FrmMenuPrincipal();
 		
 		table.getTableHeader().setOpaque(false);
 		table.getTableHeader().setBackground(Color.decode("#005f80"));
-		table.getTableHeader().setForeground(Color.decode("#f7edd7"));
+		table.getTableHeader().setForeground(Color.decode("#F4F5F7"));
 		table.getTableHeader().setFont(new Font("Arial", 1, 12));
 		table.getTableHeader().setSize(WIDTH,100);
 		table.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
-		
+		table.setRowHeight(30);
+		table.setDefaultRenderer(Object.class, new FormatoTabla());
+		table.setForeground(Color.decode("#39393C"));
 		table.setModel(model);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panel_1.setBackground(Color.decode("#2D363F"));
+				lblGenerada.setForeground(Color.WHITE);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+
+				panel_1.setBackground(Color.white);
+				lblGenerada.setForeground(Color.black);
+			}
+		});
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		panel_1.setBackground(Color.WHITE);
+		panel_1.setBounds(13, 183, 308, 57);
+		getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		lblGenerada = new JLabel("Generada");
+		lblGenerada.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGenerada.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		lblGenerada.setBounds(27, 0, 80, 57);
+		panel_1.add(lblGenerada);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				
+				panel_2.setBackground(Color.decode("#2D363F"));
+				lblAprovada.setForeground(Color.WHITE);
+				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panel_2.setBackground(Color.white);
+				lblAprovada.setForeground(Color.black);
+			}
+		});
+		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		panel_2.setBackground(Color.WHITE);
+		panel_2.setBounds(13, 71, 308, 57);
+		getContentPane().add(panel_2);
+		panel_2.setLayout(null);
+		
+		lblAprovada = new JLabel("Aprovada");
+		lblAprovada.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		lblAprovada.setBounds(27, 0, 80, 57);
+		panel_2.add(lblAprovada);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panel_3.setBackground(Color.decode("#2D363F"));
+				lblEmitida.setForeground(Color.WHITE);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panel_3.setBackground(Color.white);
+				lblEmitida.setForeground(Color.black);
+			}
+		});
+		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		panel_3.setBackground(Color.WHITE);
+		panel_3.setBounds(13, 299, 308, 57);
+		getContentPane().add(panel_3);
+		panel_3.setLayout(null);
+		
+		lblEmitida = new JLabel("Emitida");
+		lblEmitida.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		lblEmitida.setBounds(27, 0, 80, 57);
+		panel_3.add(lblEmitida);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panel_4.setBackground(Color.decode("#2D363F"));
+				lblCerrada.setForeground(Color.WHITE);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panel_4.setBackground(Color.white);
+				lblCerrada.setForeground(Color.black);
+			}
+		});
+		panel_4.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		panel_4.setBackground(Color.WHITE);
+		panel_4.setBounds(13, 410, 308, 57);
+		getContentPane().add(panel_4);
+		panel_4.setLayout(null);
+		
+		lblCerrada = new JLabel("Cerrada");
+		lblCerrada.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		lblCerrada.setBounds(27, 0, 80, 57);
+		panel_4.add(lblCerrada);
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				panel_5.setBackground(Color.decode("#2D363F"));
+				lblAnulada.setForeground(Color.WHITE);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				panel_5.setBackground(Color.white);
+				lblAnulada.setForeground(Color.black);
+			}
+		});
+		panel_5.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
+		panel_5.setBackground(Color.WHITE);
+		panel_5.setBounds(13, 528, 308, 57);
+		getContentPane().add(panel_5);
+		panel_5.setLayout(null);
+		
+		lblAnulada = new JLabel("Anulada");
+		lblAnulada.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		lblAnulada.setBounds(27, 0, 80, 57);
+		panel_5.add(lblAnulada);
 
 	}
 	
-	void listaOrdeCompra() {
+	public static void listaOrdeCompra() {
 		ArrayList<OrdenCompra> lista=new ArrayList<>();
 		GestionCompra gui=new GestionCompra();
 		lista=gui.listadoOrdenCompra();
@@ -281,9 +371,8 @@ model.getDataVector().removeAllElements();
 								,"","",cl.getFechaEntrega(),cl.getTotal()};
 
 			model.addRow(datos);
-
+			
 		}
 		
 	}
-	
 }

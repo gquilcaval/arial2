@@ -100,7 +100,7 @@ public class IntDashBoard extends JInternalFrame {
 		panel_4 = new JPanel();
 		panel_4.setBorder(null);
 		panel_4.setPreferredSize(new Dimension(1610,2000));
-		panel_4.setBackground(Color.decode("#ebf0f4"));
+		panel_4.setBackground(Color.decode("#f3f4f5"));
 		scrollPane.setViewportView(panel_4);
 		panel_4.setLayout(null);
 		

@@ -17,20 +17,31 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
+import mantenimientos.GestionCompra;
+import mantenimientos.GestionProveedor;
+import model.DetalleCompra;
+import model.OrdenRegistroCompra;
+import model.Proveedores;
 import model.RoundedCornerBorder;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.JTable;
 import java.awt.Rectangle;
 import java.awt.Cursor;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 public class IntGestionDeCompra extends JInternalFrame {
 	private JTextField textField;
 	private String colorFondo="#ebf0f4";
-	DefaultTableModel model = new DefaultTableModel();
+	 DefaultTableModel model = new DefaultTableModel();
 	DefaultTableModel model1=new DefaultTableModel();
 	private JTable tblCompra;
 	private JScrollPane scrollPane_1;
@@ -55,12 +66,21 @@ public class IntGestionDeCompra extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public IntGestionDeCompra() {
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameOpened(InternalFrameEvent arg0) {
+				listadoRegistroCompra();
+			}
+		});
 		
 		getContentPane().setBounds(new Rectangle(0, 0, 1626, 832));
+		model.setRowCount(0);
+		model.setColumnCount(0);
+		model.addColumn("Codigo Registro Compra");
 		model.addColumn("Tipo");
 		model.addColumn("Serie");
 		model.addColumn("Numero");
-		model.addColumn("Fecha");
+		model.addColumn("Fecha Registro");
 		model.addColumn("Proveedor");
 		model.addColumn("Forma pago");
 		model.addColumn("Vencimiento");
@@ -70,6 +90,9 @@ public class IntGestionDeCompra extends JInternalFrame {
 		model.addColumn("Anulado");
 		model.addColumn("Recibido");
 		
+		
+		model1.setRowCount(0);
+		model1.setColumnCount(0);
 		model1.addColumn("Codigo");
 		model1.addColumn("Producto");
 		model1.addColumn("Cantidad");
@@ -83,18 +106,18 @@ public class IntGestionDeCompra extends JInternalFrame {
 		
 		
 		
-		setBounds(223, 79, 1626, 753);
+		setBounds(223, 79, 1626, 811);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBounds(0, 0, 1620, 720);
-		panel.setBackground(Color.decode(colorFondo));
+		panel.setBounds(0, 0, 1610, 781);
+		panel.setBackground(Color.WHITE);
 		getContentPane().add(panel);
 		
 		JLabel label = new JLabel("Tipo de Documento");
 		label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label.setBounds(10, 42, 142, 14);
+		label.setBounds(44, 42, 142, 14);
 		panel.add(label);
 		
 		JPanel panel_1 = new JPanel() {
@@ -113,23 +136,23 @@ public class IntGestionDeCompra extends JInternalFrame {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
-		panel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_1.setLayout(null);
-		panel_1.setBackground(new Color(20, 147, 225));
-		panel_1.setBounds(1005, 18, 142, 41);
-		panel.add(panel_1);
-		
-		JLabel label_1 = new JLabel("Nuevo");
-		label_1.addMouseListener(new MouseAdapter() {
+		panel_1.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-				FrmRegistroCompra r=new FrmRegistroCompra();
+			public void mouseClicked(MouseEvent e) {
+FrmRegistroCompra r=new FrmRegistroCompra();
 				
 				r.setVisible(true);
 				r.setLocationRelativeTo(null);
 			}
 		});
+		panel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_1.setLayout(null);
+		panel_1.setBackground(new Color(20, 147, 225));
+		panel_1.setBounds(929, 21, 142, 41);
+		panel.add(panel_1);
+		
+		JLabel label_1 = new JLabel("Nuevo");
+	
 		label_1.setVerticalAlignment(SwingConstants.TOP);
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
 		label_1.setForeground(new Color(253, 254, 254));
@@ -165,7 +188,7 @@ public class IntGestionDeCompra extends JInternalFrame {
 		};
 		textField.setToolTipText("");
 		textField.setBackground(new Color(239, 244, 249));
-		textField.setBounds(1189, 21, 345, 38);
+		textField.setBounds(1168, 21, 345, 38);
 		panel.add(textField);
 		
 		JLabel label_3 = new JLabel("");
@@ -174,56 +197,118 @@ public class IntGestionDeCompra extends JInternalFrame {
 		Icon ic = new ImageIcon(i);
 		label_3.setIcon(ic);
 		label_3.setBackground(Color.BLACK);
-		label_3.setBounds(1544, 21, 38, 38);
+		label_3.setBounds(1523, 21, 38, 38);
 		panel.add(label_3);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(2, 94, 1602, 345);
+		scrollPane.setBounds(44, 94, 1517, 345);
+		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		scrollPane.getViewport().setBackground(Color.WHITE);
 		panel.add(scrollPane);
 		
 		tblCompra = new JTable();
+		tblCompra.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				model1.setRowCount(0);
+			
+				
+				 int fila=tblCompra.getSelectedRow();
+				 
+				 int codigo=Integer.parseInt(tblCompra.getValueAt(fila, 0).toString());
+				 
+				 
+				 ArrayList<OrdenRegistroCompra> lista=new GestionCompra().listadoXcodigoRegisCompra(codigo);
+				 
+				
+				
+				 
+				 
+				
+				 for (OrdenRegistroCompra cl : lista) {
+					 
+					 /*precio bruto cantidad*precio*/
+					 int cantidad=lista.get(0).getCantidad();
+					 double precio=lista.get(0).getPrecio();
+					 double precioBruto=cantidad*precio;
+					 double impuesto=precioBruto*0.18;
+					 double total=precioBruto+impuesto;
+						Object o[]={cl.getCodPro(),cl.getNomPro(),cl.getCantidad(),cl.getPrecio(),precioBruto,0,impuesto,total};
+						model1.addRow(o);
+					}
+					
+				 
+				 
+				
+			}
+		});
 		scrollPane.setViewportView(tblCompra);
+		tblCompra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		tblCompra.getTableHeader().setOpaque(false);
 		tblCompra.getTableHeader().setBackground(Color.decode("#005f80"));
-		tblCompra.getTableHeader().setForeground(Color.decode("#f7edd7"));
+		tblCompra.getTableHeader().setForeground(Color.decode("#F4F5F7"));
 		tblCompra.getTableHeader().setFont(new Font("Arial", 1, 12));
 		tblCompra.getTableHeader().setSize(WIDTH,100);
 		tblCompra.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
+		tblCompra.setRowHeight(30);
+		tblCompra.setDefaultRenderer(Object.class, new FormatoTabla());
+		tblCompra.setForeground(Color.decode("#39393C"));
 		tblCompra.setModel(model);
 		
 		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 450, 1604, 225);
+		scrollPane_1.setBounds(44, 484, 1517, 225);
+		scrollPane_1.setBorder(new EmptyBorder(0, 0, 0, 0));
+		scrollPane_1.getViewport().setBackground(Color.WHITE);
 		panel.add(scrollPane_1);
 		
 		tblProducto = new JTable();
+		tblProducto.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		scrollPane_1.setViewportView(tblProducto);
 		
 		tblProducto.getTableHeader().setOpaque(false);
 		tblProducto.getTableHeader().setBackground(Color.decode("#005f80"));
-		tblProducto.getTableHeader().setForeground(Color.decode("#f7edd7"));
+		tblProducto.getTableHeader().setForeground(Color.decode("#F4F5F7"));
 		tblProducto.getTableHeader().setFont(new Font("Arial", 1, 12));
 		tblProducto.getTableHeader().setSize(WIDTH,100);
 		tblProducto.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
-		
+		tblProducto.setRowHeight(30);
+		tblProducto.setDefaultRenderer(Object.class, new FormatoTabla());
+		tblProducto.setForeground(Color.decode("#39393C"));
 		tblProducto.setModel(model1);
 		JComboBox comboBox = new JComboBox();
 		comboBox.setForeground(Color.BLACK);
 		comboBox.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		comboBox.setBounds(154, 36, 134, 26);
+		comboBox.setBounds(196, 36, 134, 26);
 		panel.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setForeground(Color.BLACK);
 		comboBox_1.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		comboBox_1.setBounds(403, 36, 134, 26);
+		comboBox_1.setBounds(472, 36, 134, 26);
 		panel.add(comboBox_1);
 		
 		JLabel label_4 = new JLabel("Periodo");
 		label_4.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		label_4.setBounds(321, 42, 94, 14);
+		label_4.setBounds(392, 42, 70, 14);
 		panel.add(label_4);
 		
 		
 
+	}
+	
+	
+	void listadoRegistroCompra() {
+		
+ArrayList<OrdenRegistroCompra> lista=new GestionCompra().listadoRegistroCompra();
+		
+		for (OrdenRegistroCompra cl : lista) {
+			
+		
+			Object o[]={cl.getCodigo(),cl.getComprovante(),"",cl.getNroOrdenCompra(),cl.getFechaRegisCom(),cl.getNomProveedor(),cl.getFormaPago(),
+					cl.getFechaVenCom(),"",cl.getTotal()};
+			model.addRow(o);
+		}
+		
 	}
 }

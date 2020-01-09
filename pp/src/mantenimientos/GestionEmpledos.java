@@ -227,6 +227,7 @@ public class GestionEmpledos implements InterfaceEmpleados {
 
 			con.commit();
 			String sql3 = "insert into  privilegios values(?,?,?)";
+			
 			for (Privilegios dt : priv) {
 				pst = con.prepareStatement(sql3);
 				pst.setInt(1, reg.getId_emp());

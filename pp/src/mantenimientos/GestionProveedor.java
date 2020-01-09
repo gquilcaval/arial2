@@ -41,7 +41,7 @@ public class GestionProveedor implements InterfaceProveedor {
 				lista.add(p);
 	}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "error en la sentencia"+e.getMessage());
+			JOptionPane.showMessageDialog(null, "error en la sentencia de listado ;v"+e.getMessage());
 		}finally {
 			try {
 				if(pst!=null)pst.close();
@@ -63,7 +63,7 @@ public class GestionProveedor implements InterfaceProveedor {
 		PreparedStatement pst=null;
 		try {
 			con=MySQLconexion.getConexion();
-			String sql="select * from proveedor where nom_prov like concat('%',?,'%')";
+			String sql="select * from proveedor where nom_prov like concat(?,'%')";
 			pst=(PreparedStatement) con.prepareStatement(sql);
 			pst.setString(1,nombre);
 			rs=pst.executeQuery();
@@ -111,9 +111,9 @@ public class GestionProveedor implements InterfaceProveedor {
 			pst.setString(3,reg.getDirec_prov());
 			pst.setString(4,reg.getTelf_prov());
 			pst.setString(5,reg.getCell_prov());
-			pst.setString(5,reg.getEmail_prov());
-			pst.setString(5,reg.getEstado_prov());
-			pst.setString(5,reg.getNro_cuenta_prov());
+			pst.setString(6,reg.getEmail_prov());
+			pst.setString(7,reg.getEstado_prov());
+			pst.setString(8,reg.getNro_cuenta_prov());
 			
 			
 		

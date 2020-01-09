@@ -9,17 +9,21 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.toedter.calendar.JDateChooser;
+
 import mantenimientos.GestionEmpledos;
 
 public class TablaPerfiles {
 	public static DefaultTableModel model=new DefaultTableModel();
 	static JButton btn1;
 	static JButton btn2;
-	
+
 public void ver_tabla(JTable tabla){
 	 model.setColumnCount(0);
 	 model.setRowCount(0);
         tabla.setDefaultRenderer(Object.class, new Render());
+        
+
         
   
          btn1 = new JButton("");
@@ -47,7 +51,7 @@ public void ver_tabla(JTable tabla){
 	
 		model.addColumn("Modificar");
 		model.addColumn("Eliminar");
-		
+		model.addColumn("caducidad");
 		listar();
         
         tabla.setModel(model);

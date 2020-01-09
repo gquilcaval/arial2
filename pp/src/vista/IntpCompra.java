@@ -110,7 +110,7 @@ public class IntpCompra extends JInternalFrame {
 		Icon ic = new ImageIcon(i);
 		
 		dkpane = new JDesktopPane();
-		dkpane.setBackground(Color.decode("#ebf0f4"));
+		dkpane.setBackground(Color.WHITE);
 		dkpane.setBounds(0, 80, 1620, 794);
 		getContentPane().add(dkpane);
 		ImageIcon iconSearchs = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
@@ -118,7 +118,7 @@ public class IntpCompra extends JInternalFrame {
 		Icon ico = new ImageIcon(is);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
+		panel_1.setBackground(Color.decode("#f3f4f5"));
 		panel_1.setBounds(0, 0, 1626, 77);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);

@@ -15,9 +15,9 @@ public class MySQLconexion {
 		Connection con = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://remotemysql.com/uRrawx2ojM";
-			String usr = "uRrawx2ojM";
-			String psw = "IO3L6M2YiU";
+			String url = "jdbc:mysql://localhost:3306/arial_sql1";
+			String usr = "root";
+			String psw = "mysql";
 			con = DriverManager.getConnection(url, usr, psw);
 		} catch (ClassNotFoundException ex) {
 			System.out.println("Error >> Driver no Instalado!!");

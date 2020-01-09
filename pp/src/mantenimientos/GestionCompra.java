@@ -13,6 +13,7 @@ import model.Compra;
 import model.DetalleCompra;
 import model.DetalleVentas;
 import model.OrdenCompra;
+import model.OrdenRegistroCompra;
 import model.Producto;
 import model.RegistroCompra;
 import model.Ventas;
@@ -271,8 +272,8 @@ public ArrayList<OrdenCompra> listaOrdenCompra(int codigo) {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select pro.nom_prov,ruc_prov,pro.direc_prov,o.condiciones_pago,c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad,round(sum(c.CantxUnidad*c.precioUnidad*1.18),2) from OrdenCompra o \r\n" + 
-				"join detalle_compra c on o.nro_ord_compra=c.nro_ord_compra join producto p on c.id_prod=p.id_prod join proveedor pro on pro.id_prov=o.id_prove  where o.nro_ord_compra=? \r\n" + 
+		String sql="select pro.nom_prov,ruc_prov,pro.direc_prov,o.condiciones_pago,c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad,round(sum(c.CantxUnidad*c.precioUnidad*1.18),2) ,u.nom_usu from OrdenCompra o \r\n" + 
+				"join detalle_compra c on o.nro_ord_compra=c.nro_ord_compra join producto p on c.id_prod=p.id_prod join proveedor pro on pro.id_prov=o.id_prove join usuario u on u.id_usu=o.id_usu  where o.nro_ord_compra=? \r\n" + 
 				"group by pro.nom_prov,pro.ruc_prov,pro.direc_prov,o.condiciones_pago,c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad;\r\n" + 
 				"";
 		pst=(PreparedStatement) con.prepareStatement(sql);
@@ -292,7 +293,7 @@ public ArrayList<OrdenCompra> listaOrdenCompra(int codigo) {
 			reg.setCantidad(rs.getInt(7));
 			reg.setPrecio(rs.getDouble(8));
 			reg.setTotal(rs.getDouble(9));
-			
+			reg.setNomUsuario(rs.getString(10));
 			lista.add(reg);
 		}
 		
@@ -317,6 +318,96 @@ public ArrayList<OrdenCompra> listaOrdenCompra(int codigo) {
 public int realizaCompra(Compra c, ArrayList<DetalleCompra> detalle) {
 	// TODO Auto-generated method stub
 	return 0;
+}
+
+@Override
+public ArrayList<OrdenRegistroCompra> listadoRegistroCompra() {
+	// TODO Auto-generated method stub
+	ArrayList<OrdenRegistroCompra> lista=new ArrayList<OrdenRegistroCompra>();
+	ResultSet rs=null;
+	Connection con=null;
+	PreparedStatement pst=null;
+	try {
+		con=MySQLconexion.getConexion();
+		String sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad*1.18) from registro_compra r \r\n" + 
+				"join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
+				"group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com;";
+		pst=(PreparedStatement) con.prepareStatement(sql);
+		
+		rs=pst.executeQuery();
+		
+		
+		while (rs.next()) {
+			OrdenRegistroCompra reg=new OrdenRegistroCompra();
+			reg.setCodigo(rs.getInt(1));
+			reg.setComprovante(rs.getString(2));
+			reg.setFechaRegisCom(rs.getString(3));
+			reg.setNomProveedor(rs.getString(4));
+			reg.setNroOrdenCompra(rs.getInt(5));
+			reg.setFormaPago(rs.getString(6));
+			reg.setFechaVenCom(rs.getString(7));
+			reg.setTotal(rs.getDouble(8));
+			
+			
+			lista.add(reg);
+		}
+		
+			
+		
+		
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, "error en la sentencia"+e.getMessage());
+	}finally {
+		try {
+			if(pst!=null)pst.close();
+			if(con!=null)con.close();
+		} catch (Exception e2) {
+			
+			JOptionPane.showMessageDialog(null, "error al cerrar");
+		}
+	}
+	return lista;
+}
+
+@Override
+public ArrayList<OrdenRegistroCompra> listadoXcodigoRegisCompra(int codigo) {
+	ArrayList<OrdenRegistroCompra> lista=new ArrayList<OrdenRegistroCompra>();
+	ResultSet rs=null;
+	Connection con=null;
+	PreparedStatement pst=null;
+	try {
+		con=MySQLconexion.getConexion();
+		String sql="select deta.id_prod,pro.desc_prod,deta.CantxUnidad,deta.precioUnidad from detalle_compra deta join producto pro on deta.id_prod=pro.id_prod join \r\n" + 
+				"	ordencompra ord on ord.nro_ord_compra=deta.nro_ord_compra join registro_compra regis on regis.nro_ord_compra=ord.nro_ord_compra where regis.cod_regis_com=?";
+		pst=(PreparedStatement) con.prepareStatement(sql);
+		pst.setInt(1, codigo);
+		rs=pst.executeQuery();
+		
+		
+		while (rs.next()) {
+			OrdenRegistroCompra reg=new OrdenRegistroCompra();
+			reg.setCodPro(rs.getInt(1));
+			reg.setNomPro(rs.getString(2));
+			reg.setCantidad(rs.getInt(3));
+			reg.setPrecio(rs.getDouble(4));
+			lista.add(reg);
+		}
+		
+			
+		
+		
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, "error en la sentencia"+e.getMessage());
+	}finally {
+		try {
+			if(pst!=null)pst.close();
+			if(con!=null)con.close();
+		} catch (Exception e2) {
+			
+			JOptionPane.showMessageDialog(null, "error al cerrar");
+		}
+	}
+	return lista;
 }
 	
 }

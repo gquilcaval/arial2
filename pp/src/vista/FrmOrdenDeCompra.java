@@ -62,11 +62,14 @@ import java.awt.Graphics2D;
 
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Rectangle;
 
 public class FrmOrdenDeCompra extends JDialog {
 	/*model para los productos*/
 	public  static DefaultTableModel model1=new DefaultTableModel();
-	
+
+public static ArrayList<DetalleCompra> carrito=new ArrayList<DetalleCompra>();
+
 	public static JLabel lblReloj;
 	public static JLabel lblFecha;
 	private JTextField txtRazonSocial;
@@ -146,26 +149,26 @@ public class FrmOrdenDeCompra extends JDialog {
 		model1.addColumn("Cantidad");
 		model1.addColumn("Precio");
 		model1.addColumn("Importe");
-
+		model1.addColumn("Eliminar");
 		/*para la busqueda de proveedores*/
 		modelBusquedad.addColumn("");
 
 		getContentPane().setBackground(Color.WHITE);
-		setBounds(100, 100, 1134, 979);
+		setBounds(100, 100, 1180, 979);
 		setLocationRelativeTo(null);
 
 		getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new MatteBorder(1, 1, 2, 1, (Color) new Color(0, 0, 0)));
-		panel.setBounds(0, 0, 1118, 66);
+		panel.setBounds(0, 0, 1164, 66);
 		panel.setBackground(Color.decode("#2D363F"));
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JLabel lblOrdenDe = new JLabel("ORDEN DE COMPRA");
 		lblOrdenDe.setForeground(Color.WHITE);
-		lblOrdenDe.setBounds(10, 0, 182, 66);
+		lblOrdenDe.setBounds(45, 0, 182, 66);
 		panel.add(lblOrdenDe);
 		lblOrdenDe.setFont(new Font("Segoe UI", Font.BOLD, 17));
 
@@ -177,28 +180,28 @@ public class FrmOrdenDeCompra extends JDialog {
 		lblNumeroDeOrdenCompra= new JLabel(numeroCompra);
 		lblNumeroDeOrdenCompra.setForeground(Color.WHITE);
 		lblNumeroDeOrdenCompra.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblNumeroDeOrdenCompra.setBounds(1011, 27, 84, 14);
+		lblNumeroDeOrdenCompra.setBounds(1034, 30, 84, 14);
 		panel.add(lblNumeroDeOrdenCompra);
 
 		JLabel label = new JLabel(
 				"________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________");
-		label.setBounds(0, 96, 1144, 14);
+		label.setBounds(0, 96, 1181, 14);
 		getContentPane().add(label);
 
 		lblReloj = new JLabel("");
 		lblReloj.setForeground(Color.BLACK);
 		lblReloj.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		lblReloj.setBounds(1072, 77, 46, 29);
+		lblReloj.setBounds(1055, 77, 46, 29);
 		getContentPane().add(lblReloj);
 
 		lblFecha = new JLabel("");
 		lblFecha.setForeground(Color.BLACK);
 		lblFecha.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		lblFecha.setBounds(983, 77, 91, 29);
+		lblFecha.setBounds(959, 77, 91, 29);
 		getContentPane().add(lblFecha);
 
 		panel_1 = new JPanel();
-		panel_1.setBounds(10, 130, 522, 305);
+		panel_1.setBounds(45, 130, 522, 305);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
@@ -353,10 +356,32 @@ public class FrmOrdenDeCompra extends JDialog {
 		panel_1.add(txtContacto);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 526, 1091, 305);
+		scrollPane.setBounds(46, 526, 1072, 305);
 		getContentPane().add(scrollPane);
 
 		tblProducto = new JTable();
+		tblProducto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int fila=tblProducto.getSelectedRow();
+				int columna=tblProducto.getSelectedColumn();
+				String dato=String.valueOf(tblProducto.getValueAt(fila, columna));
+				
+				
+				if(dato.equals("eliminar")) {
+					
+					JOptionPane.showMessageDialog(null, "quieres eliminar ?"+fila);
+					
+					model1.removeRow(fila);
+					
+					/*una vez eliminado agregamos los poducos que sobran al detalle compra en el grabarCompra*/
+					
+					
+				}
+				
+				
+			}
+		});
 		scrollPane.setViewportView(tblProducto);
 
 		tblProducto.getTableHeader().setOpaque(false);
@@ -376,7 +401,7 @@ tblProducto.setModel(model1);
 		JPanel panel_4 = new JPanel();
 		panel_4.setLayout(null);
 		panel_4.setBackground(new Color(45, 54, 63));
-		panel_4.setBounds(0, 0, 637, 50);
+		panel_4.setBounds(0, 0, 522, 50);
 		panel_3.add(panel_4);
 
 		JLabel lblOtros = new JLabel("Otros");
@@ -443,12 +468,12 @@ tblProducto.setModel(model1);
 		
 		panel_5.setLayout(null);
 		panel_5.setBackground(new Color(20, 147, 225));
-		panel_5.setBounds(9, 464, 100, 30);
+		panel_5.setBounds(45, 461, 106, 27);
 		getContentPane().add(panel_5);
 		
 		JLabel label_2 = new JLabel("");
 		label_2.setVerticalAlignment(SwingConstants.TOP);
-		label_2.setBounds(13, 3, 30, 26);
+		label_2.setBounds(13, 3, 30, 23);
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		Icon iconoEscalado = new ImageIcon(imgEscalada);
@@ -464,69 +489,96 @@ tblProducto.setModel(model1);
 		
 		JLabel lblSubtotal = new JLabel("Sub total");
 		lblSubtotal.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblSubtotal.setBounds(276, 869, 91, 29);
+		lblSubtotal.setBounds(317, 870, 91, 25);
 		getContentPane().add(lblSubtotal);
 		
 		txtSubtotal = new JTextField();
 		txtSubtotal.setEditable(false);
-		txtSubtotal.setBounds(351, 875, 86, 20);
+		txtSubtotal.setBounds(401, 869, 86, 25);
 		getContentPane().add(txtSubtotal);
 		txtSubtotal.setColumns(10);
 		
 		JLabel lblImpuesto = new JLabel("Impuesto(18%)");
 		lblImpuesto.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblImpuesto.setBounds(513, 873, 106, 21);
+		lblImpuesto.setBounds(541, 870, 106, 25);
 		getContentPane().add(lblImpuesto);
 		
 		txtIGV = new JTextField();
 		txtIGV.setEditable(false);
-		txtIGV.setBounds(629, 875, 86, 20);
+		txtIGV.setBounds(652, 869, 86, 25);
 		getContentPane().add(txtIGV);
 		txtIGV.setColumns(10);
 		
 		JLabel lblTotal = new JLabel("Total");
 		lblTotal.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblTotal.setBounds(758, 876, 46, 14);
+		lblTotal.setBounds(780, 870, 46, 25);
 		getContentPane().add(lblTotal);
 		
 		txtTotal = new JTextField();
 		txtTotal.setEditable(false);
-		txtTotal.setBounds(814, 875, 86, 20);
+		txtTotal.setBounds(838, 869, 86, 25);
 		getContentPane().add(txtTotal);
 		txtTotal.setColumns(10);
 		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBounds(970, 869, 118, 29);
+		panel_6.setBounds(1000, 869, 118, 25);
 		getContentPane().add(panel_6);
 		panel_6.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Grabar");
+		lblNewLabel.setBorder(new LineBorder(Color.decode("#28a745")));
+		lblNewLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblNewLabel.setBackground(Color.decode("#28a745"));
+		lblNewLabel.setForeground(Color.white);
+		lblNewLabel.setOpaque(true);
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
+				if(txtTelefono.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "eliga un proveedor");
+				}
+				else if(txtDireccionEntrega.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "llene la direccion de entrega");
+				}
+				else if(txtDireccionFactura.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "llene la direccion de factura");
+				}
+				else if(tblProducto.getRowCount()==0) {
+					JOptionPane.showMessageDialog(null, "escoja algun producto");
+				}
+				else {
+					
+				
 				
 				grabarOrdenCompra();
+				
+				IntGestionOrdenDeCompra.model.setRowCount(0);
+				IntGestionOrdenDeCompra.listaOrdeCompra();
+				dispose();
+				}
+			
+				
 				
 			}
 		});
 		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(0, 0, 118, 29);
+		lblNewLabel.setBounds(0, 0, 118, 25);
 		panel_6.add(lblNewLabel);
 		
 		JButton btnLimpiar = new JButton("Limpiar");
-		btnLimpiar.setBounds(983, 471, 89, 23);
+		btnLimpiar.setBounds(1029, 473, 89, 26);
 		getContentPane().add(btnLimpiar);
 		
 		JLabel lblUsuario = new JLabel("Usuario :");
 		lblUsuario.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblUsuario.setBounds(12, 83, 64, 14);
+		lblUsuario.setBounds(45, 81, 64, 14);
 		getContentPane().add(lblUsuario);
 		
 		txtUsuario = new JLabel("");
 		txtUsuario.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		txtUsuario.setBounds(84, 82, 100, 14);
+		txtUsuario.setBounds(114, 75, 100, 25);
 		getContentPane().add(txtUsuario);
 
 		iniciaReloj();
@@ -624,17 +676,33 @@ tblProducto.setModel(model1);
 		o.setContacto(contacto);
 		o.setCodUsuario(idUsu);
 		
+		for(int i=0;i<tblProducto.getRowCount();i++) {
+			
 		
 		
+		DetalleCompra dv = new DetalleCompra();
+		
+		
+		dv.setNroCompra(g.ObtenerNumero());
+		dv.setIdprodu(Integer.parseInt(tblProducto.getValueAt(i,0).toString()));
+		dv.setCantidad(Integer.parseInt(tblProducto.getValueAt(i, 2).toString()));
+		dv.setPrecio(Double.parseDouble(tblProducto.getValueAt(i,3).toString()));
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		
+		carrito.add(dv);
+		}
+		System.out.println("en el buscar es "+carrito);
 	
 		
 		
 		
 		
 		
-		System.out.println("en el frmOrden Compra es "+FrmBuscarProducto.carrito);
+		System.out.println("en el frmOrden Compra es "+carrito);
 	
-		int ok=g.ordenCompra(o, FrmBuscarProducto.carrito);
+		int ok=g.ordenCompra(o, carrito);
 		
 		
 		if (ok == 0) {

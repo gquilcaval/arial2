@@ -367,7 +367,7 @@ e = emp.ValidaAcceso2(usu, psw);
 
 
 
-if (e == null) {
+if (e == null) {	
 
 JOptionPane.showMessageDialog(null, "algo incorrecto");
 
