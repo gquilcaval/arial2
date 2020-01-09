@@ -485,7 +485,8 @@ private  ButtonGroup genero;
 	    dni=txtDni.getText();
 	    login=txtLogin.getText();
 	    psw=txtPsw.getText();
-	    tipUsu=Integer.toString(cboCargo.getSelectedIndex())+1;
+	    tipUsu=Integer.toString(cboCargo.getSelectedIndex()+1);
+	    System.out.println(tipUsu);
 	    String usu=cboCargo.getSelectedItem().toString();
 	  
 	    if (usu.equals("Vendedor")) {
