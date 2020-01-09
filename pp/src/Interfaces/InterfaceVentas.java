@@ -25,7 +25,6 @@ public interface InterfaceVentas {
 	//REPORTE POR NOMBRE
 		public ArrayList<Reporte> reportexnombre(String nombre);
 
-		//borar
-			public ArrayList<Reporte> reportexnombres(String nombre);
+	
 }
 
