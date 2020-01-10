@@ -3,11 +3,16 @@ package model;
 import java.awt.Image;
 import java.util.ArrayList;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import org.jfree.chart.axis.StandardTickUnitSource;
 import org.jfree.layout.CenterLayout;
@@ -63,16 +68,28 @@ public void ver_tabla(JTable tabla){
 		model.addColumn("Cargo");
 		model.addColumn("Modificar");
 		model.addColumn("Eliminar");
-		
-		listar();
-        
+		model.addColumn("fecha");
+
         tabla.setModel(model);
+		setBox(tabla, tabla.getColumnModel().getColumn(17));
+		
+		
         tabla.setRowHeight(30);
         tabla.setPreferredScrollableViewportSize(tabla.getPreferredSize());
-  
+        listar();
 
     }
 	
+public void setBox(JTable tabla ,TableColumn column) {
+	column.setCellEditor(new JDateChooserEditor(new JCheckBox()));
+	DefaultTableCellRenderer renderer=new DefaultTableCellRenderer();
+	column.setCellRenderer(renderer);
+;
+	
+
+	
+}
+
 public static void listar() {
    
 	

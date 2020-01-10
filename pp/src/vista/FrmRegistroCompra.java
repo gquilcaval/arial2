@@ -386,7 +386,11 @@ public class FrmRegistroCompra extends JDialog {
 				model.setRowCount(0);
 				int codigoRegisCompra=Integer.parseInt(txtOrdenCompra.getText());
 				
+				/*con esto llenamos la tabla tblProducto :v*/
 				ArrayList<OrdenCompra>lista= g.listaOrdenCompra(codigoRegisCompra);
+				
+				
+				
 				System.out.println(codigoRegisCompra);
 				txtProveedor.setText(lista.get(0).getNomProveedor());
 				txtRuc.setText(lista.get(0).getRuc());
@@ -394,8 +398,7 @@ public class FrmRegistroCompra extends JDialog {
 				cboFormaPago.setModel(new DefaultComboBoxModel(new String[] {lista.get(0).getCondicionPago()}));
 				
 				
-				
-				
+			
 				
 				for (OrdenCompra cl : lista) {
 					Object datos[] = { cl.getIdprodu(),cl.getNomProd(),cl.getCantidad(),cl.getPrecio(),"","",cl.getTotal() };
