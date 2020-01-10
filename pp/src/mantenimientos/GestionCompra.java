@@ -409,5 +409,139 @@ public ArrayList<OrdenRegistroCompra> listadoXcodigoRegisCompra(int codigo) {
 	}
 	return lista;
 }
+
+@Override
+public ArrayList<OrdenRegistroCompra> listadoXFiltro(String filtro,String busquedad) {
+	ArrayList<OrdenRegistroCompra> lista=new ArrayList<OrdenRegistroCompra>();
+	ResultSet rs=null;
+	Connection con=null;
+	PreparedStatement pst=null;
+	String sql=null;
+	try {
+		con=MySQLconexion.getConexion();
+		
+		if(filtro.equals("TIPO DOCUMENTO")) {
+			
+		
+		 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad*1.18) from registro_compra r  \r\n" + 
+				"				join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
+				"                where r.comprovante like concat(?,'%')\r\n" + 
+				"				group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com ";
+		
+		}	
+		
+		else if(filtro.equals("PERIODO")) {
+
+			 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad*1.18) from registro_compra r  \r\n" + 
+					"				join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
+					"                where r.fecha_Regis_com like concat(?,'%')\r\n" + 
+					"				group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com ";
+			
+			
+		}
+		
+		
+		pst=(PreparedStatement) con.prepareStatement(sql);
+		pst.setString(1, busquedad);
+		rs=pst.executeQuery();
+		
+		
+		while (rs.next()) {
+			OrdenRegistroCompra reg=new OrdenRegistroCompra();
+			reg.setCodigo(rs.getInt(1));
+			reg.setComprovante(rs.getString(2));
+			reg.setFechaRegisCom(rs.getString(3));
+			reg.setNomProveedor(rs.getString(4));
+			reg.setNroOrdenCompra(rs.getInt(5));
+			reg.setFormaPago(rs.getString(6));
+			reg.setFechaVenCom(rs.getString(7));
+			reg.setTotal(rs.getDouble(8));
+			lista.add(reg);
+		}
+		
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, "error en la sentencia"+e.getMessage());
+	}finally {
+		try {
+			if(pst!=null)pst.close();
+			if(con!=null)con.close();
+		} catch (Exception e2) {
+			
+			JOptionPane.showMessageDialog(null, "error al cerrar");
+		}
+	}
+	return lista;
+}
+
+@Override
+public ArrayList<OrdenCompra> listadoXFiltroOrden(String filtro, String busquedad) {
+	// TODO Auto-generated method stub
+	ArrayList<OrdenCompra> lista=new ArrayList<OrdenCompra>();
+	ResultSet rs=null;
+	Connection con=null;
+	PreparedStatement pst=null;
+	String sql=null;
+	try {
+		con=MySQLconexion.getConexion();
+		
+		if(filtro.equals("USUARIO")) {
+			
+		
+		 sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad*1.18),2) as 'total' from OrdenCompra o \r\n" + 
+		 		"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
+		 		"                            where nom_usu like concat(?,'%')\r\n" + 
+		 		"				group by o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra";
+		
+		
+		
+		}	
+		
+		else if(filtro.equals("FECHA ORDEN")) {
+
+			 sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad*1.18),2) as 'total' from OrdenCompra o \r\n" + 
+			 		"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
+			 		"                            where fech_orden_compra like concat(?,'%')\r\n" + 
+			 		"				group by o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra";
+			
+			
+		}
+		else if(filtro.equals("PROVEEDOR")) {
+			sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad*1.18),2) as 'total' from OrdenCompra o \r\n" + 
+					"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
+					"                            where nom_prov like concat(?,'%')\r\n" + 
+					"				group by o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra";
+		}
+		pst=(PreparedStatement) con.prepareStatement(sql);
+		pst.setString(1, busquedad);
+		rs=pst.executeQuery();
+		
+		
+		while (rs.next()) {
+			OrdenCompra reg=new OrdenCompra();
+			reg.setNroOrdenCompra(rs.getInt(1));
+			reg.setNomUsuario(rs.getString(2));
+			reg.setFechaOrdenCompra(rs.getString(3));
+			reg.setNomProveedor(rs.getString(4));
+			reg.setContacto(rs.getString(5));
+			reg.setTelefono(rs.getString(6));
+			reg.setEmail(rs.getString(7));
+			reg.setFechaEntrega(rs.getString(8));
+			reg.setTotal(rs.getDouble(9));
+			lista.add(reg);
+		}
+		
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, "error en la sentencia"+e.getMessage());
+	}finally {
+		try {
+			if(pst!=null)pst.close();
+			if(con!=null)con.close();
+		} catch (Exception e2) {
+			
+			JOptionPane.showMessageDialog(null, "error al cerrar");
+		}
+	}
+	return lista;
+}
 	
 }

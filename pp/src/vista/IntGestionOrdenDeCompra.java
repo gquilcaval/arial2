@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import model.Clientes;
 import model.Compra;
 import model.OrdenCompra;
+import model.OrdenRegistroCompra;
 import model.RoundedCornerBorder;
 
 import java.awt.Graphics;
@@ -38,10 +39,14 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class IntGestionOrdenDeCompra extends JInternalFrame {
 	
-	private JTextField textField;
+	private JTextField txtBusquedad;
 	public static DefaultTableModel model=new DefaultTableModel();
 	public static JTable table;
 	private JLabel lblAprovada;
@@ -49,6 +54,7 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 	private JLabel lblEmitida;
 	private JLabel lblCerrada;
 	private JLabel lblAnulada;
+	private JComboBox cboFiltro;
 	/**
 	 * Launch the application.
 	 */
@@ -100,7 +106,7 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		setBounds(100, 100, 1600, 708);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(Color.WHITE);
-		textField = new JTextField(10) {
+		txtBusquedad = new JTextField(10) {
 			protected void paintComponent(Graphics g) {
 				
 				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
@@ -117,10 +123,36 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
-		textField.setToolTipText("");
-		textField.setBackground(new Color(239, 244, 249));
-		textField.setBounds(1179, 11, 345, 38);
-		getContentPane().add(textField);
+		txtBusquedad.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+				String nombre = txtBusquedad.getText();
+				String filtro = (String)cboFiltro.getSelectedItem();
+			
+				ArrayList<OrdenCompra> lista = null;
+
+			
+
+					GestionCompra gc = new GestionCompra();
+					model.getDataVector().removeAllElements();
+					lista = gc.listadoXFiltroOrden(filtro, nombre);
+					for (OrdenCompra cl : lista) {
+						Object o[] = { cl.getNroOrdenCompra(),cl.getNomUsuario(),cl.getFechaOrdenCompra(),cl.getNomProveedor(),cl.getContacto(),cl.getTelefono(),cl.getEmail()
+								,"","",cl.getFechaEntrega(),cl.getTotal() };
+						model.addRow(o);
+
+					
+					
+					
+				}
+				
+			}
+		});
+		txtBusquedad.setToolTipText("");
+		txtBusquedad.setBackground(new Color(239, 244, 249));
+		txtBusquedad.setBounds(1179, 11, 345, 38);
+		getContentPane().add(txtBusquedad);
 		
 		ImageIcon iconSearch = new ImageIcon(getClass().getResource("/iconos/search.png"));
 		Image i = iconSearch.getImage().getScaledInstance(38, 38, Image.SCALE_SMOOTH);
@@ -161,7 +193,7 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		});
 		panel_6.setLayout(null);
 		panel_6.setBackground(new Color(20, 147, 225));
-		panel_6.setBounds(1001, 11, 142, 41);
+		panel_6.setBounds(681, 8, 142, 41);
 		getContentPane().add(panel_6);
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
@@ -356,6 +388,19 @@ FrmMenuPrincipal f=new FrmMenuPrincipal();
 		lblAnulada.setFont(new Font("Segoe UI", Font.PLAIN, 18));
 		lblAnulada.setBounds(27, 0, 80, 57);
 		panel_5.add(lblAnulada);
+		
+		cboFiltro = new JComboBox();
+		cboFiltro.setModel(new DefaultComboBoxModel(new String[] {"SELECCIONA", "USUARIO", "FECHA ORDEN", "PROVEEDOR"}));
+		cboFiltro.setOpaque(false);
+		cboFiltro.setBackground(Color.WHITE);
+		cboFiltro.setBounds(1028, 11, 138, 38);
+		cboFiltro.setUI(CustomUI.createUI(this));
+		getContentPane().add(cboFiltro);
+		
+		JLabel label_3 = new JLabel("FILTRO");
+		label_3.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		label_3.setBounds(953, 11, 65, 38);
+		getContentPane().add(label_3);
 
 	}
 	

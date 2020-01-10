@@ -18,6 +18,7 @@ import mantenimientos.GestionProductos;
 import model.Clientes;
 import model.DetalleCompra;
 import model.Producto;
+import model.Render;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -154,7 +155,7 @@ public class FrmBuscarProducto extends JDialog {
 				filas[4]=importe;
 				
 				/*le envio el boton eliminar*/
-				
+				 FrmOrdenDeCompra.tblProducto.setDefaultRenderer(Object.class, new Render());
 				
 				btnEliminar = new JButton("eliminar");
 			        ImageIcon delete = new ImageIcon(getClass().getResource("/img/eliminar.png"));
@@ -163,7 +164,7 @@ public class FrmBuscarProducto extends JDialog {
 			    	btnEliminar.setIcon(ic);
 			    	btnEliminar.setName("eliminar");
 			
-				filas[5]=btnEliminar.getName();
+				filas[5]=btnEliminar;
 				
 				FrmOrdenDeCompra.model1.addRow(filas);
 				

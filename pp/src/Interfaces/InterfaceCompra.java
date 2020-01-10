@@ -33,4 +33,11 @@ public interface InterfaceCompra {
 	
 	/*gestion registro de compra*/
 	public ArrayList<OrdenRegistroCompra> listadoXcodigoRegisCompra(int codigo);
+	
+	
+	/*filtrar los registro de compra por ?*/
+	public ArrayList<OrdenRegistroCompra> listadoXFiltro(String filtro,String busquedad);
+	
+	/*filtrar los ordenes de compra*/
+	public ArrayList<OrdenCompra> listadoXFiltroOrden(String filtro,String busquedad);
 }

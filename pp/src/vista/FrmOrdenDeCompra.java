@@ -365,6 +365,8 @@ public static ArrayList<DetalleCompra> carrito=new ArrayList<DetalleCompra>();
 			public void mouseClicked(MouseEvent e) {
 				int fila=tblProducto.getSelectedRow();
 				int columna=tblProducto.getSelectedColumn();
+				
+				
 				String dato=String.valueOf(tblProducto.getValueAt(fila, columna));
 				
 				
