@@ -15,6 +15,7 @@ public class JDateChooserEditor extends DefaultCellEditor
 	  {
 	    super(checkBox);
 
+	    
 	  }
 
 	  JDateChooser date;
