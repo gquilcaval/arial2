@@ -62,6 +62,7 @@ public class frmPerfil extends JDialog {
 	 * Create the dialog.
 	 */
 	public frmPerfil() {
+		setModal(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(frmPerfil.class.getResource("/img/user2.png")));
 		setTitle("Perfil");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
