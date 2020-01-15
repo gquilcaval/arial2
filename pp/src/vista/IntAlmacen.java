@@ -13,6 +13,8 @@ import java.awt.Cursor;
 import javax.swing.JPanel;
 import java.awt.Panel;
 import java.awt.Font;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 public class IntAlmacen extends JInternalFrame {
 
@@ -39,6 +41,7 @@ public class IntAlmacen extends JInternalFrame {
 	private Panel panel_11;
 	private Panel panel_12;
 	private Panel panel_10;
+	private JDesktopPane dktIntGestionProd;
 	/**
 	 * Launch the application.
 	 */
@@ -59,21 +62,43 @@ public class IntAlmacen extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public IntAlmacen() {
-		setBounds(223, 122, 1626, 789);
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameOpened(InternalFrameEvent arg0) {
+				dktIntGestionProd.removeAll();
+				dktIntGestionProd.repaint();
+				IntGestionProducto venta=new IntGestionProducto();
+				dktIntGestionProd.add(venta);
+				try {
+					venta.setMaximum(true);
+					venta.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					venta.show(); 
+					
+				
+			
+				
+				
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+			}
+		});
+		setBounds(223, 122, 1626, 901);
 		setBackground(Color.decode("#EFF4F9"));
 		getContentPane().setLayout(null);
 		/*-----BORDE SUPERIOR DISABLE ----*/
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
 		/*-----------------------------------------------------------------------------*/
 		setBorder(null);
-		JDesktopPane dktIntGestionProd = new JDesktopPane();
-		dktIntGestionProd.setBackground(Color.decode("#EFF4F9"));
-		dktIntGestionProd.setBounds(0, 85, 1610, 674);
+		dktIntGestionProd = new JDesktopPane();
+		dktIntGestionProd.setBackground(Color.WHITE);
+		dktIntGestionProd.setBounds(0, 75, 1626, 799);
 		getContentPane().add(dktIntGestionProd);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 11, 1626, 74);
+		panel.setBackground(Color.decode("#f3f4f5"));
+		panel.setBounds(0, 0, 1626, 77);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		

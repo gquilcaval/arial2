@@ -1,9 +1,11 @@
+
 package vista;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -13,11 +15,13 @@ import javax.swing.JOptionPane;
 import java.awt.Color;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.LabelUI;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import hilos.Hilo_Tiempo;
 import mantenimientos.GestionCompra;
 import model.DetalleCompra;
+import model.JDateChooserEditor;
 import model.OrdenCompra;
 import model.Proveedores;
 import model.RegistroCompra;
@@ -332,18 +336,18 @@ public class FrmRegistroCompra extends JDialog {
 				cboFormaPago.setModel(new DefaultComboBoxModel(new String[] {lista.get(0).getCondicionPago()}));
 				
 				
-				
+				tblRegistroCompra.getColumnModel().getColumn(7).setCellEditor(new JDateChooserEditor(new JCheckBox()));
+					DefaultTableCellRenderer renderer=new DefaultTableCellRenderer();
+					tblRegistroCompra.getColumnModel().getColumn(7).setCellRenderer(renderer);
 				
 				int total=0;
-				Date fecha=new Date();
-				SimpleDateFormat dft=new SimpleDateFormat("dd/MM/yyyy");
-				String fecha1=dft.format(fecha);
+				
 				for (OrdenCompra cl : lista) {
 					double neto=cl.getCantidad()*cl.getPrecio();
 					double impuesto=neto*0.18;
 					
-					Object datos[] = { cl.getIdprodu(),cl.getNomProd(),cl.getCantidad(),cl.getPrecio(),neto,impuesto,cl.getTotal(),
-							fecha1};
+					Object datos[] = { cl.getIdprodu(),cl.getNomProd(),cl.getCantidad(),cl.getPrecio(),neto,impuesto,cl.getTotal()
+							};
 					model.addRow(datos);
 					total+=cl.getTotal();
 
@@ -481,3 +485,4 @@ void grabar() {
 	
 }
 }
+

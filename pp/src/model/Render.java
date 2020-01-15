@@ -8,6 +8,8 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import com.toedter.calendar.JDateChooser;
+
 
 public class Render extends DefaultTableCellRenderer {
 
@@ -31,7 +33,7 @@ public class Render extends DefaultTableCellRenderer {
 	            }
 	            return btn;
 	        }
-	        
+	      
 	        
 	      /*  if(value instanceof JCheckBox){
 	            JCheckBox ch = (JCheckBox)value;

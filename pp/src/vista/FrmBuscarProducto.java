@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import org.jfree.chart.axis.StandardTickUnitSource;
@@ -17,6 +19,7 @@ import mantenimientos.GestionCompra;
 import mantenimientos.GestionProductos;
 import model.Clientes;
 import model.DetalleCompra;
+import model.JDateChooserEditor;
 import model.Producto;
 import model.Render;
 
@@ -157,6 +160,10 @@ public class FrmBuscarProducto extends JDialog {
 				/*le envio el boton eliminar*/
 				 FrmOrdenDeCompra.tblProducto.setDefaultRenderer(Object.class, new Render());
 				
+				 
+				 
+				
+				 
 				btnEliminar = new JButton("eliminar");
 			        ImageIcon delete = new ImageIcon(getClass().getResource("/img/eliminar.png"));
 			    	Image i = delete.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
