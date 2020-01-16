@@ -1,3 +1,4 @@
+
 package vista;
 
 
@@ -113,6 +114,7 @@ public class FrmMenuPrincipal extends JFrame {
 	private JLabel label_13;
 	private JPanel panel;
 	private JLabel lblSeguridad;
+	private JLabel label_2;
 	private JLabel label_3;
 	public static JLabel lblIconoUsu;
 	private JPanel panel_2;
@@ -525,8 +527,15 @@ public class FrmMenuPrincipal extends JFrame {
 					lblSeguridad.setForeground(new Color(152, 163, 175));
 					lblSeguridad.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
 					lblSeguridad.setBackground(new Color(44, 57, 68));
-					lblSeguridad.setBounds(68, 0, 98, 52);
+					lblSeguridad.setBounds(71, 0, 98, 52);
 					panel.add(lblSeguridad);
+					
+					label_2 = new JLabel("");
+					label_2.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/img/lock.png")));
+					label_2.setHorizontalTextPosition(SwingConstants.CENTER);
+					label_2.setHorizontalAlignment(SwingConstants.CENTER);
+					label_2.setBounds(2, 2, 59, 48);
+					panel.add(label_2);
 					
 					label_3 = new JLabel("");
 					label_3.setOpaque(false);
@@ -548,6 +557,58 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_3.setBounds(0, 59, 223, 3);
 					panel_3.setBackground(Color.decode("#2e314b"));
 					panel_4.add(panel_3);
+					
+					JPanel panel_5 = new JPanel();
+					panel_5.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent arg0) {
+
+							dktBody.removeAll();
+							dktBody.repaint();
+							IntFinanzas finanzas=new IntFinanzas();
+							dktBody.add(finanzas);
+							try {
+								finanzas.setMaximum(true);
+								finanzas.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+								finanzas.show(); 
+								
+							
+						
+							
+							
+							} catch (Exception ex) {
+								// TODO: handle exception
+							}
+						}
+					});
+					panel_5.setLayout(null);
+					panel_5.setBackground(new Color(45, 54, 63));
+					panel_5.setBounds(1, 596, 222, 51);
+					panel_4.add(panel_5);
+					
+					JLabel lblFinanzas = new JLabel("FINANZAS");
+					lblFinanzas.setHorizontalAlignment(SwingConstants.CENTER);
+					lblFinanzas.setForeground(new Color(152, 163, 175));
+					lblFinanzas.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
+					lblFinanzas.setBackground(new Color(44, 57, 68));
+					lblFinanzas.setBounds(71, 0, 98, 52);
+					panel_5.add(lblFinanzas);
+					
+					JLabel label_5 = new JLabel("");
+					label_5.setHorizontalTextPosition(SwingConstants.CENTER);
+					label_5.setHorizontalAlignment(SwingConstants.CENTER);
+					label_5.setBounds(2, 2, 59, 48);
+					ImageIcon imgIcon = new ImageIcon(getClass().getResource("/img/ico_Finanzas.png"));
+					Image imgEscalada = imgIcon.getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH);
+					Icon iconoEscalado = new ImageIcon(imgEscalada);
+					label_5.setIcon(iconoEscalado);
+					panel_5.add(label_5);
+					
+					JLabel label_7 = new JLabel("");
+					label_7.setOpaque(false);
+					label_7.setBackground(new Color(15, 149, 236));
+					label_7.setBounds(218, 0, 3, 52);
+					panel_5.add(label_7);
 					
 					panel_9 = new JPanel();
 					panel_9.setBounds(223, 0, 1384, 49);
