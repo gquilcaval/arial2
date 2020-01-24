@@ -631,7 +631,7 @@ public class FrmMenuPrincipal extends JFrame {
 					dktBody = 	new JDesktopPane();
 					contentPane.add(dktBody);
 					dktBody.setBounds(new Rectangle(223, 60, 1642, 890));
-					dktBody.setBackground(Color.decode("#ebf0f4"));
+					dktBody.setBackground(Color.WHITE);
 					dktBody.setBorder(null);
 					
 					panelPerfil = new JPanel();

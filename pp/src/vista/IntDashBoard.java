@@ -3,6 +3,8 @@ package vista;
 import java.awt.EventQueue;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 
@@ -17,12 +19,14 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ForkJoinPool;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.InternalFrameAdapter;
@@ -48,6 +52,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
+import java.awt.Cursor;
 
 public class IntDashBoard extends JInternalFrame {
 	private JPanel pnlGcircular;
@@ -100,33 +105,37 @@ public class IntDashBoard extends JInternalFrame {
 		panel_4 = new JPanel();
 		panel_4.setBorder(null);
 		panel_4.setPreferredSize(new Dimension(1610,2000));
-		panel_4.setBackground(Color.decode("#f3f4f5"));
+		panel_4.setBackground(Color.WHITE);
 		scrollPane.setViewportView(panel_4);
 		panel_4.setLayout(null);
 		
 		pnlBarraVende = new JPanel();
-		pnlBarraVende.setBounds(81, 584, 687, 360);
+		pnlBarraVende.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		pnlBarraVende.setBounds(81, 566, 699, 273);
 		panel_4.add(pnlBarraVende);
 		pnlBarraVende.setLayout(null);
 		pnlBarraVende.setBorder(null);
 		pnlBarraVende.setBackground(Color.WHITE);
 		
 		pnlGcircular = new JPanel();
-		pnlGcircular.setBounds(1035, 73, 502, 456);
+		pnlGcircular.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		pnlGcircular.setBounds(1119, 194, 433, 319);
 		panel_4.add(pnlGcircular);
 		pnlGcircular.setLayout(null);
 		pnlGcircular.setBorder(null);
 		pnlGcircular.setBackground(Color.WHITE);
 		
 		panelGBarra = new JPanel();
-		panelGBarra.setBounds(81, 73, 900, 456);
+		panelGBarra.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panelGBarra.setBounds(81, 194, 914, 319);
 		panel_4.add(panelGBarra);
 		panelGBarra.setLayout(null);
 		panelGBarra.setBorder(null);
-		panelGBarra.setBackground(Color.WHITE);
+		panelGBarra.setBackground(Color.decode("#ebf0f4"));
 		
 		pnlBarraProd = new JPanel();
-		pnlBarraProd.setBounds(850, 584, 687, 360);
+		pnlBarraProd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		pnlBarraProd.setBounds(861, 566, 699, 273);
 		panel_4.add(pnlBarraProd);
 		pnlBarraProd.setLayout(null);
 		pnlBarraProd.setBorder(null);
@@ -137,6 +146,144 @@ public class IntDashBoard extends JInternalFrame {
 		lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 42));
 		lblNewLabel.setBounds(400, 902, 750, 212);
 		panel_4.add(lblNewLabel);
+		
+		JPanel panel = new JPanel();
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel.setBackground(Color.decode("#3fdbbb"));
+		panel.setBounds(81, 31, 302, 105);
+		panel_4.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblicoCobranza = new JLabel("");
+		lblicoCobranza.setHorizontalAlignment(SwingConstants.CENTER);
+		lblicoCobranza.setBounds(10, 38, 65, 50);
+		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/img/cobranza1.png"));
+		Image imgEscalada = imgIcon.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+		Icon iconoEscalado = new ImageIcon(imgEscalada);
+		lblicoCobranza.setIcon(iconoEscalado);
+		panel.add(lblicoCobranza);
+		
+		JLabel label_1 = new JLabel("1555");
+		label_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 31));
+		label_1.setHorizontalAlignment(SwingConstants.LEFT);
+		label_1.setForeground(Color.WHITE);
+		label_1.setBounds(183, 38, 109, 44);
+		panel.add(label_1);
+		
+		JLabel lblS = new JLabel("S./");
+		lblS.setForeground(Color.WHITE);
+		lblS.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 24));
+		lblS.setHorizontalAlignment(SwingConstants.CENTER);
+		lblS.setBounds(140, 38, 36, 44);
+		panel.add(lblS);
+		
+		JLabel lblCobranza = new JLabel("Cobranza");
+		lblCobranza.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
+		lblCobranza.setForeground(Color.WHITE);
+		lblCobranza.setBounds(10, 11, 103, 14);
+		panel.add(lblCobranza);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_1.setBackground(Color.decode("#f86c6b"));
+		panel_1.setBounds(1250, 31, 302, 105);
+		panel_4.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel label = new JLabel("");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setBounds(10, 38, 65, 50);
+		ImageIcon icoGanancia = new ImageIcon(getClass().getResource("/img/ganancia.png"));
+		Image imgEscala = icoGanancia.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+		Icon icono = new ImageIcon(imgEscala);
+		label.setIcon(icono);
+		panel_1.add(label);
+		
+		JLabel lblGanancia = new JLabel("Ganancia");
+		lblGanancia.setForeground(Color.WHITE);
+		lblGanancia.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
+		lblGanancia.setBounds(10, 11, 103, 14);
+		panel_1.add(lblGanancia);
+		
+		JLabel label_1_2 = new JLabel("1555");
+		label_1_2.setHorizontalAlignment(SwingConstants.LEFT);
+		label_1_2.setForeground(Color.WHITE);
+		label_1_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 31));
+		label_1_2.setBounds(183, 38, 109, 44);
+		panel_1.add(label_1_2);
+		
+		JLabel lblS_2 = new JLabel("S./");
+		lblS_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblS_2.setForeground(Color.WHITE);
+		lblS_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 24));
+		lblS_2.setBounds(140, 38, 36, 44);
+		panel_1.add(lblS_2);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_2.setBackground(Color.decode("#6ec2de"));
+		panel_2.setBounds(478, 31, 302, 105);
+		panel_4.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblicoPago = new JLabel("");
+		lblicoPago.setHorizontalAlignment(SwingConstants.CENTER);
+		lblicoPago.setBounds(10, 38, 65, 50);
+		ImageIcon icoGananci = new ImageIcon(getClass().getResource("/img/pagos.png"));
+		Image imgEscal = icoGananci.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		Icon icon = new ImageIcon(imgEscal);
+		lblicoPago.setIcon(icon);
+		panel_2.add(lblicoPago);
+		
+		JLabel lblPago = new JLabel("Pago");
+		lblPago.setForeground(Color.WHITE);
+		lblPago.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
+		lblPago.setBounds(10, 11, 103, 21);
+		panel_2.add(lblPago);
+		
+		JLabel label_1_1 = new JLabel("1555");
+		label_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		label_1_1.setForeground(Color.WHITE);
+		label_1_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 31));
+		label_1_1.setBounds(183, 38, 109, 44);
+		panel_2.add(label_1_1);
+		
+		JLabel lblS_1 = new JLabel("S./");
+		lblS_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblS_1.setForeground(Color.WHITE);
+		lblS_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 24));
+		lblS_1.setBounds(140, 38, 36, 44);
+		panel_2.add(lblS_1);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel_3.setBackground(Color.decode("#ffbe5e"));
+		panel_3.setBounds(861, 31, 302, 105);
+		
+		panel_4.add(panel_3);
+		panel_3.setLayout(null);
+		
+		JLabel lblicoCantVenta = new JLabel("");
+		lblicoCantVenta.setHorizontalAlignment(SwingConstants.CENTER);
+		lblicoCantVenta.setBounds(10, 38, 65, 50);
+		ImageIcon icoGananc = new ImageIcon(getClass().getResource("/img/carrito.png"));
+		Image imgEsca = icoGananc.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
+		Icon ico = new ImageIcon(imgEsca);
+		lblicoCantVenta.setIcon(ico);
+		panel_3.add(lblicoCantVenta);
+		
+		JLabel lblVentas = new JLabel("Venta");
+		lblVentas.setForeground(Color.WHITE);
+		lblVentas.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
+		lblVentas.setBounds(10, 11, 103, 14);
+		panel_3.add(lblVentas);
+		
+		JLabel label_1_2_1 = new JLabel("24");
+		label_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		label_1_2_1.setForeground(Color.WHITE);
+		label_1_2_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 31));
+		label_1_2_1.setBounds(159, 38, 109, 44);
+		panel_3.add(label_1_2_1);
 
 	}
 
@@ -163,20 +310,23 @@ public class IntDashBoard extends JInternalFrame {
 		ds.addValue(cant5, "", "Julio");
 		
 		JFreeChart jf=ChartFactory.createBarChart3D("Ventas por mes", "Meses"	, "Cantidad Vendida Por Mes", ds,PlotOrientation.VERTICAL,false,false,false);
-		 
+		jf.getPlot().setBackgroundPaint(Color.decode("#ebf0f4"));
 	
 
 		TextTitle textTitle=jf.getTitle();
+		
 		textTitle.setFont(new Font("SANSSERIF",Font.BOLD,20));
 		textTitle.setPaint(Color.DARK_GRAY);
 	
 		CategoryPlot plot=jf.getCategoryPlot();
 		plot.setBackgroundAlpha(0);
 		
+		
 	  
 		plot.setRangeGridlinePaint(Color.GRAY);
 		BarRenderer renderer=(BarRenderer)plot.getRenderer();
-		renderer.setSeriesPaint(0, new Color(15, 149, 236));
+
+		renderer.setSeriesPaint(0, new Color(1, 50, 100));
 		
 		ChartPanel cPanel=new ChartPanel(jf);
         panelGBarra.setLayout(new BorderLayout());
@@ -199,7 +349,8 @@ public class IntDashBoard extends JInternalFrame {
 	
 		
 		JFreeChart jf=ChartFactory.createPieChart3D("Productos mas Vendidos", ds,true,true,false);
-	
+	jf.setBorderVisible(false);
+		jf.getPlot().setBackgroundPaint(Color.WHITE);
 		TextTitle textTitle=jf.getTitle();
 		textTitle.setFont(new Font("SANSSERIF",Font.BOLD,20));
 		textTitle.setPaint(Color.DARK_GRAY);
@@ -207,8 +358,9 @@ public class IntDashBoard extends JInternalFrame {
 		
 		
 		ChartPanel cPanel=new ChartPanel(jf);
+		
         pnlGcircular.setLayout(new BorderLayout());
-        pnlGcircular.add(cPanel,BorderLayout.CENTER);
+        pnlGcircular.add(cPanel);
         pnlGcircular.validate();
 	}
 	
@@ -236,7 +388,7 @@ public class IntDashBoard extends JInternalFrame {
 		
 		plot.setRangeGridlinePaint(Color.GRAY);
 		BarRenderer renderer=(BarRenderer)plot.getRenderer();
-		renderer.setSeriesPaint(0, new Color(15, 149, 236));
+		renderer.setSeriesPaint(0,  new Color(1, 50, 100));
 		
 		TextTitle textTitle=jf.getTitle();
 		textTitle.setFont(new Font("SANSSERIF",Font.BOLD,20));
@@ -250,7 +402,7 @@ public class IntDashBoard extends JInternalFrame {
 	
 	void GbarraProducStock() {
 		
-		int cant1=300;
+		int cant1=320;
 		int cant2=200;
 		int cant3=100;
 		int cant4=50;
@@ -272,7 +424,7 @@ plot.setBackgroundAlpha(0);
 		
 		plot.setRangeGridlinePaint(Color.GRAY);
 		BarRenderer renderer=(BarRenderer)plot.getRenderer();
-		renderer.setSeriesPaint(0, new Color(15, 149, 236));
+		renderer.setSeriesPaint(0,  new Color(1, 50, 100));
 		
 		ChartPanel cPanel=new ChartPanel(jf);
         pnlBarraProd.setLayout(new BorderLayout());
