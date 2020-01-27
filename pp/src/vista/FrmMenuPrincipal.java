@@ -64,6 +64,7 @@ import java.awt.Rectangle;
 import java.awt.Component;
 import keeptoo.KGradientPanel;
 import model.Empleados;
+import utils.clsArial;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JToggleButton;
@@ -86,7 +87,7 @@ public class FrmMenuPrincipal extends JFrame {
 	
 	
 	private JLabel lblCompras;
-	private JDesktopPane dktBody;
+	public static JDesktopPane dktBody;
 	public static JLabel lblUser2;
 	private JLabel lblAlmacen;
 	private JLabel lblNewLabel_1;
@@ -120,6 +121,8 @@ public class FrmMenuPrincipal extends JFrame {
 	private JPanel panel_2;
 	private JPanel panel_3;
 
+	
+	clsArial clsIcono=new clsArial();
 	/**
 	 * Launch the application.
 	 */
@@ -563,22 +566,8 @@ public class FrmMenuPrincipal extends JFrame {
 						@Override
 						public void mouseClicked(MouseEvent arg0) {
 
-							dktBody.removeAll();
-							dktBody.repaint();
-							IntFinanzas finanzas=new IntFinanzas();
-							dktBody.add(finanzas);
-							try {
-								finanzas.setMaximum(true);
-								finanzas.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-								finanzas.show(); 
-								
 							
-						
-							
-							
-							} catch (Exception ex) {
-								// TODO: handle exception
-							}
+							clsIcono.setInternalFrame(dktBody,new IntFinanzas(),null,null);
 						}
 					});
 					panel_5.setLayout(null);
@@ -609,6 +598,32 @@ public class FrmMenuPrincipal extends JFrame {
 					label_7.setBackground(new Color(15, 149, 236));
 					label_7.setBounds(218, 0, 3, 52);
 					panel_5.add(label_7);
+					
+					JPanel panel_5_1 = new JPanel();
+					panel_5_1.setLayout(null);
+					panel_5_1.setBackground(new Color(45, 54, 63));
+					panel_5_1.setBounds(1, 682, 222, 51);
+					panel_4.add(panel_5_1);
+					
+					JLabel lblReportes = new JLabel("REPORTES");
+					lblReportes.setHorizontalAlignment(SwingConstants.CENTER);
+					lblReportes.setForeground(new Color(152, 163, 175));
+					lblReportes.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
+					lblReportes.setBackground(new Color(44, 57, 68));
+					lblReportes.setBounds(71, 0, 98, 52);
+					panel_5_1.add(lblReportes);
+					
+					JLabel label_5_1 = new JLabel("");
+					label_5_1.setHorizontalTextPosition(SwingConstants.CENTER);
+					label_5_1.setHorizontalAlignment(SwingConstants.CENTER);
+					label_5_1.setBounds(2, 2, 59, 48);
+					panel_5_1.add(label_5_1);
+					
+					JLabel label_7_1 = new JLabel("");
+					label_7_1.setOpaque(false);
+					label_7_1.setBackground(new Color(15, 149, 236));
+					label_7_1.setBounds(218, 0, 3, 52);
+					panel_5_1.add(label_7_1);
 					
 					panel_9 = new JPanel();
 					panel_9.setBounds(223, 0, 1384, 49);

@@ -41,15 +41,15 @@ public class IntFinanzas extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	private String colorNegro="#38383c";
-	private String colorPlomo="#808793";
+	public static String colorNegro="#38383c";
+	public static String colorPlomo="#808793";
 	public static DefaultTableModel model = new DefaultTableModel();
 	Tabla t=new Tabla();
-	private JDesktopPane dkFinanzas;
-	private JPanel rsyaPerfil;
-	private JPanel rayaUsu;
-	private JLabel lblPagos;
-	private JLabel lblCobranza;
+	public static JDesktopPane dkFinanzas;
+	public static JPanel rayaPago;
+	public static JPanel rayaUsu;
+	public static JLabel lblPagos;
+	public static JLabel lblCobranza;
 	public IntFinanzas() {
 		
 		addInternalFrameListener(new InternalFrameAdapter() {
@@ -94,7 +94,7 @@ public class IntFinanzas extends JInternalFrame {
 		public void mouseClicked(MouseEvent e) {
 			lblPagos.setForeground(Color.decode(colorPlomo));
 			
-			rsyaPerfil.setVisible(false);
+			rayaPago.setVisible(false);
 			
 			lblCobranza.setForeground(Color.decode(colorNegro));
 			rayaUsu.setVisible(true);
@@ -131,10 +131,11 @@ public class IntFinanzas extends JInternalFrame {
 			
 			lblPagos.setForeground(Color.decode(colorNegro));
 		
-			rsyaPerfil.setVisible(true);
+			rayaPago.setVisible(true);
 			
 			lblCobranza.setForeground(Color.decode(colorPlomo));
 			rayaUsu.setVisible(false);
+			
 			dkFinanzas.removeAll();
 			dkFinanzas.repaint();
 			IntFinanza_pagos pagos=new IntFinanza_pagos();
@@ -165,11 +166,11 @@ public class IntFinanzas extends JInternalFrame {
 	rayaUsu.setBackground(Color.decode("#1493e1"));
 	panelHeader.add(rayaUsu);
 	
-	rsyaPerfil = new JPanel();
-	rsyaPerfil.setVisible(false);
-	rsyaPerfil.setBounds(188, 63, 60, 3);
-	rsyaPerfil.setBackground(Color.decode("#1493e1"));
-	panelHeader.add(rsyaPerfil);
+	rayaPago = new JPanel();
+	rayaPago.setVisible(false);
+	rayaPago.setBounds(188, 63, 60, 3);
+	rayaPago.setBackground(Color.decode("#1493e1"));
+	panelHeader.add(rayaPago);
 	
 	dkFinanzas = new JDesktopPane();
 	dkFinanzas.setBackground(Color.decode("#ebf0f4"));

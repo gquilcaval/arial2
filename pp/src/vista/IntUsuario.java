@@ -19,6 +19,7 @@ import model.HintTextField;
 import model.RoundedCornerBorder;
 import model.Tabla;
 import model.TablaPerfiles;
+import utils.clsArial;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -36,6 +37,7 @@ import javax.swing.JTextField;
 
 public class IntUsuario extends JInternalFrame {
 	private JTable tblUsuarios;
+	clsArial clsIcono=new clsArial();
 
 	/**
 	 * Launch the application.
@@ -105,10 +107,8 @@ public class IntUsuario extends JInternalFrame {
 		JLabel lbliconoNuevo = new JLabel("");
 		lbliconoNuevo.setHorizontalAlignment(SwingConstants.CENTER);
 		lbliconoNuevo.setBounds(0, 0, 51, 35);
-		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
-		Image imgEscalada = imgIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-		Icon iconoEscalado = new ImageIcon(imgEscalada);
-		lbliconoNuevo.setIcon(iconoEscalado);
+	
+		lbliconoNuevo.setIcon(clsIcono.modifiedIcon("/iconos/sumar.png", 25, 25));
 		panel.add(lbliconoNuevo);
 		
 		JLabel lblNuevo = new JLabel("Nuevo");

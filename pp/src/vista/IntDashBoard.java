@@ -47,12 +47,15 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 import model.RoundedCornerBorder;
+import utils.clsArial;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IntDashBoard extends JInternalFrame {
 	private JPanel pnlGcircular;
@@ -62,6 +65,7 @@ public class IntDashBoard extends JInternalFrame {
 	private JPanel pnlBarraProd;
 	private String colorPlomo="#808793";
 	private JLabel lblNewLabel;
+	clsArial clsIcono=new clsArial();
 	/**
 	 * Launch the application.
 	 */
@@ -148,6 +152,13 @@ public class IntDashBoard extends JInternalFrame {
 		panel_4.add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				IntFinanzas intFinanzas=new IntFinanzas();
+				clsIcono.setInternalFrame(FrmMenuPrincipal.dktBody, intFinanzas,null,null);
+			}
+		});
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel.setBackground(Color.decode("#3fdbbb"));
 		panel.setBounds(81, 31, 302, 105);
@@ -157,10 +168,8 @@ public class IntDashBoard extends JInternalFrame {
 		JLabel lblicoCobranza = new JLabel("");
 		lblicoCobranza.setHorizontalAlignment(SwingConstants.CENTER);
 		lblicoCobranza.setBounds(10, 38, 65, 50);
-		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/img/cobranza1.png"));
-		Image imgEscalada = imgIcon.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-		Icon iconoEscalado = new ImageIcon(imgEscalada);
-		lblicoCobranza.setIcon(iconoEscalado);
+	
+		lblicoCobranza.setIcon(clsIcono.modifiedIcon("/img/cobranza1.png", 45, 45));
 		panel.add(lblicoCobranza);
 		
 		JLabel label_1 = new JLabel("1555");
@@ -193,10 +202,8 @@ public class IntDashBoard extends JInternalFrame {
 		JLabel label = new JLabel("");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(10, 38, 65, 50);
-		ImageIcon icoGanancia = new ImageIcon(getClass().getResource("/img/ganancia.png"));
-		Image imgEscala = icoGanancia.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-		Icon icono = new ImageIcon(imgEscala);
-		label.setIcon(icono);
+		
+		label.setIcon(clsIcono.modifiedIcon("/img/ganancia.png", 45, 45));
 		panel_1.add(label);
 		
 		JLabel lblGanancia = new JLabel("Ganancia");
@@ -220,6 +227,14 @@ public class IntDashBoard extends JInternalFrame {
 		panel_1.add(lblS_2);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				clsIcono.setInternalFrame(FrmMenuPrincipal.dktBody, new IntFinanzas(),IntFinanzas.dkFinanzas,new IntFinanza_pagos());
+			
+			}
+		});
 		panel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_2.setBackground(Color.decode("#6ec2de"));
 		panel_2.setBounds(478, 31, 302, 105);
@@ -229,10 +244,8 @@ public class IntDashBoard extends JInternalFrame {
 		JLabel lblicoPago = new JLabel("");
 		lblicoPago.setHorizontalAlignment(SwingConstants.CENTER);
 		lblicoPago.setBounds(10, 38, 65, 50);
-		ImageIcon icoGananci = new ImageIcon(getClass().getResource("/img/pagos.png"));
-		Image imgEscal = icoGananci.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-		Icon icon = new ImageIcon(imgEscal);
-		lblicoPago.setIcon(icon);
+	
+		lblicoPago.setIcon(clsIcono.modifiedIcon("/img/pagos.png", 50, 50));
 		panel_2.add(lblicoPago);
 		
 		JLabel lblPago = new JLabel("Pago");
@@ -266,10 +279,8 @@ public class IntDashBoard extends JInternalFrame {
 		JLabel lblicoCantVenta = new JLabel("");
 		lblicoCantVenta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblicoCantVenta.setBounds(10, 38, 65, 50);
-		ImageIcon icoGananc = new ImageIcon(getClass().getResource("/img/carrito.png"));
-		Image imgEsca = icoGananc.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-		Icon ico = new ImageIcon(imgEsca);
-		lblicoCantVenta.setIcon(ico);
+	
+		lblicoCantVenta.setIcon(clsIcono.modifiedIcon("/img/carrito.png", 45, 45));
 		panel_3.add(lblicoCantVenta);
 		
 		JLabel lblVentas = new JLabel("Venta");

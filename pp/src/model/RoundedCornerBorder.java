@@ -37,4 +37,7 @@ public class RoundedCornerBorder extends AbstractBorder {
 	  @Override public Insets getBorderInsets(Component c, Insets insets) {
 	    insets.set(4, 8, 4, 8);
 	    return insets;
-	  }}
+	  }
+	  
+	  
+}
