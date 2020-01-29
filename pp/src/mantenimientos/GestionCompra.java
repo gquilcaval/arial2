@@ -188,7 +188,7 @@ public ArrayList<OrdenCompra> listadoOrdenCompra() {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad*1.18),2) as 'total' from OrdenCompra o \r\n" + 
+		String sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad),2) as 'total' from OrdenCompra o \r\n" + 
 				"				join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
 				"                group by o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra\r\n" + 
 				"";
@@ -272,10 +272,8 @@ public ArrayList<OrdenCompra> listaOrdenCompra(int codigo) {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select pro.nom_prov,ruc_prov,pro.direc_prov,o.condiciones_pago,c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad,round(sum(c.CantxUnidad*c.precioUnidad),2) ,u.nom_usu from OrdenCompra o \r\n" + 
-				"join detalle_compra c on o.nro_ord_compra=c.nro_ord_compra join producto p on c.id_prod=p.id_prod join proveedor pro on pro.id_prov=o.id_prove join usuario u on u.id_usu=o.id_usu  where o.nro_ord_compra=? \r\n" + 
-				"group by pro.nom_prov,pro.ruc_prov,pro.direc_prov,o.condiciones_pago,c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad;\r\n" + 
-				"";
+		String sql=" select c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad  from OrdenCompra o \r\n" + 
+				"				join detalle_compra c on o.nro_ord_compra=c.nro_ord_compra join producto p on c.id_prod=p.id_prod   where o.nro_ord_compra=?";
 		pst=(PreparedStatement) con.prepareStatement(sql);
 		pst.setInt(1, codigo);
 		rs=pst.executeQuery();
@@ -283,17 +281,14 @@ public ArrayList<OrdenCompra> listaOrdenCompra(int codigo) {
 		
 		while (rs.next()) {
 			OrdenCompra reg=new OrdenCompra();
-			reg.setNomProveedor(rs.getString(1));
-			reg.setRuc(rs.getString(2));
-			reg.setDirecProveedor(rs.getString(3));
-			reg.setCondicionPago(rs.getString(4));
 			
-			reg.setIdprodu(rs.getInt(5));
-			reg.setNomProd(rs.getString(6));
-			reg.setCantidad(rs.getInt(7));
-			reg.setPrecio(rs.getDouble(8));
-			reg.setTotal(rs.getDouble(9));
-			reg.setNomUsuario(rs.getString(10));
+			
+			reg.setIdprodu(rs.getInt(1));
+			reg.setNomProd(rs.getString(2));
+			reg.setCantidad(rs.getInt(3));
+			reg.setPrecio(rs.getDouble(4));
+			
+	
 			lista.add(reg);
 		}
 		
@@ -329,7 +324,7 @@ public ArrayList<OrdenRegistroCompra> listadoRegistroCompra() {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad*1.18) from registro_compra r \r\n" + 
+		String sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad) from registro_compra r \r\n" + 
 				"join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
 				"group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com;";
 		pst=(PreparedStatement) con.prepareStatement(sql);
@@ -423,7 +418,7 @@ public ArrayList<OrdenRegistroCompra> listadoXFiltro(String filtro,String busque
 		if(filtro.equals("TIPO DOCUMENTO")) {
 			
 		
-		 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad*1.18) from registro_compra r  \r\n" + 
+		 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad) from registro_compra r  \r\n" + 
 				"				join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
 				"                where r.comprovante like concat(?,'%')\r\n" + 
 				"				group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com ";
@@ -432,7 +427,7 @@ public ArrayList<OrdenRegistroCompra> listadoXFiltro(String filtro,String busque
 		
 		else if(filtro.equals("PERIODO")) {
 
-			 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad*1.18) from registro_compra r  \r\n" + 
+			 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad) from registro_compra r  \r\n" + 
 					"				join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
 					"                where r.fecha_Regis_com like concat(?,'%')\r\n" + 
 					"				group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com ";
@@ -529,6 +524,52 @@ public ArrayList<OrdenCompra> listadoXFiltroOrden(String filtro, String busqueda
 			reg.setTotal(rs.getDouble(9));
 			lista.add(reg);
 		}
+		
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, "error en la sentencia"+e.getMessage());
+	}finally {
+		try {
+			if(pst!=null)pst.close();
+			if(con!=null)con.close();
+		} catch (Exception e2) {
+			
+			JOptionPane.showMessageDialog(null, "error al cerrar");
+		}
+	}
+	return lista;
+}
+
+@Override
+public ArrayList<OrdenCompra> obtenerDatosOrdenCompra(int codigo) {
+	ArrayList<OrdenCompra> lista=new ArrayList<OrdenCompra>();
+	ResultSet rs=null;
+	Connection con=null;
+	PreparedStatement pst=null;
+	try {
+		con=MySQLconexion.getConexion();
+		String sql="select pro.nom_prov,ruc_prov,pro.direc_prov,o.condiciones_pago,u.nom_usu from OrdenCompra o \r\n" + 
+				"				join detalle_compra c on o.nro_ord_compra=c.nro_ord_compra  join proveedor pro on pro.id_prov=o.id_prove join usuario u on u.id_usu=o.id_usu  where o.nro_ord_compra=?\r\n" + 
+				"				group by pro.nom_prov,pro.ruc_prov,pro.direc_prov,o.condiciones_pago";
+		pst=(PreparedStatement) con.prepareStatement(sql);
+		pst.setInt(1, codigo);
+		rs=pst.executeQuery();
+		
+		
+		while (rs.next()) {
+			OrdenCompra reg=new OrdenCompra();
+			
+			
+			reg.setNomProveedor(rs.getString(1));
+			reg.setRuc(rs.getString(2));
+			reg.setDirecProveedor(rs.getString(3));
+			reg.setCondicionPago(rs.getString(4));
+			reg.setNomUsuario(rs.getString(5));
+	
+			lista.add(reg);
+		}
+		
+			
+		
 		
 	} catch (Exception e) {
 		JOptionPane.showMessageDialog(null, "error en la sentencia"+e.getMessage());

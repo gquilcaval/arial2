@@ -549,6 +549,8 @@ tblProducto.setModel(model1);
 				else if(tblProducto.getRowCount()==0) {
 					JOptionPane.showMessageDialog(null, "escoja algun producto");
 				}
+				
+	
 				else {
 					
 				
@@ -688,9 +690,7 @@ tblProducto.setModel(model1);
 		dv.setIdprodu(Integer.parseInt(tblProducto.getValueAt(i,0).toString()));
 		dv.setCantidad(Integer.parseInt(tblProducto.getValueAt(i, 2).toString()));
 		dv.setPrecio(Double.parseDouble(tblProducto.getValueAt(i,3).toString()));
-		System.out.println();
-		System.out.println();
-		System.out.println();
+		
 		
 		carrito.add(dv);
 		}

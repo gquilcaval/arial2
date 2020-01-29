@@ -91,11 +91,11 @@ public class FrmRegistroCompra extends JDialog {
 		/*el precio unitario es el valor unitario mas el impuesto */
 		/*model.addColumn("Precion unitario");*/
 		
-		/*el neto es el valor unitario * cantidad*/
-		model.addColumn("Neto");
-		model.addColumn("Impuesto");
+		
+		
+	
 		model.addColumn("Total");
-		model.addColumn("fecha Caducidad");
+	/*	model.addColumn("fecha Caducidad");*/
 		
 		
 		setBounds(100, 100, 1370, 830);
@@ -327,8 +327,8 @@ public class FrmRegistroCompra extends JDialog {
 				model.setRowCount(0);
 				int codigoRegisCompra=Integer.parseInt(txtOrdenCompra.getText());
 				
-				ArrayList<OrdenCompra>lista= g.listaOrdenCompra(codigoRegisCompra);
-				
+				ArrayList<OrdenCompra>datosProducto= g.listaOrdenCompra(codigoRegisCompra);
+				ArrayList<OrdenCompra>lista= g.obtenerDatosOrdenCompra(codigoRegisCompra);
 				if(lista.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "el numero de orden no existe");
 				}
@@ -343,20 +343,18 @@ public class FrmRegistroCompra extends JDialog {
 				cboFormaPago.setModel(new DefaultComboBoxModel(new String[] {lista.get(0).getCondicionPago()}));
 				
 				
-				tblRegistroCompra.getColumnModel().getColumn(7).setCellEditor(new JDateChooserEditor(new JCheckBox()));
+				/*tblRegistroCompra.getColumnModel().getColumn(7).setCellEditor(new JDateChooserEditor(new JCheckBox()));
 					DefaultTableCellRenderer renderer=new DefaultTableCellRenderer();
-					tblRegistroCompra.getColumnModel().getColumn(7).setCellRenderer(renderer);
+					tblRegistroCompra.getColumnModel().getColumn(7).setCellRenderer(renderer);*/
 				
 				int total=0;
 				
-				for (OrdenCompra cl : lista) {
-					double neto=cl.getCantidad()*cl.getPrecio();
-					double impuesto=neto*0.18;
+				for (OrdenCompra cl : datosProducto) {
+					double subtotal=cl.getCantidad()*cl.getPrecio();
 					
-					Object datos[] = { cl.getIdprodu(),cl.getNomProd(),cl.getCantidad(),cl.getPrecio(),neto,impuesto,cl.getTotal()
-							};
+					Object datos[] = { cl.getIdprodu(),cl.getNomProd(),cl.getCantidad(),cl.getPrecio(),subtotal};
 					model.addRow(datos);
-					total+=cl.getTotal();
+					total+=subtotal;
 
 				}
 				
@@ -381,10 +379,10 @@ public class FrmRegistroCompra extends JDialog {
 				txtSubtotal.setText(subtotal + "");
 
 				txtImpuesto.setText(igv + "");
-
+*/
 				txtTotal.setText(total + "");
 				
-				*/
+				
 				}
 			}
 		});

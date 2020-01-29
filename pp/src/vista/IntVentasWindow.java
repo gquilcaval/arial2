@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.UIManager;
@@ -23,17 +24,25 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTable;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import javax.swing.table.DefaultTableModel;
+
+import mantenimientos.GestionClientes;
+import model.Clientes;
+
 import java.awt.Cursor;
+import javax.swing.border.MatteBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IntVentasWindow extends JInternalFrame {
 	private String colorFondo="#ebf0f4";
-	private JLabel lblUser;
-	public static JLabel lblFecha;
-	private JTextField txtBusquedad;
 	public String ColorMain ="#2D363F";
+	private JTextField textField;
+	private JLabel lblUser;
+	private JTable tblCliente;
+
 	public static JLabel lblReloj;
-	private JTable tblProducto;
-	private JLabel label_1;
+	public static JLabel lblFecha;
 	/**
 	 * Launch the application.
 	 */
@@ -54,10 +63,13 @@ public class IntVentasWindow extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public IntVentasWindow() {
+		
+		
 		addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameOpened(InternalFrameEvent arg0) {
 				lblUser.setText(FrmLogin.e.getNom_emp());
+				
 			}
 		});
 		setBackground(Color.RED);
@@ -66,106 +78,119 @@ public class IntVentasWindow extends JInternalFrame {
 		getContentPane().setBackground(Color.WHITE);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(75, 0, 1359, 66);
-		panel.setBackground(Color.decode(ColorMain));
+		panel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(0, 0, 0)));
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(116, 0, 1317, 871);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(10, 28, 78, 14);
-		lblUsuario.setForeground(Color.white);
-		panel.add(lblUsuario);
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBackground(new Color(45, 54, 63));
+		panel_1.setBounds(1, 0, 1316, 66);
+		panel.add(panel_1);
+		
+		JLabel label = new JLabel("Usuario");
+		label.setForeground(Color.WHITE);
+		label.setBounds(10, 28, 78, 14);
+		panel_1.add(label);
 		
 		lblUser = new JLabel("");
 		lblUser.setForeground(Color.WHITE);
-		lblUser.setBounds(72, 28, 58, 14);
-		panel.add(lblUser);
+		lblUser.setBounds(85, 28, 58, 14);
+		panel_1.add(lblUser);
 		
 		lblFecha = new JLabel("");
-		lblFecha.setBounds(1122, 19, 91, 29);
 		lblFecha.setForeground(Color.WHITE);
 		lblFecha.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		panel.add(lblFecha);
+		lblFecha.setBounds(1122, 19, 91, 29);
+		panel_1.add(lblFecha);
 		
 		lblReloj = new JLabel("");
-		lblReloj.setBounds(1266, 19, 46, 29);
 		lblReloj.setForeground(Color.WHITE);
 		lblReloj.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		panel.add(lblReloj);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(-4, 312, 38, -14);
-		getContentPane().add(panel_1);
-		
-		JLabel label = new JLabel("");
-		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/user.png"));
-		Image imgEscalada = imgIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		Icon iconoEscalado = new ImageIcon(imgEscalada);
-		label.setIcon(iconoEscalado);
-		label.setBounds(222, 121, 30, 20);
-		getContentPane().add(label);
-		
-		txtBusquedad = new JTextField();
-		txtBusquedad.setBounds(262, 121, 199, 20);
-		getContentPane().add(txtBusquedad);
-		txtBusquedad.setColumns(10);
-		
-		label_1 = new JLabel("");
-		label_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		ImageIcon iconSearch = new ImageIcon(getClass().getResource("/iconos/search.png"));
-		Image i = iconSearch.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		Icon ic = new ImageIcon(i);
-		label_1.setIcon(ic);
-		label_1.setBounds(490, 121, 20, 20);
-		getContentPane().add(label_1);
-		
-		JLabel lblProducto = new JLabel("");
-		ImageIcon imgIcon1 = new ImageIcon(getClass().getResource("/iconos/product.png"));
-		Image imgEscalada1 = imgIcon1.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-		Icon id = new ImageIcon(imgEscalada1);
-		lblProducto.setIcon(id);
-		lblProducto.setBounds(236, 204, 30, 20);
-		getContentPane().add(lblProducto);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(236, 277, 706, 285);
-		getContentPane().add(scrollPane);
-		
-		tblProducto = new JTable();
-		scrollPane.setViewportView(tblProducto);
+		lblReloj.setBounds(1266, 19, 46, 29);
+		panel_1.add(lblReloj);
 		
 		JPanel panel_2 = new JPanel();
-		panel.setBackground(Color.decode(ColorMain));
-		panel_2.setBounds(75, 277, 60, 285);
-		getContentPane().add(panel_2);
-		panel_2.setLayout(null);
+		panel_2.setBounds(-78, 312, 38, -14);
+		panel.add(panel_2);
 		
-		JLabel lblCantidad = new JLabel("Cantidad");
-		lblCantidad.setBounds(10, 40, 50, 14);
-		panel_2.add(lblCantidad);
+		JLabel label_4 = new JLabel("");
+		label_4.setBounds(148, 121, 30, 20);
+		panel.add(label_4);
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(188, 121, 199, 20);
+		panel.add(textField);
+		
+		JLabel label_5 = new JLabel("");
+		label_5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				FrmBuscarLCiente c=new FrmBuscarLCiente();
+				c.setVisible(true);
+				c.setLocationRelativeTo(null);
+			}
+		});
+		label_5.setOpaque(true);
+		label_5.setBackground(Color.BLACK);
+		label_5.setBounds(397, 121, 20, 20);
+		panel.add(label_5);
+		
+		JLabel label_6 = new JLabel("");
+		label_6.setBounds(162, 204, 30, 20);
+		panel.add(label_6);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(162, 277, 706, 285);
+		panel.add(scrollPane);
+		
+		tblCliente = new JTable();
+		
+		scrollPane.setViewportView(tblCliente);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(0, 0, 60, 54);
-		panel_2.add(panel_3);
 		panel_3.setLayout(null);
-		ImageIcon imgIcon2 = new ImageIcon(getClass().getResource("/iconos/money.png"));
-		Image imgEscalada2 = imgIcon2.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-		Icon u = new ImageIcon(imgEscalada2);
+		panel_3.setBounds(1, 277, 60, 285);
+		panel.add(panel_3);
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setLayout(null);
-		panel_4.setBounds(0, 54, 60, 54);
-		panel_2.add(panel_4);
+		panel_4.setBounds(0, 0, 60, 54);
+		panel_3.add(panel_4);
 		
-		JLabel lblPrecio = new JLabel("Precio");
-		lblPrecio.setBounds(10, 40, 41, 14);
-		panel_4.add(lblPrecio);
+		JLabel label_7 = new JLabel("Cantidad");
+		label_7.setBounds(10, 40, 50, 14);
+		panel_4.add(label_7);
 		
+		JPanel panel_5 = new JPanel();
+		panel_5.setLayout(null);
+		panel_5.setBounds(0, 54, 60, 54);
+		panel_3.add(panel_5);
 		
-		JLabel label_3 = new JLabel("");
-		label_3.setBounds(11, 1, 48, 35);
-		panel_4.add(label_3);
-		label_3.setIcon(u);
+		JLabel label_8 = new JLabel("Precio");
+		label_8.setBounds(10, 40, 41, 14);
+		panel_5.add(label_8);
+		
+		JLabel label_9 = new JLabel("");
+		label_9.setBounds(11, 1, 48, 35);
+		panel_5.add(label_9);
+		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/user.png"));
+		Image imgEscalada = imgIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		Icon iconoEscalado = new ImageIcon(imgEscalada);
+		ImageIcon iconSearch = new ImageIcon(getClass().getResource("/iconos/search.png"));
+		Image i = iconSearch.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Icon ic = new ImageIcon(i);
+		ImageIcon imgIcon1 = new ImageIcon(getClass().getResource("/iconos/product.png"));
+		Image imgEscalada1 = imgIcon1.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+		Icon id = new ImageIcon(imgEscalada1);
+		ImageIcon imgIcon2 = new ImageIcon(getClass().getResource("/iconos/money.png"));
+		Image imgEscalada2 = imgIcon2.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		Icon u = new ImageIcon(imgEscalada2);
 
 	}
+	
+	
 }

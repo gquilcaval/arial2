@@ -21,12 +21,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
+import componentes.boton;
 import mantenimientos.GestionCompra;
 import mantenimientos.GestionProveedor;
 import model.DetalleCompra;
 import model.OrdenRegistroCompra;
 import model.Proveedores;
 import model.RoundedCornerBorder;
+import utils.FormatoTablaMain;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -98,88 +100,57 @@ public class IntGestionDeCompra extends JInternalFrame {
 		model1.addColumn("Producto");
 		model1.addColumn("Cantidad");
 		model1.addColumn("Precio");
-		model1.addColumn("Bruto");
+	
 		model1.addColumn("Descuento");
-		model1.addColumn("Impuesto");
-		model1.addColumn("Importe");
+		model1.addColumn("Total");
 
 		setBounds(223, 79, 1626, 811);
 		getContentPane().setLayout(null);
-
+		
+		/*los componentes agregados*/
+		componentes.boton b=new boton();
+		
+		
+		getContentPane().add(b.miboton(44, 32));
+		/*--------------------------*/
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
-		panel.setBounds(0, 0, 1610, 781);
+		panel.setBounds(-6, 0, 1610, 781);
 		panel.setBackground(Color.WHITE);
 		getContentPane().add(panel);
 
-		JPanel panel_1 = new JPanel() {
-			protected void paintComponent(Graphics g) {
-				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-					Graphics2D g2 = (Graphics2D) g.create();
-					g2.setPaint(getBackground());
-					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
-					g2.dispose();
-				}
-				super.paintComponent(g);
-			}
-
-			public void updateUI() {
-				super.updateUI();
-				setOpaque(false);
-				setBorder(new RoundedCornerBorder());
-			}
-		};
+		JPanel panel_1 = new JPanel() ;
 		panel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
 				FrmRegistroCompra r = new FrmRegistroCompra();
 
 				r.setVisible(true);
 				r.setLocationRelativeTo(null);
 			}
 		});
-		panel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_1.setLayout(null);
-		panel_1.setBackground(new Color(20, 147, 225));
-		panel_1.setBounds(726, 18, 142, 41);
+		
+		panel_1.setBounds(302, 32, 116, 30);
 		panel.add(panel_1);
 
 		JLabel lblNuevo = new JLabel("NUEVO");
-
-		lblNuevo.setVerticalAlignment(SwingConstants.TOP);
 		lblNuevo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNuevo.setForeground(new Color(253, 254, 254));
-		lblNuevo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
-		lblNuevo.setBounds(50, 7, 83, 30);
+		lblNuevo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+		lblNuevo.setBounds(35, 2, 71, 26);
 		panel_1.add(lblNuevo);
 
 		JLabel label_2 = new JLabel("");
 		ImageIcon iconSearchs = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
-		Image is = iconSearchs.getImage().getScaledInstance(38, 38, Image.SCALE_SMOOTH);
+		Image is = iconSearchs.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		Icon ico = new ImageIcon(is);
 		label_2.setIcon(ico);
-		label_2.setBounds(10, 7, 30, 27);
+		label_2.setBounds(10, 5, 30, 23);
 		panel_1.add(label_2);
 
-		txtBusquedad = new JTextField(10) {
-			protected void paintComponent(Graphics g) {
-
-				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-					Graphics2D g2 = (Graphics2D) g.create();
-					g2.setPaint(getBackground());
-					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
-					g2.dispose();
-				}
-				super.paintComponent(g);
-
-			}
-
-			public void updateUI() {
-				super.updateUI();
-				setOpaque(false);
-				setBorder(new RoundedCornerBorder());
-			}
-		};
+		
+		  txtBusquedad = new JTextField(10) ;
 		txtBusquedad.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -209,16 +180,16 @@ public class IntGestionDeCompra extends JInternalFrame {
 		});
 		txtBusquedad.setToolTipText("");
 		txtBusquedad.setBackground(new Color(239, 244, 249));
-		txtBusquedad.setBounds(1168, 21, 345, 38);
+		txtBusquedad.setBounds(1168, 32, 345, 30);
 		panel.add(txtBusquedad);
 
 		JLabel label_3 = new JLabel("");
 		ImageIcon iconSearch = new ImageIcon(getClass().getResource("/iconos/search.png"));
-		Image i = iconSearch.getImage().getScaledInstance(38, 38, Image.SCALE_SMOOTH);
+		Image i = iconSearch.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		Icon ic = new ImageIcon(i);
 		label_3.setIcon(ic);
 		label_3.setBackground(Color.BLACK);
-		label_3.setBounds(1523, 21, 38, 38);
+		label_3.setBounds(1523, 32, 28, 27);
 		panel.add(label_3);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -245,27 +216,17 @@ public class IntGestionDeCompra extends JInternalFrame {
 					/* precio bruto cantidad*precio */
 					int cantidad = lista.get(0).getCantidad();
 					double precio = lista.get(0).getPrecio();
-					double precioBruto = cantidad * precio;
-					double impuesto = precioBruto * 0.18;
-					double total = precioBruto + impuesto;
-					Object o[] = { cl.getNomPro(), cl.getCantidad(), cl.getPrecio(), precioBruto, 0,
-							impuesto, total };
+					double total = cantidad * precio;
+					
+					Object o[] = { cl.getNomPro(), cl.getCantidad(), cl.getPrecio(),0,
+							 total };
 					model1.addRow(o);
 				}
 
 			}
 		});
 		scrollPane.setViewportView(tblCompra);
-		tblCompra.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tblCompra.getTableHeader().setOpaque(false);
-		tblCompra.getTableHeader().setBackground(Color.decode("#005f80"));
-		tblCompra.getTableHeader().setForeground(Color.decode("#F4F5F7"));
-		tblCompra.getTableHeader().setFont(new Font("Arial", 1, 12));
-		tblCompra.getTableHeader().setSize(WIDTH, 100);
-		tblCompra.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
-		tblCompra.setRowHeight(30);
-		tblCompra.setDefaultRenderer(Object.class, new FormatoTabla());
-		tblCompra.setForeground(Color.decode("#39393C"));
+		FormatoTablaMain.formatoTabla(tblCompra);
 		tblCompra.setModel(model);
 
 		scrollPane_1 = new JScrollPane();
@@ -290,18 +251,21 @@ public class IntGestionDeCompra extends JInternalFrame {
 		tblProducto.setModel(model1);
 
 		JLabel lblNewLabel = new JLabel("FILTRO");
-		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-		lblNewLabel.setBounds(945, 21, 65, 38);
+		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+		lblNewLabel.setBounds(952, 29, 65, 30);
 		panel.add(lblNewLabel);
 
 		cboFiltro = new JComboBox();
 		cboFiltro.setOpaque(false);
 		cboFiltro.setBackground(Color.WHITE);
 		cboFiltro.setModel(new DefaultComboBoxModel(new String[] { "SELECCIONA", "TIPO DOCUMENTO", "PERIODO" }));
-		cboFiltro.setBounds(1020, 21, 138, 38);
+		cboFiltro.setBounds(1020, 32, 138, 30);
 		cboFiltro.setUI(CustomUI.createUI(this));
 		panel.add(cboFiltro);
 
+		
+	
+		
 	}
 
 	public static void listadoRegistroCompra() {

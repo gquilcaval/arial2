@@ -105,23 +105,7 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		setBounds(100, 100, 1600, 708);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(Color.WHITE);
-		txtBusquedad = new JTextField(10) {
-			protected void paintComponent(Graphics g) {
-				
-				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-					Graphics2D g2 = (Graphics2D) g.create();
-					g2.setPaint(getBackground());
-					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
-					g2.dispose();
-				}
-				super.paintComponent(g);
-			}
-			public void updateUI() {
-				super.updateUI();
-				setOpaque(false);
-				setBorder(new RoundedCornerBorder());
-			}
-		};
+		txtBusquedad = new JTextField(10) ;
 		txtBusquedad.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -150,30 +134,14 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		});
 		txtBusquedad.setToolTipText("");
 		txtBusquedad.setBackground(new Color(239, 244, 249));
-		txtBusquedad.setBounds(1179, 11, 345, 38);
+		txtBusquedad.setBounds(1178, 19, 345, 30);
 		getContentPane().add(txtBusquedad);
 		
 		ImageIcon iconSearch = new ImageIcon(getClass().getResource("/iconos/search.png"));
 		Image i = iconSearch.getImage().getScaledInstance(38, 38, Image.SCALE_SMOOTH);
 		Icon ic = new ImageIcon(i);
 		
-		JPanel panel_6 = new JPanel() {
-			protected void paintComponent(Graphics g) {
-				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-					Graphics2D g2 = (Graphics2D) g.create();
-					g2.setPaint(getBackground());
-					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
-					g2.dispose();
-				}
-				super.paintComponent(g);
-				
-			}
-			public void updateUI() {
-				super.updateUI();
-				setOpaque(false);
-				setBorder(new RoundedCornerBorder());
-			}
-		};
+		JPanel panel_6 = new JPanel() ;
 		panel_6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_6.addMouseListener(new MouseAdapter() {
 			@Override
@@ -192,19 +160,11 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		});
 		panel_6.setLayout(null);
 		panel_6.setBackground(new Color(20, 147, 225));
-		panel_6.setBounds(681, 8, 142, 41);
+		panel_6.setBounds(388, 25, 142, 30);
 		getContentPane().add(panel_6);
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		Icon iconoEscalado = new ImageIcon(imgEscalada);
-		
-		JLabel label_2 = new JLabel("Nuevo");
-		label_2.setVerticalAlignment(SwingConstants.TOP);
-		label_2.setHorizontalAlignment(SwingConstants.CENTER);
-		label_2.setForeground(new Color(253, 254, 254));
-		label_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
-		label_2.setBounds(50, 7, 83, 30);
-		panel_6.add(label_2);
 		
 		JLabel label = new JLabel("");
 		label.addMouseListener(new MouseAdapter() {
@@ -218,18 +178,25 @@ FrmMenuPrincipal f=new FrmMenuPrincipal();
 				
 			}
 		});
-		label.setBounds(10, 0, 38, 38);
+		label.setBounds(10, 0, 38, 30);
 		panel_6.add(label);
 		label.setIcon(ic);
 		
 			label.setIcon(iconoEscalado);
+			
+			JLabel label_2 = new JLabel("NUEVO");
+			label_2.setHorizontalAlignment(SwingConstants.CENTER);
+			label_2.setForeground(new Color(253, 254, 254));
+			label_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+			label_2.setBounds(55, 2, 71, 26);
+			panel_6.add(label_2);
 			ImageIcon iconSearchs = new ImageIcon(getClass().getResource("/iconos/search.png"));
-			Image is = iconSearchs.getImage().getScaledInstance(38, 38, Image.SCALE_SMOOTH);
+			Image is = iconSearchs.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 			Icon ico = new ImageIcon(is);
 		JLabel label_1 = new JLabel("");
 		label_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		label_1.setIcon(ico);
-		label_1.setBounds(1534, 11, 44, 38);
+		label_1.setBounds(1526, 21, 44, 30);
 		getContentPane().add(label_1);
 		label_1.setVerticalAlignment(SwingConstants.TOP);
 		
@@ -392,7 +359,7 @@ FrmMenuPrincipal f=new FrmMenuPrincipal();
 		cboFiltro.setModel(new DefaultComboBoxModel(new String[] {"SELECCIONA", "USUARIO", "FECHA ORDEN", "PROVEEDOR"}));
 		cboFiltro.setOpaque(false);
 		cboFiltro.setBackground(Color.WHITE);
-		cboFiltro.setBounds(1028, 11, 138, 38);
+		cboFiltro.setBounds(1026, 18, 138, 30);
 		cboFiltro.setUI(CustomUI.createUI(this));
 		getContentPane().add(cboFiltro);
 		

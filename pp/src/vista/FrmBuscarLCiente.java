@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.Icon;
@@ -10,15 +11,40 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
+
+import mantenimientos.GestionClientes;
+import model.Clientes;
+import utils.FormatoTablaMain;
+
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FrmBuscarLCiente extends JDialog {
 	private JTable tblCliente;
-
+	DefaultTableModel model =new DefaultTableModel() {
+		public boolean isCellEditable(int filas,int columnas) {
+			
+			if(filas==1) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	};
 	/**
 	 * Launch the application.
 	 */
@@ -36,6 +62,18 @@ public class FrmBuscarLCiente extends JDialog {
 	 * Create the dialog.
 	 */
 	public FrmBuscarLCiente() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				listar();
+			}
+		});
+		model.addColumn("Codigo");
+		model.addColumn("nombre");
+		model.addColumn("nombre comercial");
+	
+	
+	
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
@@ -61,7 +99,37 @@ public class FrmBuscarLCiente extends JDialog {
 		getContentPane().add(scrollPane);
 		
 		tblCliente = new JTable();
+		tblCliente.setFillsViewportHeight(true);
+		tblCliente.setFocusTraversalKeysEnabled(false);
+		FormatoTablaMain.formatoTabla(tblCliente);
+		
+		tblCliente.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				
+				
+				
+				if(e.getClickCount()==2) {
+					JOptionPane.showMessageDialog(null, "dos clicks");
+				}
+			}
+		});
 		scrollPane.setViewportView(tblCliente);
+		tblCliente.setModel(model);
 		setBounds(100, 100, 506, 497);
+		
+	}
+	/*listado en la tabla cliente*/
+	void listar() {
+		ArrayList<Clientes> listado=new GestionClientes().listado();
+		model.getDataVector().removeAllElements();
+		for (Clientes cl : listado) {
+			
+			Object o[]= {cl.getId_cli(),cl.getNomb_cli(),cl.getNom_comercial()
+					};
+			model.addRow(o);
+		}
+		
 	}
 }
