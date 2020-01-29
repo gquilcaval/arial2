@@ -105,7 +105,7 @@ public class IntVenta extends JInternalFrame {
 			}
 		});
 		setBorder(null);
-		setBounds(223, 79, 1626, 832);
+		setBounds(223, 79, 1644, 901);
 		getContentPane().setLayout(null);
 		
 		/*-----BORDE SUPERIOR DISABLE ----*/
@@ -114,8 +114,8 @@ public class IntVenta extends JInternalFrame {
 		
 		dk = new JDesktopPane();
 		dk.setBorder(new MatteBorder(1, 0, 0, 0, (Color) new Color(220, 225, 229)));
-		dk.setBackground(Color.decode(colorFondo));
-		dk.setBounds(0, 77, 1626, 728);
+		dk.setBackground(Color.WHITE);
+		dk.setBounds(0, 77, 1642, 728);
 		getContentPane().add(dk);
 	
 	
@@ -133,8 +133,8 @@ public class IntVenta extends JInternalFrame {
         Icon ic = new ImageIcon(i);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.decode("#FDFEFE"));
-		panel_1.setBounds(0, 0, 1626, 79);
+		panel_1.setBackground(Color.decode("#f3f4f5"));
+		panel_1.setBounds(0, 0, 1642, 79);
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		JLabel opc1 = new JLabel("Venta");
@@ -144,12 +144,12 @@ public class IntVenta extends JInternalFrame {
 		
 		panel_11.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel_11.setBorder(null);
-		panel_11.setBackground(Color.WHITE);
+		panel_11.setBackground(Color.decode("#f3f4f5"));
 
 		panel_11.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("haz hecho clik aqui");
+				
 				opc1.setForeground(Color.decode(colorNegro));
 				panel_2.setVisible(true);
 				
@@ -195,7 +195,7 @@ public class IntVenta extends JInternalFrame {
 		
 		JPanel panel_12 = new JPanel();
 		panel_12.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_12.setBackground(Color.WHITE);
+		panel_12.setBackground(Color.decode("#f3f4f5"));
 		panel_12.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

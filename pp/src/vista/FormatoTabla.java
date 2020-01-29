@@ -2,6 +2,8 @@ package vista;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.io.Console;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 /**
@@ -13,10 +15,18 @@ public class FormatoTabla extends DefaultTableCellRenderer{
     Font negrilla = new Font( "Helvetica",Font.BOLD,18 );
     Font cursiva = new Font( "Times new roman",Font.ITALIC,12 );
 
+    
+    public FormatoTabla() {
+    	  setOpaque(true);
+    	 }
+    
     @Override 
-    public Component getTableCellRendererComponent ( JTable table, Object value, boolean selected, boolean focused, int row, int column ) 
+    public Component getTableCellRendererComponent ( JTable table, Object value, boolean isSelected, boolean focused, int row, int column ) 
     {
         setEnabled(table == null || table.isEnabled()); 
+        
+        
+        
         
         if(row%2==0) {
         	setBackground(Color.decode("#ebebeb"));
@@ -25,7 +35,7 @@ public class FormatoTabla extends DefaultTableCellRenderer{
         	setBackground(Color.WHITE);
         }
         
-        super.getTableCellRendererComponent(table, value, selected, focused, row, column);         
+        super.getTableCellRendererComponent(table, value, isSelected, focused, row, column);         
         return this;
  }
     

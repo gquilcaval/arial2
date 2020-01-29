@@ -1,4 +1,4 @@
-package vista;
+	package vista;
 
 import java.awt.EventQueue;
 
@@ -44,9 +44,11 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IntCliente extends JInternalFrame {
-	DefaultTableModel model = new DefaultTableModel();
+	public static DefaultTableModel model = new DefaultTableModel();
 	private JDesktopPane dk;
 	private JPanel panel;
 	private JLabel label;
@@ -95,25 +97,26 @@ public class IntCliente extends JInternalFrame {
 
 		dk = new JDesktopPane();
 		dk.setBackground(Color.decode("#EFF4F9"));
-		;
+
 		dk.setBounds(0, 0, 1626, 701);
 		getContentPane().add(dk);
 		dk.setLayout(null);
 
 		/* TABLA */
-		model.addColumn("Tipo Persona");
+		model.addColumn("codigo");
+		model.addColumn("Nombre");
+		model.addColumn("nombre Comercial");
+		
 		model.addColumn("Forma Pago");
-		model.addColumn("Doc");
-		model.addColumn("N.Documento");
-		model.addColumn("Nombre/RazonSocial");
-		model.addColumn("Nombre Comercial");
+		
+	
+	
 		/* model.addColumn("Pendiente Pago"); */
 		model.addColumn("Direccion");
-		model.addColumn("Departamento");
-		model.addColumn("Distrito");
+		
 		model.addColumn("N.Telefono");
 		model.addColumn("Celular");
-		model.addColumn("Estado");
+		
 		model.addColumn("Correo");
 
 		/*-------*/
@@ -136,6 +139,14 @@ public class IntCliente extends JInternalFrame {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RegistroCliente reg=new RegistroCliente();
+				reg.setVisible(true);
+				reg.setLocationRelativeTo(null);
+			}
+		});
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel.setBounds(1446, 11, 142, 41);
 		panel.setBackground(Color.decode("#1493e1"));
@@ -243,15 +254,14 @@ public class IntCliente extends JInternalFrame {
 		label.setIcon(iconoEscalado);
 	}
 
-	void listar() {
+	public static void listar() {
 		GestionClientes gc = new GestionClientes();
 		ArrayList<Clientes> lista = gc.listado();
 		model.getDataVector().removeAllElements();
 		
 		for (Clientes cl : lista) {
-			Object datos[] = {  cl.getTip_persona_cli(),cl.getFormaPago_cli(),  cl.getTip_doc_cli(),
-					cl.getNum_doc_cli_(),cl.getNum_doc_cli_(),cl.getNomb_cli(),cl.getNom_comercial(),cl.getDirec_cli(),cl.getDepartamento_cli()
-					,cl.getDistrito_cli(),cl.getTelf_cli(),cl.getCelular(),cl.getEstado(),cl.getCorreo() };
+			Object datos[] = {  cl.getId_cli(),cl.getNomb_cli(),cl.getNom_comercial(),cl.getFormaPago_cli(),
+					cl.getDirec_cli(),cl.getDistrito_cli(),cl.getTelf_cli(),cl.getCelular(),cl.getCorreo() };
 
 			model.addRow(datos);
 

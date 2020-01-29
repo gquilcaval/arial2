@@ -76,7 +76,7 @@ try {
 FrmLogin frame = new FrmLogin();
 frame.setVisible(true);
 
-frame.setLocationRelativeTo(null);// <----------------------
+frame.setLocationRelativeTo(null);// <---------------------
 // CENTRANDO EL FRAME
 } catch (Exception e) {
 e.printStackTrace();
@@ -535,7 +535,7 @@ FrmMenuPrincipal.lblCargo.setText("Administrador");
 
 FrmMenuPrincipal.lblUser2.setIcon(new ImageIcon(FrmLogin.class.getResource("/img/user2.png")));
 FrmMenuPrincipal.lblIconoUsu.setIcon(new ImageIcon(FrmLogin.class.getResource("/img/user2.png")));
-dispose();
+dispose(); 
 }
 
 if (e.getId_tip_emp().equals("2")) {

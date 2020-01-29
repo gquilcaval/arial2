@@ -27,6 +27,7 @@ public interface InterfaceCompra {
 	
 	/*gestion orden de compra*/
 	public ArrayList<OrdenCompra> listaOrdenCompra(int codigo);
+	public ArrayList<OrdenCompra> obtenerDatosOrdenCompra(int codigo);
 	
 	/*gestion registro de compra*/
 	public ArrayList<OrdenRegistroCompra> listadoRegistroCompra();

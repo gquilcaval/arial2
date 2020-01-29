@@ -4,24 +4,34 @@ package model;
 
 public class Producto {
 	
-	private int codigo;
-	private String descripcion,marca;
-	private int idproveedor,codSunat,idcategoria;
-	public int getCodSunat() {
-		return codSunat;
+	private int codigo,codbarra,factor,stock;
+	public int getStock() {
+		return stock;
 	}
-	public void setCodSunat(int codSunat) {
-		this.codSunat = codSunat;
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
-	private String codbarra,codregistrosani ;
-	
-	private int stock ;
-	public double precioProCompra,precioProLista;
+	private String descripcion,marca,unidadCompra,unidadVenta,codregistrosani;
+	private double precioProCom,precioProVen;
+	private boolean lote;
+	private int codSunat,idcategoria;
 	public int getCodigo() {
 		return codigo;
 	}
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
+	}
+	public int getCodbarra() {
+		return codbarra;
+	}
+	public void setCodbarra(int codbarra) {
+		this.codbarra = codbarra;
+	}
+	public int getFactor() {
+		return factor;
+	}
+	public void setFactor(int factor) {
+		this.factor = factor;
 	}
 	public String getDescripcion() {
 		return descripcion;
@@ -35,29 +45,17 @@ public class Producto {
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
-	public int getIdproveedor() {
-		return idproveedor;
+	public String getUnidadCompra() {
+		return unidadCompra;
 	}
-	public void setIdproveedor(int idproveedor) {
-		this.idproveedor = idproveedor;
+	public void setUnidadCompra(String unidadCompra) {
+		this.unidadCompra = unidadCompra;
 	}
-	public int getIdcategoria() {
-		return idcategoria;
+	public String getUnidadVenta() {
+		return unidadVenta;
 	}
-	public void setIdcategoria(int idcategoria) {
-		this.idcategoria = idcategoria;
-	}
-	public int getStock() {
-		return stock;
-	}
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
-	public String getCodbarra() {
-		return codbarra;
-	}
-	public void setCodbarra(String codbarra) {
-		this.codbarra = codbarra;
+	public void setUnidadVenta(String unidadVenta) {
+		this.unidadVenta = unidadVenta;
 	}
 	public String getCodregistrosani() {
 		return codregistrosani;
@@ -65,18 +63,39 @@ public class Producto {
 	public void setCodregistrosani(String codregistrosani) {
 		this.codregistrosani = codregistrosani;
 	}
-	public double getPrecioProCompra() {
-		return precioProCompra;
+	public double getPrecioProCom() {
+		return precioProCom;
 	}
-	public void setPrecioProCompra(double precioProCompra) {
-		this.precioProCompra = precioProCompra;
+	public void setPrecioProCom(double precioProCom) {
+		this.precioProCom = precioProCom;
 	}
-	public double getPrecioProLista() {
-		return precioProLista;
+	public double getPrecioProVen() {
+		return precioProVen;
 	}
-	public void setPrecioProLista(double precioProLista) {
-		this.precioProLista = precioProLista;
+	public void setPrecioProVen(double precioProVen) {
+		this.precioProVen = precioProVen;
 	}
+	public boolean getLote() {
+		return lote;
+	}
+	public void setLote(boolean lote) {
+		this.lote = lote;
+	}
+	public int getCodSunat() {
+		return codSunat;
+	}
+	public void setCodSunat(int codSunat) {
+		this.codSunat = codSunat;
+	}
+	public int getIdcategoria() {
+		return idcategoria;
+	}
+	public void setIdcategoria(int idcategoria) {
+		this.idcategoria = idcategoria;
+	}
+	
+
+	
 	
 
 	

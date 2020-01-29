@@ -49,10 +49,7 @@ public class FrmBuscarProducto extends JDialog {
 
 	
 
-	public static double importe;
-	public static double subtotal;
-	public static double igv;
-	public static double total;
+	
 	public static JButton btnEliminar;
 	/* listado productos */
 	DefaultTableModel model = new DefaultTableModel();
@@ -87,11 +84,12 @@ public class FrmBuscarProducto extends JDialog {
 
 		/* agregar columnas de productos */
 		model.addColumn("Codigo");
-		model.addColumn("Linea");
+		
 		model.addColumn("Descripcion");
-		model.addColumn("Stock");
-		model.addColumn("Costo");
+		
+		model.addColumn("Precio Compra");
 
+		model.addColumn("Unidades En Existencia");
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 
@@ -146,16 +144,11 @@ public class FrmBuscarProducto extends JDialog {
 
 				// Sección 3
 				filas[0] = tblProducto.getValueAt(fila, 0);
-				filas[1] = tblProducto.getValueAt(fila, 2);
-				filas[2] = tblProducto.getValueAt(fila, 3);
-				filas[3] = tblProducto.getValueAt(fila, 4);
-				/* calcular el importe */
-
-				double precio = Double.parseDouble(tblProducto.getValueAt(fila, 4).toString());
-				double cantidad = Double.parseDouble(tblProducto.getValueAt(fila, 3).toString());
+				filas[1] = tblProducto.getValueAt(fila, 1);
+				filas[3] = tblProducto.getValueAt(fila, 2);
 				
-				importe = precio * cantidad;
-				filas[4]=importe;
+				
+			
 				
 				/*le envio el boton eliminar*/
 				 FrmOrdenDeCompra.tblProducto.setDefaultRenderer(Object.class, new Render());
@@ -176,27 +169,17 @@ public class FrmBuscarProducto extends JDialog {
 				FrmOrdenDeCompra.model1.addRow(filas);
 				
 
-				/* calcular el subtotal */
-				subtotal = subtotal + importe;
-				filas[4] = importe;
-
-				/* calcular el igv */
-				igv = subtotal * 0.18;
-
-				/* total */
-				total = subtotal + igv;
 				
+
+				
+
 			
 				
 
 				
 				
 				
-				FrmOrdenDeCompra.txtSubtotal.setText(subtotal + "");
-
-				FrmOrdenDeCompra.txtIGV.setText(igv + "");
-
-				FrmOrdenDeCompra.txtTotal.setText(total + "");
+				
 				dispose();
 			}
 		});
@@ -221,8 +204,7 @@ public class FrmBuscarProducto extends JDialog {
 		model.getDataVector().removeAllElements();
 
 		for (Producto cl : lista) {
-			Object datos[] = { cl.getCodigo(), cl.getIdproveedor(), cl.getDescripcion(), cl.getStock(),
-					cl.getPrecioProCompra() };
+			Object datos[] = { cl.getCodigo(),cl.getDescripcion(),cl.getPrecioProCom(),cl.getStock() };
 
 			model.addRow(datos);
 

@@ -30,18 +30,24 @@ public class GestionProductos implements InterfaceProducto{
 			while (rs.next()) {
 				Producto reg=new Producto();
 				reg.setCodigo(rs.getInt(1));
-				reg.setDescripcion(rs.getString(2));
-				reg.setMarca(rs.getString(3));
+				reg.setCodbarra(rs.getInt(2));
+				reg.setDescripcion(rs.getString(3));
+				reg.setMarca(rs.getString(4));
 				
-				reg.setPrecioProCompra(rs.getDouble(4));
-				reg.setPrecioProLista(rs.getDouble(5));
-				reg.setIdcategoria(rs.getInt(6));
-				reg.setIdproveedor(rs.getInt(7));
-				reg.setCodbarra(rs.getString(8));
-				reg.setCodregistrosani(rs.getString(9));
-				reg.setCodSunat(rs.getInt(10));
+				reg.setPrecioProCom(rs.getDouble(5));
+				reg.setPrecioProVen(rs.getDouble(6));
+				reg.setUnidadCompra(rs.getString(7));
+				reg.setUnidadVenta(rs.getString(8));
+				reg.setFactor(rs.getInt(9));
+				reg.setIdcategoria(rs.getInt(10));
+				reg.setCodregistrosani(rs.getString(11));
+				reg.setCodSunat(rs.getInt(12));
+				reg.setLote(rs.getBoolean(13));
+			reg.setStock(rs.getInt(14));
 				
-				reg.setStock(rs.getInt(11));
+				
+				
+			
 				lista.add(reg);
 			}
 			
@@ -76,18 +82,21 @@ public class GestionProductos implements InterfaceProducto{
 			while (rs.next()) {
 				Producto reg=new Producto();
 				reg.setCodigo(rs.getInt(1));
-				reg.setDescripcion(rs.getString(2));
-				reg.setMarca(rs.getString(3));
+				reg.setCodbarra(rs.getInt(2));
+				reg.setDescripcion(rs.getString(3));
+				reg.setMarca(rs.getString(4));
 				
-				reg.setPrecioProCompra(rs.getDouble(4));
-				reg.setPrecioProLista(rs.getDouble(5));
-				reg.setIdcategoria(rs.getInt(6));
-				reg.setIdproveedor(rs.getInt(7));
-				reg.setCodbarra(rs.getString(8));
-				reg.setCodregistrosani(rs.getString(9));
-				reg.setCodSunat(rs.getInt(10));
+				reg.setPrecioProCom(rs.getDouble(5));
+				reg.setPrecioProVen(rs.getDouble(6));
+				reg.setUnidadCompra(rs.getString(7));
+				reg.setUnidadVenta(rs.getString(8));
+				reg.setFactor(rs.getInt(9));
+				reg.setIdcategoria(rs.getInt(10));
+				reg.setCodregistrosani(rs.getString(11));
+				reg.setCodSunat(rs.getInt(12));
+				reg.setLote(rs.getBoolean(13));
+				reg.setStock(rs.getInt(14));
 				
-				reg.setStock(rs.getInt(11));
 				lista.add(reg);
 			}
 			
@@ -116,15 +125,23 @@ public class GestionProductos implements InterfaceProducto{
 		PreparedStatement pst=null;
 		try {
 			con=MySQLconexion.getConexion();
-			String sql="insert into Producto values (null, ?, ?, ?, ?, ?)";
+			String sql="insert into Producto values (null,?,?,?,?,?,?,?,?,?,?,?,?,default)";
 			pst=(PreparedStatement) con.prepareStatement(sql);
-			/*falta
-			pst.setString(1, reg.getDescripcion());
-			pst.setInt(2, reg.getStock());
-			pst.setDouble(3,reg.getPrecioUnidad());
-			pst.setString(4, reg.getIdcategoria());
-			pst.setInt(5, reg.getIdproveedor());
-			*/
+		
+			pst.setInt(1, reg.getCodbarra());
+			pst.setString(2, reg.getDescripcion());
+			pst.setString(3,reg.getMarca());
+			pst.setDouble(4, reg.getPrecioProCom());
+			pst.setDouble(5, reg.getPrecioProVen());
+			pst.setString(6,reg.getUnidadCompra());
+			pst.setString(7, reg.getUnidadVenta());
+			pst.setInt(8, reg.getFactor());
+			pst.setInt(9, reg.getIdcategoria());
+			pst.setString(10,reg.getCodregistrosani());
+			pst.setInt(11,reg.getCodSunat());
+			pst.setBoolean(12, reg.getLote());
+			
+			
 			rs=pst.executeUpdate();
 			
 			
