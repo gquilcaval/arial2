@@ -381,12 +381,12 @@ public class FrmMenuPrincipal extends JFrame {
 							
 							dktBody.removeAll();
 							dktBody.repaint();
-							IntpCompra venta=new IntpCompra();
-							dktBody.add(venta);
+							IntpCompra compra=new IntpCompra();
+							dktBody.add(compra);
 							try {
-								venta.setMaximum(true);
-								venta.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-								venta.show(); 
+								compra.setMaximum(true);
+								compra.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+								compra.show(); 
 								
 							
 						
@@ -395,7 +395,7 @@ public class FrmMenuPrincipal extends JFrame {
 							} catch (Exception e) {
 								// TODO: handle exception
 							}
-							
+						
 							
 						}
 					});
@@ -630,7 +630,7 @@ public class FrmMenuPrincipal extends JFrame {
 					
 					dktBody = 	new JDesktopPane();
 					contentPane.add(dktBody);
-					dktBody.setBounds(new Rectangle(223, 60, 1642, 890));
+					dktBody.setBounds(new Rectangle(223, 59, 1632, 890));
 					dktBody.setBackground(Color.decode("#ebf0f4"));
 					dktBody.setBorder(null);
 					

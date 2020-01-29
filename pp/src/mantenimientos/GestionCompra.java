@@ -272,7 +272,7 @@ public ArrayList<OrdenCompra> listaOrdenCompra(int codigo) {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select pro.nom_prov,ruc_prov,pro.direc_prov,o.condiciones_pago,c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad,round(sum(c.CantxUnidad*c.precioUnidad*1.18),2) ,u.nom_usu from OrdenCompra o \r\n" + 
+		String sql="select pro.nom_prov,ruc_prov,pro.direc_prov,o.condiciones_pago,c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad,round(sum(c.CantxUnidad*c.precioUnidad),2) ,u.nom_usu from OrdenCompra o \r\n" + 
 				"join detalle_compra c on o.nro_ord_compra=c.nro_ord_compra join producto p on c.id_prod=p.id_prod join proveedor pro on pro.id_prov=o.id_prove join usuario u on u.id_usu=o.id_usu  where o.nro_ord_compra=? \r\n" + 
 				"group by pro.nom_prov,pro.ruc_prov,pro.direc_prov,o.condiciones_pago,c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad;\r\n" + 
 				"";

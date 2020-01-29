@@ -51,6 +51,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IntGestionProducto extends JInternalFrame {
 	private String colorLetra="#000000";
@@ -78,21 +80,25 @@ public class IntGestionProducto extends JInternalFrame {
 	DefaultTableModel model = new DefaultTableModel();
 	private JTable tblProductos;
 	private JTextField textField;
+	private JLabel label_1;
 	
 	
 	
 	public IntGestionProducto() {
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameOpened(InternalFrameEvent e) {
+				listar();
+			}
+		});
 		getContentPane().setBackground(Color.WHITE);
 		/*---------------------------------- > QUITAR BORDES DEL JINTERNALFRAME <--------------------*/
 		setBorder(null);
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
 		/*---------------------------------------------------------------------------------------*/
-		addInternalFrameListener(new InternalFrameAdapter() {
-			@Override
-			public void internalFrameActivated(InternalFrameEvent arg0) {
-				listar();
-			}
-		});
+
+		
+		
 		
 
 		
@@ -105,9 +111,9 @@ public class IntGestionProducto extends JInternalFrame {
 		
 		model.addColumn("Precio Compra");
 		model.addColumn("Precio Lista");
-		model.addColumn("R.S.");
 		
-		model.addColumn("Codigo barra");
+		
+	
 		model.addColumn("Codigo registro sanitario");
 		
 		
@@ -155,10 +161,13 @@ public class IntGestionProducto extends JInternalFrame {
 		
 		textField = new JTextField(10) {
 			protected void paintComponent(Graphics g) {
-				Graphics2D g2 = (Graphics2D) g.create();
-				g2.setPaint(getBackground());
-				g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
-				g2.dispose();
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
 			}
 			public void updateUI() {
 				super.updateUI();
@@ -180,32 +189,40 @@ public class IntGestionProducto extends JInternalFrame {
 		label.setBounds(1046, 44, 44, 38);
 		getContentPane().add(label);
 		
-		JPanel panel = new JPanel() {
-			protected void paintComponent(Graphics g) {
+		JPanel panel = new JPanel();
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			
+			RegistroProducto regis=new RegistroProducto();
+			regis.setLocationRelativeTo(null);
+			regis.setVisible(true);
 			}
-			public void updateUI() {
-			}
-		};
+		});
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel.setLayout(null);
 		panel.setBackground(new Color(20, 147, 225));
-		panel.setBounds(50, 47, 132, 35);
+		panel.setBounds(50, 33, 160, 46);
 		getContentPane().add(panel);
 		
-		JLabel label_1 = new JLabel("");
+		label_1 = new JLabel("");
+		label_1.setBounds(10, 3, 33, 43);
+		ImageIcon imgIcon1 = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
+		Image imgEscalada1 = imgIcon1.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+		Icon iconoEscalado1 = new ImageIcon(imgEscalada1);
+		label_1.setIcon(iconoEscalado1);
+		panel.add(label_1);
+		
+		
+		JLabel label_2 = new JLabel("Agregar");
+		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		label_2.setForeground(new Color(253, 254, 254));
+		label_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+		label_2.setBounds(56, 3, 80, 43);
+		panel.add(label_2);
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		Icon iconoEscalado = new ImageIcon(imgEscalada);
-		label_1.setIcon(iconoEscalado);
-		label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		label_1.setBounds(0, 0, 51, 35);
-		panel.add(label_1);
-		
-		JLabel label_2 = new JLabel("Nuevo");
-		label_2.setHorizontalAlignment(SwingConstants.CENTER);
-		label_2.setForeground(Color.WHITE);
-		label_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		label_2.setBounds(56, 0, 76, 35);
-		panel.add(label_2);
 		
 	}
 	
@@ -216,8 +233,8 @@ public class IntGestionProducto extends JInternalFrame {
 		model.getDataVector().removeAllElements();
 		
 		for (Producto cl : lista) {
-			Object datos[] = { cl.getCodigo(),cl.getIdproveedor(), cl.getDescripcion(), cl.getStock(),cl.getMarca(), cl.getPrecioProCompra(),cl.getPrecioProLista()
-					,cl.getIdcategoria(),cl.getCodbarra(),cl.getCodregistrosani() };
+			Object datos[] = { cl.getCodbarra(), cl.getDescripcion(),cl.getStock(), cl.getPrecioProCom(),cl.getPrecioProVen()
+					,cl.getCodregistrosani() };
 
 			model.addRow(datos);
 

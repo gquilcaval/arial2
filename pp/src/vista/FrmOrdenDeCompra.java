@@ -656,10 +656,9 @@ tblProducto.setModel(model1);
 		
 		String fecha=String.valueOf(sdf.format(fecha1));
 
+		
+		
 		fechaEntregaCompra=	fecha;
-	
-	
-	
 		direcEntrega=txtDireccionEntrega.getText();
 		direcFactura=txtDireccionFactura.getText();
 		conPago=(String)cboCondicionPago.getSelectedItem();

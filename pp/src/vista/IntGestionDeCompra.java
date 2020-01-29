@@ -44,7 +44,7 @@ import java.awt.event.KeyEvent;
 public class IntGestionDeCompra extends JInternalFrame {
 	private JTextField txtBusquedad;
 	private String colorFondo = "#ebf0f4";
-	DefaultTableModel model = new DefaultTableModel();
+	public static DefaultTableModel model = new DefaultTableModel();
 	DefaultTableModel model1 = new DefaultTableModel();
 	private JTable tblCompra;
 	private JScrollPane scrollPane_1;
@@ -78,26 +78,23 @@ public class IntGestionDeCompra extends JInternalFrame {
 			}
 		});
 
-		getContentPane().setBounds(new Rectangle(0, 0, 1626, 832));
+		getContentPane().setBounds(new Rectangle(0, 0, 1626, 901));
 		model.setRowCount(0);
 		model.setColumnCount(0);
 		model.addColumn("Codigo Registro Compra");
 		model.addColumn("Tipo");
-		model.addColumn("Serie");
-		model.addColumn("Numero");
 		model.addColumn("Fecha Registro");
 		model.addColumn("Proveedor");
 		model.addColumn("Forma pago");
 		model.addColumn("Vencimiento");
-		model.addColumn("Estado");
+		model.addColumn("Caja");
+		
 		model.addColumn("Total");
-		model.addColumn("Pagado");
-		model.addColumn("Anulado");
-		model.addColumn("Recibido");
+		
 
 		model1.setRowCount(0);
 		model1.setColumnCount(0);
-		model1.addColumn("Codigo");
+		
 		model1.addColumn("Producto");
 		model1.addColumn("Cantidad");
 		model1.addColumn("Precio");
@@ -198,8 +195,8 @@ public class IntGestionDeCompra extends JInternalFrame {
 					model.getDataVector().removeAllElements();
 					lista = gc.listadoXFiltro(filtro,nombre);
 					for (OrdenRegistroCompra cl : lista) {
-						Object o[] = { cl.getCodigo(), cl.getComprovante(), "", cl.getNroOrdenCompra(), cl.getFechaRegisCom(),
-								cl.getNomProveedor(), cl.getFormaPago(), cl.getFechaVenCom(), "", cl.getTotal() };
+						Object o[] = { cl.getCodigo(), cl.getComprovante(), cl.getFechaRegisCom(),
+								cl.getNomProveedor(), cl.getFormaPago(), cl.getFechaVenCom(),"",  cl.getTotal() };
 						model.addRow(o);
 
 					
@@ -251,7 +248,7 @@ public class IntGestionDeCompra extends JInternalFrame {
 					double precioBruto = cantidad * precio;
 					double impuesto = precioBruto * 0.18;
 					double total = precioBruto + impuesto;
-					Object o[] = { cl.getCodPro(), cl.getNomPro(), cl.getCantidad(), cl.getPrecio(), precioBruto, 0,
+					Object o[] = { cl.getNomPro(), cl.getCantidad(), cl.getPrecio(), precioBruto, 0,
 							impuesto, total };
 					model1.addRow(o);
 				}
@@ -307,13 +304,13 @@ public class IntGestionDeCompra extends JInternalFrame {
 
 	}
 
-	void listadoRegistroCompra() {
+	public static void listadoRegistroCompra() {
 
 		ArrayList<OrdenRegistroCompra> lista = new GestionCompra().listadoRegistroCompra();
 
 		for (OrdenRegistroCompra cl : lista) {
 
-			Object o[] = { cl.getCodigo(), cl.getComprovante(), "", cl.getNroOrdenCompra(), cl.getFechaRegisCom(),
+			Object o[] = { cl.getCodigo(), cl.getComprovante(), cl.getFechaRegisCom(),
 					cl.getNomProveedor(), cl.getFormaPago(), cl.getFechaVenCom(), "", cl.getTotal() };
 			model.addRow(o);
 		}

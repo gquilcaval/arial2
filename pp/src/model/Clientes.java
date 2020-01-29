@@ -2,8 +2,8 @@ package model;
 
 public class Clientes {
 
-	private int  id_cli,num_doc_cli_ ;
-	private String nomb_cli,nom_comercial ,departamento_cli,telf_cli,direc_cli,Distrito_cli,tip_doc_cli,formaPago_cli,tip_persona_cli,correo,celular,estado;
+	private int  id_cli ;
+	private String nomb_cli,num_doc_cli_,nom_comercial ,departamento_cli,telf_cli,direc_cli,Distrito_cli,tip_doc_cli,formaPago_cli,tip_persona_cli,correo,celular,estado;
 
 
 
@@ -25,10 +25,10 @@ public class Clientes {
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
-	public int getNum_doc_cli_() {
+	public String getNum_doc_cli_() {
 	 return num_doc_cli_;
 	}
-	public void setNum_doc_cli_(int num_doc_cli_) {
+	public void setNum_doc_cli_(String num_doc_cli_) {
 	 this.num_doc_cli_ = num_doc_cli_;
 	}
 	public String getTip_doc_cli() {

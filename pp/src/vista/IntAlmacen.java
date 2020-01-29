@@ -7,14 +7,19 @@ import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Cursor;
 
 import javax.swing.JPanel;
-import java.awt.Panel;
+
 import java.awt.Font;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+
+import utils.FocusJpanel;
+
+
 
 public class IntAlmacen extends JInternalFrame {
 
@@ -29,19 +34,13 @@ public class IntAlmacen extends JInternalFrame {
 	private JLabel lblEntrada;
 	private JLabel lblSalidas;
 	private JLabel lblRemision;
-	private Panel panel_1;
-	private Panel panel_2;
-	private Panel panel_3;
-	private Panel panel_4;
-	private Panel panel_5;
-	private Panel panel_6;
-	private Panel panel_7;
-	private Panel panel_8;
-	private Panel panel_9;
-	private Panel panel_11;
-	private Panel panel_12;
-	private Panel panel_10;
+	private JPanel rayaLotes;
+	private JPanel rayaInventario;
+	private JPanel rayaSalida;
+	private JPanel rayaRemision;
+	private JPanel rayaIngreso;
 	private JDesktopPane dktIntGestionProd;
+	private JPanel rayaProducto;
 	/**
 	 * Launch the application.
 	 */
@@ -96,296 +95,252 @@ public class IntAlmacen extends JInternalFrame {
 		dktIntGestionProd.setBounds(0, 75, 1626, 799);
 		getContentPane().add(dktIntGestionProd);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.decode("#f3f4f5"));
-		panel.setBounds(0, 0, 1626, 77);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel JPanel = new JPanel();
+		JPanel.setBackground(Color.decode("#f3f4f5"));
+		JPanel.setBounds(0, 0, 1626, 77);
+		getContentPane().add(JPanel);
+		JPanel.setLayout(null);
 		
-		panel_1 = new Panel();
-		panel_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				
-				lblProductos.setForeground(Color.decode(colorNegro));
-				panel_7.setVisible(true);
-				
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				
-				lblProductos.setForeground(Color.decode(colorPlomo));
-				panel_7.setVisible(false);
-				
-			}
+		lblProductos = new JLabel("Productos");
+		lblProductos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblProductos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaLotes);
+				listado.add(rayaInventario);
+				listado.add(rayaIngreso);
+				listado.add(rayaSalida);
+				listado.add(rayaRemision);
+				FocusJpanel.lanzarFoco(rayaProducto, listado);
+				
+				
+
+				/*para cambiar de internal*/
 				dktIntGestionProd.removeAll();
 				dktIntGestionProd.repaint();
-				IntGestionProducto p=new IntGestionProducto();
-				dktIntGestionProd.add(p);
+				IntGestionProducto compra=new IntGestionProducto();
+				dktIntGestionProd.add(compra);
 				try {
-					p.setMaximum(true);
-					p.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-					p.show(); 
+					compra.setMaximum(true);
+					compra.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					compra.show(); 
 					
-				
-			
-				
-				
 				} catch (Exception ex) {
 					// TODO: handle exception
 				}
 			}
 		});
-		panel_1.setBounds(10, 29, 120, 45);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
-		
-		lblProductos = new JLabel("Productos");
-		lblProductos.setBounds(26, 5, 68, 20);
+		lblProductos.setBounds(47, 34, 68, 32);
+		JPanel.add(lblProductos);
 		lblProductos.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblProductos.setForeground(Color.decode(colorPlomo));
-		panel_1.add(lblProductos);
-		
-		panel_7 = new Panel();
-		panel_7.setBackground(Color.decode(colorCeleste));
-		panel_7.setBounds(19, 42, 84, 3);
-		panel_7.setVisible(false);
-		panel_1.add(panel_7);
-		
-		panel_2 = new Panel();
-		panel_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-				lblLotes.setForeground(Color.decode(colorNegro));
-				panel_8.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblLotes.setForeground(Color.decode(colorPlomo));
-				panel_8.setVisible(false);
-				
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			
-					dktIntGestionProd.removeAll();
-					dktIntGestionProd.repaint();
-					IntLotes l=new IntLotes();
-					dktIntGestionProd.add(l);
-					try {
-						l.setMaximum(true);
-						l.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-						l.show(); 
-				}catch (Exception ex) {
-					// TODO: handle exception
-				}
-			}
-		});
-		panel_2.setBounds(165, 29, 120, 45);
-		panel.add(panel_2);
-		panel_2.setLayout(null);
+	
 		
 		lblLotes = new JLabel("Lotes");
-		lblLotes.setBounds(42, 5, 35, 20);
+		lblLotes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblLotes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaProducto);
+				listado.add(rayaInventario);
+				listado.add(rayaIngreso);
+				listado.add(rayaSalida);
+				listado.add(rayaRemision);
+				FocusJpanel.lanzarFoco(rayaLotes, listado);
+				
+				/*para cambiar de internal*/
+				dktIntGestionProd.removeAll();
+				dktIntGestionProd.repaint();
+				IntLotes compra=new IntLotes();
+				dktIntGestionProd.add(compra);
+				try {
+					compra.setMaximum(true);
+					compra.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					compra.show(); 
+					
+				} catch (Exception ex) {
+					// TODO: handle exception
+				}
+			}
+		});
+		lblLotes.setBounds(183, 34, 84, 32);
+		JPanel.add(lblLotes);
 		lblLotes.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblLotes.setForeground(Color.decode(colorPlomo));
-		panel_2.add(lblLotes);
 		
-		panel_8 = new Panel();
-		panel_8.setBackground(Color.decode(colorCeleste));
-		panel_8.setBounds(21, 42, 84, 3);
-		panel_8.setVisible(false);
-		panel_2.add(panel_8);
+		rayaLotes = new JPanel();
+		rayaLotes.setBounds(183, 71, 84, 3);
+		JPanel.add(rayaLotes);
+		rayaLotes.setBackground(Color.decode(colorCeleste));
 		
-		panel_3 = new Panel();
-		panel_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_3.addMouseListener(new MouseAdapter() {
+		lblInventario = new JLabel("Inventario");
+		lblInventario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblInventario.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseEntered(MouseEvent e) {
-			
-				lblInventario.setForeground(Color.decode(colorNegro));
-				panel_9.setVisible(true);
+			public void mouseClicked(MouseEvent e) {
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaProducto);
+				listado.add(rayaLotes);
+				listado.add(rayaIngreso);
+				listado.add(rayaSalida);
+				listado.add(rayaRemision);
+				FocusJpanel.lanzarFoco(rayaInventario, listado);
 				
+
+				/*para cambiar de internal*/
+				dktIntGestionProd.removeAll();
+				dktIntGestionProd.repaint();
+				IntInventario compra=new IntInventario();
+				dktIntGestionProd.add(compra);
+				try {
+					compra.setMaximum(true);
+					compra.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					compra.show(); 
+					
+				} catch (Exception ex) {
+					// TODO: handle exception
+				}
 			}
+		});
+		lblInventario.setBounds(335, 34, 68, 32);
+		JPanel.add(lblInventario);
+		lblInventario.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblInventario.setForeground(Color.decode(colorPlomo));
+		
+		rayaInventario = new JPanel();
+		rayaInventario.setBounds(329, 71, 84, 3);
+		JPanel.add(rayaInventario);
+		rayaInventario.setBackground(Color.decode(colorCeleste));
+		
+		lblEntrada = new JLabel("Ingreso");
+		lblEntrada.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblEntrada.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseExited(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaProducto);
+				listado.add(rayaLotes);
+				listado.add(rayaSalida);
+				listado.add(rayaInventario);
+				listado.add(rayaRemision);
+				FocusJpanel.lanzarFoco(rayaIngreso, listado);
 				
-				lblInventario.setForeground(Color.decode(colorPlomo));
-				panel_9.setVisible(false);
+				/*para cambiar de internal*/
+				dktIntGestionProd.removeAll();
+				dktIntGestionProd.repaint();
+				IntIngreso compra=new IntIngreso();
+				dktIntGestionProd.add(compra);
+				try {
+					compra.setMaximum(true);
+					compra.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					compra.show(); 
+					
+				} catch (Exception ex) {
+					// TODO: handle exception
+				}
 			}
+		});
+		lblEntrada.setBounds(516, 34, 74, 32);
+		JPanel.add(lblEntrada);
+		lblEntrada.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblEntrada.setForeground(Color.decode(colorPlomo));
+		
+		rayaIngreso = new JPanel();
+		rayaIngreso.setBounds(516, 71, 84, 3);
+		JPanel.add(rayaIngreso);
+		rayaIngreso.setBackground(Color.decode(colorCeleste));
+		
+		lblSalidas = new JLabel("Salida");
+		lblSalidas.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblSalidas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-					dktIntGestionProd.removeAll();
-					dktIntGestionProd.repaint();
-					IntInventario l=new IntInventario();
-					dktIntGestionProd.add(l);
-					try {
-						l.setMaximum(true);
-						l.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-						l.show(); 
-				}catch (Exception ex) {
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaProducto);
+				listado.add(rayaLotes);
+				listado.add(rayaIngreso);
+				listado.add(rayaInventario);
+				listado.add(rayaRemision);
+				FocusJpanel.lanzarFoco(rayaSalida, listado);
+				
+				/*para cambiar de internal*/
+				dktIntGestionProd.removeAll();
+				dktIntGestionProd.repaint();
+				IntSalida compra=new IntSalida();
+				dktIntGestionProd.add(compra);
+				try {
+					compra.setMaximum(true);
+					compra.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					compra.show(); 
+					
+				} catch (Exception ex) {
 					// TODO: handle exception
 				}
 				
 			}
 		});
-		panel_3.setBounds(338, 29, 120, 45);
-		panel.add(panel_3);
-		panel_3.setLayout(null);
-		
-		lblInventario = new JLabel("Inventario");
-		lblInventario.setBounds(26, 5, 68, 20);
-		lblInventario.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblInventario.setForeground(Color.decode(colorPlomo));
-		panel_3.add(lblInventario);
-		
-		panel_9 = new Panel();
-		panel_9.setBackground(Color.decode(colorCeleste));
-		panel_9.setBounds(20, 42, 84, 3);
-		panel_9.setVisible(false);
-		panel_3.add(panel_9);
-		
-		panel_4 = new Panel();
-		panel_4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_4.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-				lblEntrada.setForeground(Color.decode(colorNegro));
-				panel_10.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblEntrada.setForeground(Color.decode(colorPlomo));
-				panel_10.setVisible(false);
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dktIntGestionProd.removeAll();
-				dktIntGestionProd.repaint();
-				IntIngreso l=new IntIngreso();
-				dktIntGestionProd.add(l);
-				try {
-					l.setMaximum(true);
-					l.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-					l.show(); 
-			}catch (Exception ex) {
-				// TODO: handle exception
-			}
-			}
-		});
-		panel_4.setBounds(502, 29, 120, 45);
-		panel.add(panel_4);
-		panel_4.setLayout(null);
-		
-		lblEntrada = new JLabel("Ingreso");
-		lblEntrada.setBounds(35, 5, 50, 20);
-		lblEntrada.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		lblEntrada.setForeground(Color.decode(colorPlomo));
-		panel_4.add(lblEntrada);
-		
-		panel_10 = new Panel();
-		panel_10.setBackground(Color.decode(colorCeleste));
-		panel_10.setBounds(25, 42, 84, 3);
-		panel_10.setVisible(false);
-		panel_4.add(panel_10);
-		
-		panel_5 = new Panel();
-		panel_5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_5.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblSalidas.setForeground(Color.decode(colorNegro));
-				panel_11.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblSalidas.setForeground(Color.decode(colorPlomo));
-				panel_11.setVisible(false);
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dktIntGestionProd.removeAll();
-				dktIntGestionProd.repaint();
-				IntSalida l=new IntSalida();
-				dktIntGestionProd.add(l);
-				try {
-					l.setMaximum(true);
-					l.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-					l.show(); 
-			}catch (Exception ex) {
-				// TODO: handle exception
-			}
-				
-			}
-		});
-		panel_5.setBounds(678, 29, 120, 45);
-		panel.add(panel_5);
-		panel_5.setLayout(null);
-		
-		lblSalidas = new JLabel("Salida");
-		lblSalidas.setBounds(39, 5, 41, 20);
+		lblSalidas.setBounds(676, 34, 84, 32);
+		JPanel.add(lblSalidas);
 		lblSalidas.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblSalidas.setForeground(Color.decode(colorPlomo));
-		panel_5.add(lblSalidas);
 		
-		panel_11 = new Panel();
+		rayaSalida = new JPanel();
+		rayaSalida.setBounds(676, 71, 84, 3);
+		JPanel.add(rayaSalida);
 		
-		panel_11.setBackground(Color.decode(colorCeleste));
-		panel_11.setBounds(24, 42, 84, 3);
-		panel_11.setVisible(false);
-		panel_5.add(panel_11);
+		rayaSalida.setBackground(Color.decode(colorCeleste));
 		
-		panel_6 = new Panel();
-		panel_6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_6.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				lblRemision.setForeground(Color.decode(colorNegro));
-				panel_12.setVisible(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				lblRemision.setForeground(Color.decode(colorPlomo));
-				panel_12.setVisible(false);
-			}
+		lblRemision = new JLabel("Remision");
+		lblRemision.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblRemision.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				ArrayList<JPanel>listado=new ArrayList<>();
+				listado.add(rayaProducto);
+				listado.add(rayaLotes);
+				listado.add(rayaIngreso);
+				listado.add(rayaSalida);
+				listado.add(rayaInventario);
+				FocusJpanel.lanzarFoco(rayaRemision, listado);
+				
+				/*para cambiar de internal*/
 				dktIntGestionProd.removeAll();
 				dktIntGestionProd.repaint();
-				IntGuiaRemision l=new IntGuiaRemision();
-				dktIntGestionProd.add(l);
+				IntGuiaRemision compra=new IntGuiaRemision();
+				dktIntGestionProd.add(compra);
 				try {
-					l.setMaximum(true);
-					l.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-					l.show(); 
-			}catch (Exception ex) {
-				// TODO: handle exception
-			}
+					compra.setMaximum(true);
+					compra.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					compra.show(); 
+					
+				} catch (Exception ex) {
+					// TODO: handle exception
+				}
 			}
 		});
-		panel_6.setBounds(840, 29, 120, 45);
-		panel.add(panel_6);
-		panel_6.setLayout(null);
-		
-		lblRemision = new JLabel("Remision");
-		lblRemision.setBounds(29, 5, 61, 20);
+		lblRemision.setBounds(829, 34, 84, 32);
+		JPanel.add(lblRemision);
 		lblRemision.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblRemision.setForeground(Color.decode(colorPlomo));
-		panel_6.add(lblRemision);
 		
-		panel_12 = new Panel();
-		panel_12.setBackground(Color.decode(colorCeleste));
-		panel_12.setBounds(19, 42, 84, 3);
-		panel_12.setVisible(false);
-		panel_6.add(panel_12);
+		rayaRemision = new JPanel();
+		rayaRemision.setBounds(829, 71, 84, 3);
+		JPanel.add(rayaRemision);
+		rayaRemision.setBackground(Color.decode(colorCeleste));
+		
+		rayaProducto = new JPanel();
+		rayaProducto.setBounds(57, 71, 68, 3);
+		rayaProducto.setBackground(Color.decode(colorCeleste));
+		JPanel.add(rayaProducto);
+		rayaRemision.setVisible(false);
+		rayaSalida.setVisible(false);
+		rayaIngreso.setVisible(false);
+		rayaInventario.setVisible(false);
+		rayaLotes.setVisible(false);
 		
 		
 	

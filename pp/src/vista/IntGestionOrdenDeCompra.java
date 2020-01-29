@@ -89,15 +89,14 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		});
 		model.setColumnCount(0);
 		model.setRowCount(0);
-		model.addColumn("Nro");
-		model.addColumn("Usuario");
 		model.addColumn("Fecha de orden");
+		model.addColumn("Usuario");
+	
 		model.addColumn("Proveedor");
-		model.addColumn("Contacto");
-		model.addColumn("Telefono");
-		model.addColumn("Email");
-		model.addColumn("Nro Cotizacion");
-		model.addColumn("Fecha de cotizacion");
+	
+		
+		
+	
 		model.addColumn("Fecha de entrega");
 		model.addColumn("Total");
 		
@@ -138,8 +137,8 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 					model.getDataVector().removeAllElements();
 					lista = gc.listadoXFiltroOrden(filtro, nombre);
 					for (OrdenCompra cl : lista) {
-						Object o[] = { cl.getNroOrdenCompra(),cl.getNomUsuario(),cl.getFechaOrdenCompra(),cl.getNomProveedor(),cl.getContacto(),cl.getTelefono(),cl.getEmail()
-								,"","",cl.getFechaEntrega(),cl.getTotal() };
+						Object o[] = {  cl.getFechaOrdenCompra(),cl.getNomUsuario(),cl.getNomProveedor()
+								,cl.getFechaEntrega(),cl.getTotal()};
 						model.addRow(o);
 
 					
@@ -412,8 +411,8 @@ FrmMenuPrincipal f=new FrmMenuPrincipal();
 model.getDataVector().removeAllElements();
 		
 		for (OrdenCompra cl : lista) {
-			Object datos[] = {  cl.getNroOrdenCompra(),cl.getNomUsuario(),cl.getFechaOrdenCompra(),cl.getNomProveedor(),cl.getContacto(),cl.getTelefono(),cl.getEmail()
-								,"","",cl.getFechaEntrega(),cl.getTotal()};
+			Object datos[] = {  cl.getFechaOrdenCompra(),cl.getNomUsuario(),cl.getNomProveedor()
+								,cl.getFechaEntrega(),cl.getTotal()};
 
 			model.addRow(datos);
 			

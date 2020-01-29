@@ -328,6 +328,13 @@ public class FrmRegistroCompra extends JDialog {
 				int codigoRegisCompra=Integer.parseInt(txtOrdenCompra.getText());
 				
 				ArrayList<OrdenCompra>lista= g.listaOrdenCompra(codigoRegisCompra);
+				
+				if(lista.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "el numero de orden no existe");
+				}
+				else {
+					
+				
 				System.out.println(lista.get(0).getNomUsuario());
 				lblUsuario.setText(lista.get(0).getNomUsuario());
 				txtProveedor.setText(lista.get(0).getNomProveedor());
@@ -378,6 +385,7 @@ public class FrmRegistroCompra extends JDialog {
 				txtTotal.setText(total + "");
 				
 				*/
+				}
 			}
 		});
 		btnPoner.setBounds(10, 111, 89, 23);
@@ -407,6 +415,11 @@ public class FrmRegistroCompra extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 			grabar();
+			
+			IntGestionDeCompra.model.setRowCount(0);
+			IntGestionDeCompra.listadoRegistroCompra();
+			dispose();
+			
 			}
 		});
 		label_6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

@@ -387,7 +387,7 @@ FrmMenuPrincipal.lblCargo.setText("Administrador");
 
 FrmMenuPrincipal.lblUser2.setIcon(new ImageIcon(FrmLogin.class.getResource("/img/user2.png")));
 FrmMenuPrincipal.lblIconoUsu.setIcon(new ImageIcon(FrmLogin.class.getResource("/img/user2.png")));
-dispose();
+dispose(); 
 }
 
 if (e.getId_tip_emp().equals("2")) {
