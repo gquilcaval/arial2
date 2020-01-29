@@ -66,7 +66,7 @@ try {
 FrmLogin frame = new FrmLogin();
 frame.setVisible(true);
 
-frame.setLocationRelativeTo(null);// <----------------------
+frame.setLocationRelativeTo(null);// <---------------------
 // CENTRANDO EL FRAME
 } catch (Exception e) {
 e.printStackTrace();
