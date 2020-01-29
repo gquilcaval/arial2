@@ -52,7 +52,7 @@ public class frmPerfil extends JDialog {
 			frmPerfil dialog = new frmPerfil();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			dialog.setLocationRelativeTo(null);
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -71,6 +71,7 @@ public class frmPerfil extends JDialog {
 		getContentPane().setFont(new Font("Dialog", Font.PLAIN, 15));
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 472, 621);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		{
 			JLabel lblNombre = new JLabel("Nombre");

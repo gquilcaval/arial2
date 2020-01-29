@@ -34,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+import java.awt.SystemColor;
 
 public class IntFinanza_pagos extends JInternalFrame {
 	private JTable tblCobranza;
@@ -56,13 +57,12 @@ public class IntFinanza_pagos extends JInternalFrame {
 
 	Tabla t=new Tabla();
 	private JTextField txtBusqUsu;
-	private JTable tblCobranzaHoy;
 	/**
 	 * Create the frame.
 	 */
 	public IntFinanza_pagos() {
 		getContentPane().setBackground(Color.decode("#ebf0f4"));
-		setBounds(0, 68, 1642, 806);
+		setBounds(0, 68, 1642, 851);
 		setBorder(null);
 		/*-----BORDE SUPERIOR DISABLE ----*/
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
@@ -94,7 +94,7 @@ public class IntFinanza_pagos extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				RegistroUsuario registroUsuario=new RegistroUsuario();
+				JdialogRegistroUsuario registroUsuario=new JdialogRegistroUsuario();
 				registroUsuario.setVisible(true);
 				registroUsuario.setLocationRelativeTo(null);
 			}
@@ -121,7 +121,7 @@ public class IntFinanza_pagos extends JInternalFrame {
 		panel.add(lblNuevo);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(442, 70, 1190, 709);
+		scrollPane.setBounds(442, 70, 1190, 753);
 		getContentPane().add(scrollPane);
 		
 		tblCobranza = new JTable();
@@ -258,46 +258,44 @@ public class IntFinanza_pagos extends JInternalFrame {
 		getContentPane().add(txtBusqUsu);
 		txtBusqUsu.setColumns(10);
 		
+		JDateChooser dtpFecha = new JDateChooser();
+		dtpFecha.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 11));
+		dtpFecha.setBounds(442, 11, 226, 35);
+		getContentPane().add(dtpFecha);
+		
 		JPanel panelConbranzaHoy = new JPanel();
-		panelConbranzaHoy.setBackground(Color.decode("#1493e1"));
-		panelConbranzaHoy.setBounds(0, 0, 408, 779);
-		getContentPane().add(panelConbranzaHoy);
 		panelConbranzaHoy.setLayout(null);
+		panelConbranzaHoy.setBackground(new Color(45, 54, 63));
+		panelConbranzaHoy.setBounds(29, 11, 378, 812);
+		getContentPane().add(panelConbranzaHoy);
 		
 		JLabel lblHoy = new JLabel("HOY");
-		lblHoy.setForeground(new Color(240,240,240,240));
+		lblHoy.setForeground(new Color(240, 240, 240, 240));
 		lblHoy.setFont(new Font("Segoe UI", Font.BOLD, 24));
-		lblHoy.setBounds(172, 11, 52, 37);
+		lblHoy.setBounds(150, 17, 52, 37);
 		panelConbranzaHoy.add(lblHoy);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 70, 408, 644);
+		scrollPane_1.setBounds(0, 70, 378, 644);
 		panelConbranzaHoy.add(scrollPane_1);
 		
-		tblCobranzaHoy = new JTable();
-		scrollPane_1.setViewportView(tblCobranzaHoy);
-		
 		JLabel lblTotalCobraHoy = new JLabel("1400");
-		lblTotalCobraHoy.setForeground(new Color(240,240,240));
-		lblTotalCobraHoy.setBounds(150, 725, 74, 45);
-		panelConbranzaHoy.add(lblTotalCobraHoy);
+		lblTotalCobraHoy.setForeground(SystemColor.menu);
 		lblTotalCobraHoy.setFont(new Font("Segoe UI", Font.BOLD, 27));
+		lblTotalCobraHoy.setBounds(150, 747, 74, 45);
+		panelConbranzaHoy.add(lblTotalCobraHoy);
 		
 		JLabel lblS = new JLabel("S/.");
-		lblS.setForeground(new Color(240,240,240));
-		lblS.setBounds(114, 726, 34, 45);
-		panelConbranzaHoy.add(lblS);
+		lblS.setForeground(SystemColor.menu);
 		lblS.setFont(new Font("Segoe UI", Font.BOLD, 26));
+		lblS.setBounds(114, 748, 34, 45);
+		panelConbranzaHoy.add(lblS);
 		
 		JLabel lblT = new JLabel("Total");
-		lblT.setForeground(new Color(240,240,240));
-		lblT.setBounds(27, 725, 75, 45);
-		panelConbranzaHoy.add(lblT);
+		lblT.setForeground(SystemColor.menu);
 		lblT.setFont(new Font("Segoe UI", Font.BOLD, 25));
-		
-		JDateChooser dtpFecha = new JDateChooser();
-		dtpFecha.setBounds(442, 11, 226, 35);
-		getContentPane().add(dtpFecha);
+		lblT.setBounds(27, 747, 75, 45);
+		panelConbranzaHoy.add(lblT);
 		
 
 			}

@@ -26,9 +26,10 @@ public class HintTextField extends JTextField {
             int c1 = getForeground().getRGB();
             int m = 0xfefefefe;
             int c2 = ((c0 & m) >>> 1) + ((c1 & m) >>> 1);
-            g.setColor(new Color(c2, true));
+            g.setColor(Color.LIGHT_GRAY);
+            
             g.setFont(g.getFont().deriveFont(Font.ITALIC));
-            g.drawString(_hint, ins.left, h / 2 + fm.getAscent() / 2 - 2);
+            g.drawString(_hint, ins.left+30, h / 2 + fm.getAscent() / 2 - 2);
         }
     }
     private final String _hint;

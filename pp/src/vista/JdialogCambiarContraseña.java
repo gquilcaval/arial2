@@ -52,6 +52,7 @@ public class JdialogCambiarContraseña extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(JdialogCambiarContraseña.class.getResource("/img/llave.png")));
 		setTitle("cambiar contrase\u00F1a");
 		setBounds(100, 100, 468, 256);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.WHITE);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

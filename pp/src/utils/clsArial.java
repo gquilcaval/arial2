@@ -6,13 +6,16 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 
-
+import javax.print.attribute.standard.RequestingUserName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import org.jfree.chart.axis.StandardTickUnitSource;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import model.RoundedCornerBorder;
 import vista.IntCobranza;
@@ -21,13 +24,19 @@ import vista.IntUsuario;
 
 public  class clsArial    {
 
+	public static String colorCeleste="#0f95ec";
+	public static String colorMenu="#2D363F";
+	public static String colorHover="#232b37";
+	public static String colorBlancoHumo="#f0f0f0";
+	public static String colorBlancoHumoClaro="#FAFAFA";
+	public static String colorGrisOscuro="#959595";
 	
 	public clsArial() {
 		// TODO Auto-generated constructor stub
 	}
 
 	
-	
+	/*--- METODO ICONOS PERSONALIZADOS -- */
 	public Icon modifiedIcon(String url,int with,int heigh) {
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource(url));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(with, heigh, Image.SCALE_SMOOTH);
@@ -35,7 +44,9 @@ public  class clsArial    {
 		return iconoEscalado;
 	}
 	
-	public void setInternalFrame(JDesktopPane Desktop,JInternalFrame Internalframe,JDesktopPane subDesktop,JInternalFrame subInternalFrame) {
+	
+	/*--- METODO DEFINIR INTERNAL FRAME Y SUB INTERAL FRAME -- */
+	public static void setInternalFrame(JDesktopPane Desktop,JInternalFrame Internalframe,JDesktopPane subDesktop,JInternalFrame subInternalFrame) {
 		Desktop.removeAll();
 		Desktop.repaint();
 	
@@ -71,6 +82,12 @@ public  class clsArial    {
 			// TODO: handle exception
 		}
 
+	
+	
+
+		
+		
+		
 	}
 	
 

@@ -49,6 +49,7 @@ import java.awt.Cursor;
 import javax.swing.JDesktopPane;
 import javax.swing.JDialog;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Panel;
@@ -99,9 +100,7 @@ public class FrmMenuPrincipal extends JFrame {
 	private JLabel label_6;
 	private JLabel lblArial;
 	private JLabel label_4;
-	private String colorCeleste="#0f95ec";
-	private String colorMenu="#2D363F";
-	private String colorHover="#232b37";
+
 	private JPanel panel_4;
 	private JLabel label_14;
 	private JLabel label_15;
@@ -123,6 +122,7 @@ public class FrmMenuPrincipal extends JFrame {
 
 	
 	clsArial clsIcono=new clsArial();
+	static FrmMenuPrincipal frame ;
 	/**
 	 * Launch the application.
 	 */
@@ -130,7 +130,7 @@ public class FrmMenuPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrmMenuPrincipal frame = new FrmMenuPrincipal();
+					frame= new FrmMenuPrincipal();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
@@ -191,7 +191,7 @@ public class FrmMenuPrincipal extends JFrame {
 				
 				panel_4 = new JPanel();
 				panel_4.setBounds(0, 0, 222, 950);
-				panel_4.setBackground(Color.decode("#2D363F"));
+				panel_4.setBackground(Color.decode(new clsArial().colorMenu));
 				contentPane.add(panel_4);
 				panel_4.setLayout(null);
 				
@@ -212,7 +212,7 @@ public class FrmMenuPrincipal extends JFrame {
 					
 					public void mouseEntered(MouseEvent e) {
 						label_13.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
-						panel_dashboard.setBackground(Color.decode(colorHover));
+						panel_dashboard.setBackground(Color.decode(new clsArial().colorHover));
 						
 						lblDashboard.setForeground(Color.WHITE);
 						label_13.setVisible(true);
@@ -222,7 +222,7 @@ public class FrmMenuPrincipal extends JFrame {
 					public void mouseExited(MouseEvent e) {
 						label_13.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
 						label_13.setForeground(Color.decode("#98a3af"));
-						panel_dashboard.setBackground(Color.decode(colorMenu));
+						panel_dashboard.setBackground(Color.decode(new clsArial().colorMenu));
 						label_13.setVisible(false);
 						
 					}
@@ -281,7 +281,7 @@ public class FrmMenuPrincipal extends JFrame {
 							
 
 							label_11.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
-							panel_ventas.setBackground(Color.decode(colorHover));
+							panel_ventas.setBackground(Color.decode(new clsArial().colorHover));
 							lblComercial.setForeground(Color.white);
 							label_11.setVisible(true);
 							
@@ -290,7 +290,7 @@ public class FrmMenuPrincipal extends JFrame {
 						@Override
 						public void mouseExited(MouseEvent e) {
 							label_11.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
-							panel_ventas.setBackground(Color.decode(colorMenu));
+							panel_ventas.setBackground(Color.decode(new clsArial().colorMenu));
 							lblComercial.setForeground(Color.decode("#98a3af"));
 							label_11.setVisible(false);
 							
@@ -364,7 +364,7 @@ public class FrmMenuPrincipal extends JFrame {
 						public void mouseEntered(MouseEvent e) {
 							
 							label_12.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
-							panelCompras.setBackground(Color.decode(colorHover));
+							panelCompras.setBackground(Color.decode(new clsArial().colorHover));
 							lblCompras.setForeground(Color.WHITE);
 							label_12.setVisible(true);
 							
@@ -374,7 +374,7 @@ public class FrmMenuPrincipal extends JFrame {
 						public void mouseExited(MouseEvent e) {
 							
 							label_12.setBorder(new LineBorder(new Color(38, 162, 252), 4, true));
-							panelCompras.setBackground(Color.decode(colorMenu));
+							panelCompras.setBackground(Color.decode(new clsArial().colorMenu));
 							lblCompras.setForeground(Color.decode("#98a3af"));
 							label_12.setVisible(false);
 							
@@ -432,7 +432,7 @@ public class FrmMenuPrincipal extends JFrame {
 						@Override
 						public void mouseEntered(MouseEvent e) {
 							
-							panelAlmacen.setBackground(Color.decode(colorHover));
+							panelAlmacen.setBackground(Color.decode(new clsArial().colorHover));
 						lblAlmacen.setForeground(Color.WHITE);
 							
 							label_14.setOpaque(true);
@@ -441,7 +441,7 @@ public class FrmMenuPrincipal extends JFrame {
 						}
 						@Override
 						public void mouseExited(MouseEvent e) {
-							panelAlmacen.setBackground(Color.decode(colorMenu));
+							panelAlmacen.setBackground(Color.decode(new clsArial().colorMenu));
 							lblAlmacen.setForeground(Color.decode("#98a3af"));
 							
 							label_14.setOpaque(false);
@@ -493,7 +493,7 @@ public class FrmMenuPrincipal extends JFrame {
 					
 					label_14 = new JLabel("");
 					label_14.setBounds(218, 0, 3, 52);
-					label_14.setBackground(Color.decode(colorCeleste));
+					label_14.setBackground(Color.decode(new clsArial().colorCeleste));
 					label_14.setOpaque(false);
 					panelAlmacen.add(label_14);
 					
@@ -660,9 +660,10 @@ public class FrmMenuPrincipal extends JFrame {
 						/*---- ABRIR Y ENVIAR TODOS LOS DATOS A DIALOG PERFIL -----------------------*/
 						public void mouseClicked(MouseEvent arg0) {
 							frmPerfil f=new frmPerfil();
-							f.setVisible(true);
-							f.setLocationRelativeTo(null);
-							
+						
+								f.setVisible(true);
+								f.setLocationRelativeTo(null);
+								
 							
 							
 							if (FrmLogin.e.getId_tip_emp().equals("1")) {

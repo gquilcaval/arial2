@@ -94,7 +94,7 @@ public class IntUsuario extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				RegistroUsuario registroUsuario=new RegistroUsuario();
+				JdialogRegistroUsuario registroUsuario=new JdialogRegistroUsuario();
 				registroUsuario.setVisible(true);
 				registroUsuario.setLocationRelativeTo(null);
 			}

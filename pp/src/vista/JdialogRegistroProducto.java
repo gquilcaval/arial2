@@ -18,7 +18,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.border.MatteBorder;
 
-public class RegistroProducto extends JDialog {
+public class JdialogRegistroProducto extends JDialog {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -30,7 +30,7 @@ public class RegistroProducto extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistroProducto dialog = new RegistroProducto();
+					JdialogRegistroProducto dialog = new JdialogRegistroProducto();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -43,7 +43,7 @@ public class RegistroProducto extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegistroProducto() {
+	public JdialogRegistroProducto() {
 		getContentPane().setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 1037, 834);

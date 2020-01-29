@@ -73,6 +73,7 @@ private  ButtonGroup genero;
 		setTitle("Registro Perfil");
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 410, 246);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();

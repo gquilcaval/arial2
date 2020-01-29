@@ -63,6 +63,7 @@ public class RegistroProveedor extends JDialog {
 	public RegistroProveedor() {
 		setModal(true);
 		setBounds(100, 100,914, 621);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();

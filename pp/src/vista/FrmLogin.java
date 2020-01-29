@@ -6,6 +6,8 @@ import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -38,13 +40,17 @@ import javax.swing.border.EmptyBorder;
 import mantenimientos.GestionEmpledos;
 import model.Clientes;
 import model.Empleados;
+import model.HintTextField;
+import model.RoundedCornerBorder;
 import model.TipoEmpleado;
+import utils.clsArial;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 import javax.swing.JComboBox;
+import javax.swing.border.LineBorder;
 
 
 @SuppressWarnings("serial")
@@ -52,9 +58,13 @@ public class FrmLogin extends javax.swing.JFrame  {
 public String colorPrincipal="#232f43";
 private JPanel Jpanel_menu_login;
 private JPasswordField txtClaveUsu;
-public static JTextField txtIngUsu;
-private JButton btnIniciarSecin;
+public static HintTextField txtIngUsu;
 public static Empleados e;
+private JPanel btnIniciarSecin;
+private JPanel btnLogin;
+private JPanel btnRegistrar;
+private JLabel lblRegistrar;
+private JLabel lblLogin;
 
 /**
 * Launch the application.
@@ -84,7 +94,7 @@ setVisible(true);
 
 
 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-setBounds(100, 100, 634, 388);
+setBounds(100, 100, 983, 509);
 
 Jpanel_menu_login = new JPanel();
 Jpanel_menu_login.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -92,18 +102,13 @@ setContentPane(Jpanel_menu_login);
 Jpanel_menu_login.setLayout(null);
 
 JPanel jPanel_banner = new JPanel();
-jPanel_banner.setBounds(0, 0, 317, 388);
+jPanel_banner.setBounds(0, 0, 575, 509);
 Jpanel_menu_login.add(jPanel_banner);
 jPanel_banner.setLayout(null);
 
 JLabel lblBanner = new JLabel("");
-lblBanner.setBounds(0, 1, 317, 388);
+lblBanner.setBounds(0, 0, 576, 509);
 jPanel_banner.add(lblBanner);
-
-JLabel lblImagenGif = new JLabel("");
-lblImagenGif.setBounds(0, 306, 56, 82);
-jPanel_banner.add(lblImagenGif);
-lblImagenGif.setIcon(new ImageIcon("https://gph.is/st/md78n9Y"));
 
 
 JMenuBar menuBar = new JMenuBar();
@@ -128,122 +133,319 @@ mnEnter.add(mntmPressEnter);
 addComponentListener(new ComponentAdapter() {
 @Override
 public void componentResized(ComponentEvent ev) {
-Image imgFondo = new ImageIcon(getClass().getResource("/img/fondo.jpg")).getImage();
-lblBanner.setIcon(new ImageIcon(imgFondo.getScaledInstance(317, 388, Image.SCALE_DEFAULT)));
+Image imgFondo = new ImageIcon(getClass().getResource("/img/pastillas.gif")).getImage();
+lblBanner.setIcon(new ImageIcon(imgFondo.getScaledInstance(576	, 509, Image.SCALE_DEFAULT)));
 }
 });
 /*-------------------------------------------------------------------------------*/
 
 JPanel Jpanel_Login = new JPanel();
-Jpanel_Login.setBackground(Color.decode(colorPrincipal));
-Jpanel_Login.setBounds(317, 31, 318, 357);
+Jpanel_Login.setBorder(null);
+Jpanel_Login.setBackground(Color.WHITE);
+Jpanel_Login.setBounds(575, 29, 408, 480);
 Jpanel_menu_login.add(Jpanel_Login);
 Jpanel_Login.setLayout(null);
 
 JLabel lblIniciarSesion = new JLabel("Iniciar Sesi\u00F3n");
-lblIniciarSesion.setBounds(56, 36, 212, 35);
-lblIniciarSesion.setFont(new Font("Candara Light", Font.PLAIN, 34));
-lblIniciarSesion.setForeground(Color.WHITE);
+lblIniciarSesion.setBounds(115, 145, 212, 35);
+lblIniciarSesion.setFont(new Font("Candara", Font.PLAIN, 34));
+lblIniciarSesion.setForeground(Color.decode(clsArial.colorGrisOscuro));
 lblIniciarSesion.setBackground(Color.WHITE);
 Jpanel_Login.add(lblIniciarSesion);
+btnIniciarSecin = new JPanel() {
+	protected void paintComponent(Graphics g) {
+		if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+			Graphics2D g2 = (Graphics2D) g.create();
+			g2.setPaint(getBackground());
+			g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+			g2.dispose();
+		}
+		super.paintComponent(g);
+	}
 
-JLabel lblUser = new JLabel("New label");
-lblUser.setBounds(46, 146, 24, 25);
+	@Override
+	public void updateUI() {
+		super.updateUI();
+		setOpaque(false);
+		setBorder(new RoundedCornerBorder());
+	}
+};
+btnIniciarSecin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+btnIniciarSecin.setLayout(null);
+btnIniciarSecin.setBackground(new Color(51, 51, 51));
+btnIniciarSecin.setBounds(145, 375, 132, 35);
+Jpanel_Login.add(btnIniciarSecin);
+JLabel lblIngresar = new JLabel("Ingresar");
+lblIngresar.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		validarLogin();
+	}
+});
+lblIngresar.setHorizontalAlignment(SwingConstants.CENTER);
+lblIngresar.setForeground(Color.WHITE);
+lblIngresar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+lblIngresar.setBounds(0, 0, 132, 35);
+btnIniciarSecin.add(lblIngresar);
+JLabel lblNewLabel = new JLabel("Olvidaste Tu Contrase\u00F1a ?");
+lblNewLabel.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		JdialogOlvidateContraseña olvidateContraseña=new JdialogOlvidateContraseña();
+		olvidateContraseña.setVisible(true);
+	}
+});
+lblNewLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+lblNewLabel.setForeground(Color.LIGHT_GRAY);
+lblNewLabel.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
+lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+lblNewLabel.setBounds(115, 431, 198, 14);
+Jpanel_Login.add(lblNewLabel);
+JPanel panel = new JPanel() {
+	protected void paintComponent(Graphics g) {
+		if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+			Graphics2D g2 = (Graphics2D) g.create();
+			g2.setPaint(getBackground());
+			g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+			g2.dispose();
+		}
+		super.paintComponent(g);
+	}
+
+	@Override
+	public void updateUI() {
+		super.updateUI();
+		setOpaque(false);
+		setBorder(new RoundedCornerBorder());
+	}
+};
+panel.setBackground(Color.WHITE);
+panel.setBounds(60, 232, 311, 40);
+Jpanel_Login.add(panel);
+panel.setLayout(null);
+
+JLabel lblUser = new JLabel("");
+lblUser.setHorizontalAlignment(SwingConstants.CENTER);
+lblUser.setBounds(10, 2, 36, 35);
+panel.add(lblUser);
 lblUser.setForeground(Color.BLACK);
-lblUser.setIcon(new ImageIcon(FrmLogin.class.getResource("/img/user.png")));
-Jpanel_Login.add(lblUser);
+lblUser.setIcon(new clsArial().modifiedIcon("/img/user.png", 20, 25));
+
+txtIngUsu = new HintTextField("Ingrese Su Usuario");
+txtIngUsu.setBounds(56, 1, 212, 35);
+panel.add(txtIngUsu);
+txtIngUsu.setBorder(null);
+txtIngUsu.setHorizontalAlignment(SwingConstants.CENTER);
+txtIngUsu.setCaretColor(Color.LIGHT_GRAY);
+txtIngUsu.setAlignmentY(Component.TOP_ALIGNMENT);
+txtIngUsu.setBackground(Color.WHITE);
+txtIngUsu.setForeground(Color.LIGHT_GRAY);
+txtIngUsu.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+txtIngUsu.setColumns(10);
+txtIngUsu.requestFocus();// <---------- ENFOCA EL TEXFIELD PARA
+// FUNCIONALIDAD DEL SETCARETPOSITION
+txtIngUsu.setCaretPosition(0);
+JPanel panel_3 = new JPanel() {
+	protected void paintComponent(Graphics g) {
+		if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+			Graphics2D g2 = (Graphics2D) g.create();
+			g2.setPaint(getBackground());
+			g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+			g2.dispose();
+		}
+		super.paintComponent(g);
+	}
+
+	@Override
+	public void updateUI() {
+		super.updateUI();
+		setOpaque(false);
+		setBorder(new RoundedCornerBorder());
+	}
+};
+panel_3.setLayout(null);
+panel_3.setBackground(Color.WHITE);
+panel_3.setBounds(60, 293, 311, 40);
+Jpanel_Login.add(panel_3);
 
 JLabel lblPadlock = new JLabel("");
-lblPadlock.setBounds(48, 199, 24, 34);
-lblPadlock.setIcon(new ImageIcon(FrmLogin.class.getResource("/img/if_Padlock-RAD_2834766.png")));
-Jpanel_Login.add(lblPadlock);
-
-JSeparator separator = new JSeparator();
-separator.setAlignmentY(Component.TOP_ALIGNMENT);
-separator.setForeground(new Color(121, 121, 155));
-separator.setBounds(98, 168, 125, 2);
-separator.setBackground(new Color(18, 30, 49));
-Jpanel_Login.add(separator);
-
-JSeparator separator_1 = new JSeparator();
-separator_1.setForeground(new Color(121, 121, 155));
-separator_1.setBackground(new Color(18, 30, 49));
-separator_1.setBounds(98, 227, 125, 2);
-Jpanel_Login.add(separator_1);
+lblPadlock.setHorizontalAlignment(SwingConstants.CENTER);
+lblPadlock.setBounds(10, 2, 36, 35);
+panel_3.add(lblPadlock);
+lblPadlock.setIcon(new clsArial().modifiedIcon("/img/candado.png", 23, 30));
 
 txtClaveUsu = new JPasswordField();
+txtClaveUsu.setText("Ingrese Su Clave");
+txtClaveUsu.setBounds(54, 1, 190, 35);
+panel_3.add(txtClaveUsu);
 txtClaveUsu.setCaretColor(Color.GRAY);
-txtClaveUsu.setBackground(Color.decode(colorPrincipal));
-txtClaveUsu.setBounds(105, 209, 96, 17);
-txtClaveUsu.setText("Ingrese Clave");
+txtClaveUsu.setBackground(Color.WHITE);
 txtClaveUsu.setHorizontalAlignment(SwingConstants.CENTER);
-txtClaveUsu.setForeground(Color.WHITE);
-txtClaveUsu.setFont(new Font("Verdana", Font.ITALIC, 11));
+txtClaveUsu.setForeground(Color.LIGHT_GRAY);
+txtClaveUsu.setFont(new Font("Segoe UI", Font.ITALIC, 17));
 txtClaveUsu.setEchoChar((char) 0);// <--------- QUITA LA OPCION DEL *
 txtClaveUsu.setCaretPosition(0);
 txtClaveUsu.setBorder(null);
-txtClaveUsu.requestFocus();// <---------- ENFOCA EL TEXFIELD PARA
-// FUNCIONALIDAD DEL SETCARETPOSITION
+btnLogin = new JPanel(){
+	protected void paintComponent(Graphics g) {
+		if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+			Graphics2D g2 = (Graphics2D) g.create();
+			g2.setPaint(getBackground());
+			g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+			g2.dispose();
+		}
+		super.paintComponent(g);
+	}
 
-Jpanel_Login.add(txtClaveUsu);
+	@Override
+	public void updateUI() {
+		super.updateUI();
+		setOpaque(false);
+		setBorder(new RoundedCornerBorder());
+	}
+};
+btnLogin.setBounds(212, 36, 81, 35);
+Jpanel_Login.add(btnLogin);
+btnLogin.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		
+		lblLogin.setForeground(Color.WHITE);
+		btnLogin.setBackground(Color.decode(clsArial.colorCeleste));
+		
+		lblRegistrar.setForeground(Color.GRAY);
+		btnRegistrar.setBackground(Color.WHITE);
+	}
+});
+btnLogin.setBackground(Color.decode(clsArial.colorCeleste));
+btnLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+btnLogin.setLayout(null);
+lblLogin = new JLabel("Login");
+lblLogin.setBounds(10, 0, 61, 35);
+btnLogin.add(lblLogin);
+lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
+lblLogin.setForeground(Color.WHITE);
+lblLogin.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+btnRegistrar = new JPanel() {
+	
+	protected void paintComponent(Graphics g) {
+		if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+			Graphics2D g2 = (Graphics2D) g.create();
+			g2.setPaint(getBackground());
+			g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+			g2.dispose();
+		}
+		super.paintComponent(g);
+	}
 
-txtIngUsu = new JTextField();
-txtIngUsu.setHorizontalAlignment(SwingConstants.CENTER);
-txtIngUsu.setCaretColor(Color.GRAY);
-txtIngUsu.setAlignmentY(Component.TOP_ALIGNMENT);
-txtIngUsu.setBackground(Color.decode(colorPrincipal));
-txtIngUsu.setBounds(105, 150, 96, 17);
-txtIngUsu.setText("Ingrese Usuario");
-txtIngUsu.setForeground(Color.WHITE);
-txtIngUsu.setFont(new Font("Verdana", Font.ITALIC, 11));
-txtIngUsu.setColumns(10);
-txtIngUsu.setBorder(null);
-txtIngUsu.requestFocus();// <---------- ENFOCA EL TEXFIELD PARA
-// FUNCIONALIDAD DEL SETCARETPOSITION
-txtIngUsu.setCaretPosition(0);// <---------- COLOCA EL CURSOR AL
-// COMIENZO
-Jpanel_Login.add(txtIngUsu);
+	@Override
+	public void updateUI() {
+		super.updateUI();
+		setOpaque(false);
+		setBorder(new RoundedCornerBorder());
+	}
+};
+btnRegistrar.setBackground(Color.WHITE);
+btnRegistrar.setBounds(297, 36, 81, 35);
+Jpanel_Login.add(btnRegistrar);
+btnRegistrar.addMouseListener(new MouseAdapter() {
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		
+		lblLogin.setForeground(Color.GRAY);
+		btnLogin.setBackground(Color.WHITE);
+		
+		lblRegistrar.setForeground(Color.WHITE);
+		btnRegistrar.setBackground(Color.decode(clsArial.colorCeleste));
+	String claveAdmin=	JOptionPane.showInputDialog(null,"clave del administrador","Acceso Restringido",JOptionPane.INFORMATION_MESSAGE);
+		if (claveAdmin.equals("0")) {
+			
+		}
+		JdialogRegistroUsuario registroUsuario=new JdialogRegistroUsuario();
+		registroUsuario.setVisible(true);
 
-btnIniciarSecin = new JButton("INICIAR SECI\u00D3N");
-btnIniciarSecin.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent arg0) {
+	}
+});
+btnRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+btnRegistrar.setLayout(null);
+lblRegistrar = new JLabel("Registrar");
+lblRegistrar.setBounds(6, 0, 68, 35);
+btnRegistrar.add(lblRegistrar);
+lblRegistrar.setHorizontalAlignment(SwingConstants.CENTER);
+lblRegistrar.setForeground(Color.GRAY);
+lblRegistrar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
+txtClaveUsu.requestFocus();
 
+txtClaveUsu.addKeyListener(new KeyAdapter() {
+
+/*----------> FUNCIONALIDAD  AL SOLTAR LA TECLA  <------------*/
+@SuppressWarnings("deprecation")
+public void keyReleased(KeyEvent e) {
+if (txtClaveUsu.getText().equals("")) {
+txtClaveUsu.setEchoChar((char) 0);
+
+txtClaveUsu.setText("Ingrese Su Clave");
+txtClaveUsu.setCaretPosition(0);// <---------- COLOCA EL
+// CURSOR AL COMIENZO
+txtClaveUsu.setForeground(Color.LIGHT_GRAY);
+txtClaveUsu.setFont(new Font("Segoe UI", Font.ITALIC, 17));
+
+}
+
+}
+
+/*----------> FUNCIONALIDAD  AL PULSAR LA TECLA  <------------*/
+@SuppressWarnings("deprecation")
+public void keyPressed(KeyEvent e) {
+if (txtClaveUsu.getText().equals("Ingrese Su Clave")) {
+txtClaveUsu.setEchoChar('*');
+txtClaveUsu.setText("");
+txtClaveUsu.setForeground(Color.black);
+txtClaveUsu.setFont(new Font("Segoe UI", Font.ITALIC, 17));
+}
 
 }
 });
+txtIngUsu.addKeyListener(new KeyAdapter() {
 
-btnIniciarSecin.addMouseListener(new MouseAdapter() {
-@Override
-public void mouseClicked(MouseEvent arg0) {
+public void keyReleased(KeyEvent e) {
 
-validarLogin();
+validacionUsuario();
+if (txtIngUsu.getText().equals("")) {
+
+
+txtIngUsu.setCaretPosition(0);// <---------- COLOCA EL
+// CURSOR AL COMIENZO
+txtIngUsu.setForeground(Color.LIGHT_GRAY);
+txtIngUsu.setFont(new Font("Segoe UI", Font.ITALIC, 17));
+}
+
+}
+
+/*----------> FUNCIONALIDAD  AL PULSAR LA TECLA  <------------*/
+public void keyPressed(KeyEvent e) {
+if (txtIngUsu.getText().equals("Ingrese Su Usuario")) {
+txtIngUsu.setForeground(Color.black);
+
+txtIngUsu.setFont(new Font("Segoe UI", Font.ITALIC, 17));
+}
+
 }
 });
-
-btnIniciarSecin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-btnIniciarSecin.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
-btnIniciarSecin.setForeground(Color.WHITE);
-btnIniciarSecin.setBackground(Color.decode("#98b4b5"));
-btnIniciarSecin.setBorder(null);
-btnIniciarSecin.setBounds(80, 292, 154, 35);
-btnIniciarSecin.setBorderPainted(true);
-
-btnIniciarSecin.setContentAreaFilled(true);
-
-Jpanel_Login.add(btnIniciarSecin);
 
 JPanel jPanel_Barra = new JPanel();
-jPanel_Barra.setBackground(Color.decode(colorPrincipal));
-jPanel_Barra.setBounds(317, 0, 318, 32);
+jPanel_Barra.setBackground(Color.WHITE);
+jPanel_Barra.setBounds(575, 0, 408, 32);
 Jpanel_menu_login.add(jPanel_Barra);
 jPanel_Barra.setLayout(null);
 
 JLabel lblCerrar = new JLabel("");
+lblCerrar.setHorizontalAlignment(SwingConstants.CENTER);
 lblCerrar.setBackground(new Color(51, 51, 51));
-lblCerrar.setBounds(292, 4, 15, 17);
+lblCerrar.setBounds(372, 0, 36, 30);
 jPanel_Barra.add(lblCerrar);
 lblCerrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-lblCerrar.setIcon(new ImageIcon(FrmLogin.class.getResource("/img/close.png")));
+lblCerrar.setIcon(new clsArial().modifiedIcon("/img/close.png", 28, 28));
 
 /*-----------------------> FUNCIONALIDAD CERRAR FRAME  CON OPCIONES <----------------------------*/
 
@@ -266,67 +468,10 @@ System.exit(0);
 /*-----------------------> FUNCIONALIDAD  TECLA USUARIO <----------------------------*/
 
 /*----------> FUNCIONALIDAD  AL SOLTAR LA TECLA  <------------*/
-txtIngUsu.addKeyListener(new KeyAdapter() {
-
-public void keyReleased(KeyEvent e) {
-
-validacionUsuario();
-if (txtIngUsu.getText().equals("")) {
-
-txtIngUsu.setText("Ingrese Usuario");
-txtIngUsu.setCaretPosition(0);// <---------- COLOCA EL
-// CURSOR AL COMIENZO
-txtIngUsu.setForeground(Color.GRAY);
-txtIngUsu.setFont(new Font("Verdana", Font.ITALIC, 11));
-}
-
-}
-
-/*----------> FUNCIONALIDAD  AL PULSAR LA TECLA  <------------*/
-public void keyPressed(KeyEvent e) {
-if (txtIngUsu.getText().equals("Ingrese Usuario")) {
-txtIngUsu.setForeground(Color.LIGHT_GRAY);
-txtIngUsu.setText("");
-txtIngUsu.setFont(new Font("Segoe UI Semibold", Font.ITALIC, 14));
-}
-
-}
-});
 
 /*-------------------------------------------------------------------------------------*/
 
 /*-----------------------> FUNCIONALIDAD  TECLA CLAVE <----------------------------*/
-
-txtClaveUsu.addKeyListener(new KeyAdapter() {
-
-/*----------> FUNCIONALIDAD  AL SOLTAR LA TECLA  <------------*/
-@SuppressWarnings("deprecation")
-public void keyReleased(KeyEvent e) {
-if (txtClaveUsu.getText().equals("")) {
-txtClaveUsu.setEchoChar((char) 0);
-
-txtClaveUsu.setText("Ingrese Clave");
-txtClaveUsu.setCaretPosition(0);// <---------- COLOCA EL
-// CURSOR AL COMIENZO
-txtClaveUsu.setForeground(Color.GRAY);
-txtClaveUsu.setFont(new Font("Verdana", Font.ITALIC, 11));
-
-}
-
-}
-
-/*----------> FUNCIONALIDAD  AL PULSAR LA TECLA  <------------*/
-@SuppressWarnings("deprecation")
-public void keyPressed(KeyEvent e) {
-if (txtClaveUsu.getText().equals("Ingrese Clave")) {
-txtClaveUsu.setEchoChar('*');
-txtClaveUsu.setText("");
-txtClaveUsu.setForeground(Color.LIGHT_GRAY);
-txtClaveUsu.setFont(new Font("Segoe UI Semibold", Font.ITALIC, 14));
-}
-
-}
-});
 
 
 }
@@ -345,7 +490,7 @@ btnIniciarSecin.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 
 btnIniciarSecin.setEnabled(true);
 
-btnIniciarSecin.setBackground(SystemColor.windowBorder);
+btnIniciarSecin.setBackground(Color.decode(clsArial.colorCeleste));
 btnIniciarSecin.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 
 }
@@ -354,7 +499,10 @@ btnIniciarSecin.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 13));
 /*-------------------------------------------------------------------------------------*/
 
 
-@SuppressWarnings("deprecation")
+
+
+/*--------- VALIDAR USURAIO Y CONTRASEÑA E INGRESAR AL MENU PRINCIPAL ---*/
+
 void validarLogin() {
 String usu,psw;
 

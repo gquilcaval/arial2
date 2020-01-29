@@ -41,7 +41,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 
-public class RegistroUsuario extends JDialog {
+public class JdialogRegistroUsuario extends JDialog {
 	private JTextField txtNombre;
 	private JPanel btnRegistrar;
 	private HintTextField txtDni;
@@ -65,7 +65,7 @@ private  ButtonGroup genero;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistroUsuario dialog = new RegistroUsuario();
+					JdialogRegistroUsuario dialog = new JdialogRegistroUsuario();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 				} catch (Exception e) {
@@ -79,11 +79,12 @@ private  ButtonGroup genero;
 	 * Create the dialog.
 	 */
 
-	public RegistroUsuario() {
+	public JdialogRegistroUsuario() {
 		setModal(true);
 		setTitle("Registro Usuario");
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 914, 585);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();

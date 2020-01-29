@@ -51,7 +51,12 @@ public class IntFinanzas extends JInternalFrame {
 	public static JLabel lblPagos;
 	public static JLabel lblCobranza;
 	public IntFinanzas() {
-		
+		setBounds(100, 100, 1642, 940);
+		getContentPane().setLayout(null);
+		setBorder(null);
+		/*-----BORDE SUPERIOR DISABLE ----*/
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
+		/*-----------------------------------------------------------------------------*/
 		addInternalFrameListener(new InternalFrameAdapter() {
 		@Override
 		public void internalFrameOpened(InternalFrameEvent arg0) {
@@ -73,12 +78,7 @@ public class IntFinanzas extends JInternalFrame {
 			}
 		}
 	});
-	setBounds(100, 100, 1642, 901);
-	getContentPane().setLayout(null);
-	setBorder(null);
-	/*-----BORDE SUPERIOR DISABLE ----*/
-	((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
-	/*-----------------------------------------------------------------------------*/
+	
 	
 	
 	
@@ -174,7 +174,7 @@ public class IntFinanzas extends JInternalFrame {
 	
 	dkFinanzas = new JDesktopPane();
 	dkFinanzas.setBackground(Color.decode("#ebf0f4"));
-	dkFinanzas.setBounds(0, 67, 1642, 807);
+	dkFinanzas.setBounds(0, 67, 1642, 846);
 	getContentPane().add(dkFinanzas);
 	
 	
