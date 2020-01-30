@@ -103,6 +103,8 @@ public class IntCliente extends JInternalFrame {
 		dk.setLayout(null);
 
 		/* TABLA */
+		model.setRowCount(0);
+		model.setColumnCount(0);
 		model.addColumn("codigo");
 		model.addColumn("Nombre");
 		model.addColumn("nombre Comercial");

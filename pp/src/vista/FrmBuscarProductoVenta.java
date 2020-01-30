@@ -45,7 +45,7 @@ import java.text.DecimalFormat;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class FrmBuscarProducto extends JDialog {
+public class FrmBuscarProductoVenta extends JDialog {
 	private JTextField textField;
 	private JTable tblProducto;
 
@@ -62,7 +62,7 @@ public class FrmBuscarProducto extends JDialog {
 
 	public static void main(String[] args) {
 		try {
-			FrmBuscarProducto dialog = new FrmBuscarProducto();
+			FrmBuscarProductoVenta dialog = new FrmBuscarProductoVenta();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class FrmBuscarProducto extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public FrmBuscarProducto() {
+	public FrmBuscarProductoVenta() {
 		/*agregar al carrito*/
 		
 		setModal(true);
@@ -101,7 +101,7 @@ public class FrmBuscarProducto extends JDialog {
 		getContentPane().add(lblProductos);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(FrmBuscarProducto.class.getResource("/iconos/Producto.png")));
+		lblNewLabel.setIcon(new ImageIcon(FrmBuscarProductoVenta.class.getResource("/iconos/Producto.png")));
 		lblNewLabel.setBounds(20, 11, 46, 56);
 		getContentPane().add(lblNewLabel);
 
@@ -154,7 +154,7 @@ public class FrmBuscarProducto extends JDialog {
 			
 				
 				/*le envio el boton eliminar*/
-				 FrmOrdenDeCompra.tblProducto.setDefaultRenderer(Object.class, new Render());
+				 IntVentasWindow.tblProducto.setDefaultRenderer(Object.class, new Render());
 			
 				 
 				 
@@ -169,7 +169,7 @@ public class FrmBuscarProducto extends JDialog {
 			
 				filas[5]=btnEliminar;
 				
-				FrmOrdenDeCompra.model1.addRow(filas);
+				IntVentasWindow.model.addRow(filas);
 			
 
 				

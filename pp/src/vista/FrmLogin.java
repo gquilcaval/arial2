@@ -229,8 +229,9 @@ lblUser.setHorizontalAlignment(SwingConstants.CENTER);
 lblUser.setBounds(10, 2, 36, 35);
 panel.add(lblUser);
 lblUser.setForeground(Color.BLACK);
-lblUser.setIcon(new clsArial().modifiedIcon("/img/user.png", 20, 25));
-
+clsArial clsArial=new clsArial();
+ clsArial.modifiedIcon("/img/user.png", 20, 25,lblUser);
+ 
 txtIngUsu = new HintTextField("Ingrese Su Usuario");
 txtIngUsu.setBounds(56, 1, 212, 35);
 panel.add(txtIngUsu);
@@ -272,7 +273,7 @@ JLabel lblPadlock = new JLabel("");
 lblPadlock.setHorizontalAlignment(SwingConstants.CENTER);
 lblPadlock.setBounds(10, 2, 36, 35);
 panel_3.add(lblPadlock);
-lblPadlock.setIcon(new clsArial().modifiedIcon("/img/candado.png", 23, 30));
+clsArial.modifiedIcon("/img/candado.png", 23, 30,lblPadlock);
 
 txtClaveUsu = new JPasswordField();
 txtClaveUsu.setText("Ingrese Su Clave");
@@ -445,7 +446,7 @@ lblCerrar.setBackground(new Color(51, 51, 51));
 lblCerrar.setBounds(372, 0, 36, 30);
 jPanel_Barra.add(lblCerrar);
 lblCerrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-lblCerrar.setIcon(new clsArial().modifiedIcon("/img/close.png", 28, 28));
+ clsArial.modifiedIcon("/img/close.png", 28, 28,lblCerrar);
 
 /*-----------------------> FUNCIONALIDAD CERRAR FRAME  CON OPCIONES <----------------------------*/
 

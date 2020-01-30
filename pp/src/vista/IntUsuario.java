@@ -108,7 +108,7 @@ public class IntUsuario extends JInternalFrame {
 		lbliconoNuevo.setHorizontalAlignment(SwingConstants.CENTER);
 		lbliconoNuevo.setBounds(0, 0, 51, 35);
 	
-		lbliconoNuevo.setIcon(clsIcono.modifiedIcon("/iconos/sumar.png", 25, 25));
+		clsIcono.modifiedIcon("/iconos/sumar.png", 25, 25,lbliconoNuevo);
 		panel.add(lbliconoNuevo);
 		
 		JLabel lblNuevo = new JLabel("Nuevo");

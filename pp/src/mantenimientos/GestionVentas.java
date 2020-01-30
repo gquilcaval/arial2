@@ -65,26 +65,33 @@ public int realizaVenta(Ventas venta, ArrayList<DetalleVentas> detalle) {
 				con=MySQLconexion.getConexion();
 				con.setAutoCommit(false);
 							//insert ventas values(null,'Factura','2018/11/10',1,1);
-				String sql1="insert ventas values(?,?,?,?,?)";
+				String sql1="insert into ventas values(null,SYSDATE(),?,?,?,?,?)";
 				pst1=con.prepareStatement(sql1);
-				pst1.setInt(1, venta.getNro_ven());
-				pst1.setString(2,venta.getDoc_ven());
-				pst1.setString(3, venta.getFech_ven());
-				pst1.setInt(4, venta.getId_cli());
-				pst1.setInt(5, venta.getId_emp());
+
+				pst1.setString(1, venta.getFecha_vencimiento());
+				pst1.setInt(2, venta.getId_cli());
+				pst1.setInt(3, venta.getId_emp());
+				pst1.setString(4,venta.getDoc_ven());
+				pst1.setString(5,venta.getNumeroComprovante());
+
+			
 				resultado=pst1.executeUpdate();
+				
 								//insert into detalle_venta values (1,1,3,500.0)
-					String sql2="insert into detalle_venta values (?,?,?,?)";
+					String sql2="insert into detalle_Venta values (?,?,?,?,?)";
 					for (DetalleVentas dt : detalle) {
 						pst1=con.prepareStatement(sql2);
-						pst1.setInt(1,venta.getNro_ven());
+						System.out.println(dt.getNro_ven());
+						pst1.setInt(1,dt.getNro_ven());
 						pst1.setInt(2, dt.getId_prod());
 						pst1.setInt(3, dt.getCantxUnidad());
 						pst1.setDouble(4,dt.getPrecioUnidad());
+						pst1.setDouble(5, dt.getDescuento());
 						resultado=pst1.executeUpdate();
 					}
+					con.commit();
 									//update producto set stock_prod=stock_prod-1 where id_prod = 1;
-						String sql3="update producto set stock_prod=stock_prod-? where id_prod = ?";
+						String sql3="update producto set stock_pro=stock_pro-? where id_prod = ?";
 						for (DetalleVentas dt: detalle) {
 							pst1 = con.prepareStatement(sql3);
 							pst1.setInt(1, dt.getCantxUnidad());

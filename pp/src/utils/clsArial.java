@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -37,11 +38,11 @@ public  class clsArial    {
 
 	
 	/*--- METODO ICONOS PERSONALIZADOS -- */
-	public Icon modifiedIcon(String url,int with,int heigh) {
+	public   void modifiedIcon(String url,int with,int heigh,JLabel label) {
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource(url));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(with, heigh, Image.SCALE_SMOOTH);
 		Icon iconoEscalado = new ImageIcon(imgEscalada);
-		return iconoEscalado;
+		label.setIcon(iconoEscalado);
 	}
 	
 	
