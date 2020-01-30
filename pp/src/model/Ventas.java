@@ -2,8 +2,20 @@ package model;
 
 public class Ventas {
 	private int Nro_ven ,id_cli,id_emp;
-	private String doc_ven,fech_ven;
+	private String doc_ven,fech_ven,numeroComprovante,fecha_vencimiento;
 	
+	public String getFecha_vencimiento() {
+		return fecha_vencimiento;
+	}
+	public void setFecha_vencimiento(String fecha_vencimiento) {
+		this.fecha_vencimiento = fecha_vencimiento;
+	}
+	public String getNumeroComprovante() {
+		return numeroComprovante;
+	}
+	public void setNumeroComprovante(String numeroComprovante) {
+		this.numeroComprovante = numeroComprovante;
+	}
 	public int getNro_ven() {
 		return Nro_ven;
 	}

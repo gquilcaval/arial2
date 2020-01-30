@@ -107,47 +107,25 @@ public class IntGestionDeCompra extends JInternalFrame {
 		setBounds(223, 79, 1626, 811);
 		getContentPane().setLayout(null);
 		
-		/*los componentes agregados*/
-		componentes.boton b=new boton();
+		/* el componente botonAgregar*/
+		
+		boton b=new boton();
+		
+		FrmRegistroCompra frmRegistrar=new FrmRegistroCompra();
+		
+		getContentPane().add(b.mibotonAgregar(44, 32,frmRegistrar));
 		
 		
-		getContentPane().add(b.miboton(44, 32));
 		/*--------------------------*/
 		JPanel panel = new JPanel();
+		
 		panel.setLayout(null);
 		panel.setBounds(-6, 0, 1610, 781);
 		panel.setBackground(Color.WHITE);
 		getContentPane().add(panel);
-
-		JPanel panel_1 = new JPanel() ;
-		panel_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				FrmRegistroCompra r = new FrmRegistroCompra();
-
-				r.setVisible(true);
-				r.setLocationRelativeTo(null);
-			}
-		});
-		
-		panel_1.setBounds(302, 32, 116, 30);
-		panel.add(panel_1);
-
-		JLabel lblNuevo = new JLabel("NUEVO");
-		lblNuevo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNuevo.setForeground(new Color(253, 254, 254));
-		lblNuevo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-		lblNuevo.setBounds(35, 2, 71, 26);
-		panel_1.add(lblNuevo);
-
-		JLabel label_2 = new JLabel("");
 		ImageIcon iconSearchs = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
 		Image is = iconSearchs.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		Icon ico = new ImageIcon(is);
-		label_2.setIcon(ico);
-		label_2.setBounds(10, 5, 30, 23);
-		panel_1.add(label_2);
 
 		
 		  txtBusquedad = new JTextField(10) ;

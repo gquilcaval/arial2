@@ -18,6 +18,7 @@ import model.Compra;
 import model.OrdenCompra;
 import model.OrdenRegistroCompra;
 import model.RoundedCornerBorder;
+import utils.clsArial;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -30,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.rollover.TableRolloverController;
 
+import componentes.boton;
 import mantenimientos.GestionCompra;
 
 import java.awt.event.MouseAdapter;
@@ -137,65 +139,31 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		txtBusquedad.setBounds(1178, 19, 345, 30);
 		getContentPane().add(txtBusquedad);
 		
+		
+		/*los componentes agregados*/
+		
+		boton boton=new boton();
+		FrmOrdenDeCompra frmOrdenCompra=new FrmOrdenDeCompra();
+		getContentPane().add(boton.mibotonAgregar(44, 32,frmOrdenCompra));
+		
+		
+		/*--------------------------*/
+		
 		ImageIcon iconSearch = new ImageIcon(getClass().getResource("/iconos/search.png"));
 		Image i = iconSearch.getImage().getScaledInstance(38, 38, Image.SCALE_SMOOTH);
 		Icon ic = new ImageIcon(i);
-		
-		JPanel panel_6 = new JPanel() ;
-		panel_6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel_6.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-			
-				
-				//los parametro son para bloquear al abrir el jdialog del FrmOdenDeCompra :v
-				FrmOrdenDeCompra compra=new FrmOrdenDeCompra();
-				compra.setVisible(true);
-				compra.setLocationRelativeTo(null);
-				
-				
-				
-			}
-		});
-		panel_6.setLayout(null);
-		panel_6.setBackground(new Color(20, 147, 225));
-		panel_6.setBounds(388, 25, 142, 30);
-		getContentPane().add(panel_6);
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		Icon iconoEscalado = new ImageIcon(imgEscalada);
 		
-		JLabel label = new JLabel("");
-		label.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-FrmMenuPrincipal f=new FrmMenuPrincipal();
-				
-				FrmOrdenDeCompra compra=new FrmOrdenDeCompra();
-				compra.setVisible(true);
-				compra.setLocationRelativeTo(null);
-				
-			}
-		});
-		label.setBounds(10, 0, 38, 30);
-		panel_6.add(label);
-		label.setIcon(ic);
-		
-			label.setIcon(iconoEscalado);
-			
-			JLabel label_2 = new JLabel("NUEVO");
-			label_2.setHorizontalAlignment(SwingConstants.CENTER);
-			label_2.setForeground(new Color(253, 254, 254));
-			label_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-			label_2.setBounds(55, 2, 71, 26);
-			panel_6.add(label_2);
-			ImageIcon iconSearchs = new ImageIcon(getClass().getResource("/iconos/search.png"));
-			Image is = iconSearchs.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-			Icon ico = new ImageIcon(is);
 		JLabel label_1 = new JLabel("");
 		label_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		label_1.setIcon(ico);
+		
+		/*icono*/
+		clsArial c=new clsArial();
+		c.modifiedIcon("/iconos/search.png", 38, 38, label_1);
+		/*--*/
+		
 		label_1.setBounds(1526, 21, 44, 30);
 		getContentPane().add(label_1);
 		label_1.setVerticalAlignment(SwingConstants.TOP);

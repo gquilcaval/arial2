@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import mantenimientos.GestionClientes;
 import model.Clientes;
@@ -68,6 +69,9 @@ public class FrmBuscarLCiente extends JDialog {
 				listar();
 			}
 		});
+		
+		model.setRowCount(0);
+		model.setColumnCount(0);
 		model.addColumn("Codigo");
 		model.addColumn("nombre");
 		model.addColumn("nombre comercial");
@@ -101,6 +105,7 @@ public class FrmBuscarLCiente extends JDialog {
 		tblCliente = new JTable();
 		tblCliente.setFillsViewportHeight(true);
 		tblCliente.setFocusTraversalKeysEnabled(false);
+		
 		FormatoTablaMain.formatoTabla(tblCliente);
 		
 		tblCliente.addMouseListener(new MouseAdapter() {
@@ -110,15 +115,22 @@ public class FrmBuscarLCiente extends JDialog {
 				
 				
 				
-				if(e.getClickCount()==2) {
-					JOptionPane.showMessageDialog(null, "dos clicks");
-				}
+				
+				
+					
+					int fila=tblCliente.getSelectedRow();
+					
+					IntVentasWindow.txtCliente.setText(""+tblCliente.getValueAt(fila, 2));
+					IntVentasWindow.lblCodigo.setText(""+tblCliente.getValueAt(fila, 0));
+					dispose();
+				
 			}
 		});
 		scrollPane.setViewportView(tblCliente);
 		tblCliente.setModel(model);
 		setBounds(100, 100, 506, 497);
-		
+		TableColumn col = tblCliente.getColumnModel().getColumn(0);
+		col.setPreferredWidth(10);
 	}
 	/*listado en la tabla cliente*/
 	void listar() {

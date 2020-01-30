@@ -169,7 +169,7 @@ public class IntDashBoard extends JInternalFrame {
 		lblicoCobranza.setHorizontalAlignment(SwingConstants.CENTER);
 		lblicoCobranza.setBounds(10, 38, 65, 50);
 	
-		lblicoCobranza.setIcon(clsIcono.modifiedIcon("/img/cobranza1.png", 45, 45));
+		clsIcono.modifiedIcon("/img/cobranza1.png", 45, 45,lblicoCobranza);
 		panel.add(lblicoCobranza);
 		
 		JLabel label_1 = new JLabel("1555");
@@ -203,7 +203,8 @@ public class IntDashBoard extends JInternalFrame {
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(10, 38, 65, 50);
 		
-		label.setIcon(clsIcono.modifiedIcon("/img/ganancia.png", 45, 45));
+		clsIcono.modifiedIcon("/img/ganancia.png", 45, 45,label);
+	
 		panel_1.add(label);
 		
 		JLabel lblGanancia = new JLabel("Ganancia");
@@ -245,7 +246,7 @@ public class IntDashBoard extends JInternalFrame {
 		lblicoPago.setHorizontalAlignment(SwingConstants.CENTER);
 		lblicoPago.setBounds(10, 38, 65, 50);
 	
-		lblicoPago.setIcon(clsIcono.modifiedIcon("/img/pagos.png", 50, 50));
+		clsIcono.modifiedIcon("/img/pagos.png", 50, 50,lblicoPago);
 		panel_2.add(lblicoPago);
 		
 		JLabel lblPago = new JLabel("Pago");
@@ -280,7 +281,7 @@ public class IntDashBoard extends JInternalFrame {
 		lblicoCantVenta.setHorizontalAlignment(SwingConstants.CENTER);
 		lblicoCantVenta.setBounds(10, 38, 65, 50);
 	
-		lblicoCantVenta.setIcon(clsIcono.modifiedIcon("/img/carrito.png", 45, 45));
+		clsIcono.modifiedIcon("/img/carrito.png", 45, 45,lblicoCantVenta);
 		panel_3.add(lblicoCantVenta);
 		
 		JLabel lblVentas = new JLabel("Venta");

@@ -2,8 +2,14 @@ package model;
 
 public class DetalleVentas {
 	private int Nro_ven,id_prod,CantxUnidad;
-	private double precioUnidad;
+	private double precioUnidad,descuento;
 	
+	public double getDescuento() {
+		return descuento;
+	}
+	public void setDescuento(double descuento) {
+		this.descuento = descuento;
+	}
 	public int getNro_ven() {
 		return Nro_ven;
 	}
