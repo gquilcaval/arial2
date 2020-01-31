@@ -1,2 +1,9 @@
-/vista/
+/Interfaces/
+/alert/
+/componentes/
+/hilos/
 /mantenimientos/
+/model/
+/utils/
+/vista/
+/bd/

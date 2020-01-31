@@ -1,0 +1,239 @@
+DROP DATABASE  arial_sql1;  
+ 
+create database arial_sql1;
+
+use arial_sql1;
+
+
+
+	
+CREATE TABLE categoria(
+	id_cat int auto_increment  primary key not null,
+	nomb_cat varchar(25) NOT NULL
+	);
+
+insert  into categoria values (null,'mercaderia');
+
+CREATE TABLE cliente(
+	id_cli int auto_increment  primary key not null,
+	nomb_cli varchar(25) NOT NULL, 
+	nom_comercial varchar(60) NOT NULL,
+	direc_cli varchar(50)  NULL,
+	departamento varchar(60)  NULL,
+	distrito varchar(60)  NULL,
+	telf_cli char(7)  NULL,
+	celular char(9)  NULL,
+	correo_cli varchar(60)  NULL,
+	formaDePago varchar(30)  NULL,
+	N_documento char(11)  NULL,
+	Tipo_documento varchar(50)  NULL);
+    
+    
+select*from cliente;
+select id_cli,nomb_cli,nom_comercial,formaDePago,direc_cli,distrito,telf_cli,celular,correo_cli from cliente;
+insert into cliente values(null,'juancito','pasteleria juancho','lurigancho 2543 av abc','lima','lurigancho','1234567','123456789','juancho@pasteleria.com','credito 30','12345678910','ruc');
+	CREATE TABLE proveedor(
+id_prov int auto_increment  NOT NULL primary key,
+nom_prov varchar(25) NOT NULL,
+ruc_prov char(11) NOT NULL,
+direc_prov varchar(50) NOT NULL,
+telf_prov char(7) not NULL,
+cell_prov CHAR(9) NOT NULL,
+email_prov varchar(25) NOT NULL,
+estado_prov varchar(25)not null,
+Nro_cuenta_prov char(20)  NOT NULL
+    );
+    
+    
+    
+insert into proveedor values (null, 'neft electornics', '98765485213', 'Av.inca garcilazo 268', '2521383', '973755465', 'nefectronicsgm@gmail.com', 'Activo', '45789654123664578682');
+    
+    
+    
+CREATE TABLE tipo_usuario(
+id_tip_usu int auto_increment NOT NULL primary key,
+desc_usu varchar(25) NOT NULL);
+-- insercion de tipo usuleado
+insert into tipo_usuario values(null,'Administrador');
+insert into tipo_usuario values(null,'Vendedor');
+
+
+CREATE TABLE usuario(
+	id_usu int auto_increment  NOT NULL primary key,
+	nom_usu varchar(25) NOT NULL,
+	ape_pat_usu varchar(25) NOT NULL,
+	ape_mat_usu varchar(25) NOT NULL,
+	sex_usu char(2) NOT NULL,
+	email_usu varchar(25) NOT NULL,
+	sueldo_usu decimal(6, 2) NOT NULL,
+	estado_usu varchar(25) NOT NULL,
+    direc_usu varchar(25) NOT NULL,
+    telf_usu char(7) NOT NULL,
+
+	cell_usu char(9) NOT NULL,
+	dni_usu char(8) NOT NULL,
+	login_usu varchar(25) NOT NULL,
+	Psw_usu varchar(25) NOT NULL,
+	id_tip_usu int  NOT NULL,
+	
+	constraint fk_usu FOREIGN KEY (id_tip_usu)  REFERENCES tipo_usuario(id_tip_usu)
+	);
+-- insercion de usuleados
+insert into usuario values(null,'giancarlos','quilca','valenzuela','M','gquilcaval@gmail.com',3500,'ACTIVO','jr. manuel amat 268','4898744','982278252','74311605','gquilcaval','2297',1);
+insert into usuario values(null,'goku','nameku',' sei','M','goku@gmail.com',3500,'ACTIVO','jr. manuel amat 268','4898744','982278252','74311605','goku006','0000',2);
+
+
+
+
+    CREATE TABLE producto(
+	id_prod int auto_increment not NULL primary key,
+	cod_barra int unique not null,
+	desc_prod varchar(90)  NULL,
+	marca_prod varchar(50)  NULL,
+	pre_prod_compra decimal(6, 3) NOT NULL,
+	pre_prod_lista decimal(6, 3) NOT NULL,
+    unidadCompra varchar(50) null,
+    unidadVenta varchar(50)null,
+    factor smallint null,
+	id_Cat int   NULL,
+
+	
+	codRegistroSanitario varchar(50)  NULL,
+	codigo_sunat int  null,
+	lote boolean null,
+	stock_pro smallint default 0,
+	constraint fk_Cat foreign key (id_Cat) references categoria(id_Cat)
+
+	);
+   
+    
+/*INSERTAR PRODUCTOS*/
+select * from producto;
+insert into producto values(null,25172502,'ZIAGEN 20mg/ml 60 tabletas','ziagen',15.00,14.50,'CAJA','UNIDAD',20,1,'010101110',12345,true,default );
+
+
+
+create table inventario(
+cod_inven int auto_increment not null primary key,
+fecha_inven date not null,
+establecimiento varchar(100)not null,
+
+fecha_inicio date not null,
+fecha_final date not null,
+descripcion_inven varchar(10)null,
+anulado boolean null,
+estado varchar(90),
+movil boolean null,
+id_usu int ,
+
+foreign key(id_usu) references usuario(id_usu)
+
+);
+
+    insert into inventario values(null,curdate(),'SEDE PRINCIPAL','2017/02/02','2017/02/02','EJM',FALSE,'ACTIVO',TRUE,1);
+
+
+
+create table lote(
+cod_lote int auto_increment primary key,
+fecha_produccion date null,
+fecha_caducidad date  null,
+cantidad int not null,
+/*vence en dias calculado*/
+
+id_prod int ,
+foreign key(id_prod) references producto(id_prod)
+);
+
+
+insert into lote values(null,'2015/10/10','2019/10/10',17.000,1);
+
+insert into lote values(null,'2015/10/10','2019/10/10',11.000,1);
+
+create table detalle_inventario(
+cod_inven int  ,
+cod_lote int ,
+cantidad_existente int ,
+cantidad_real int ,
+
+foreign key(cod_inven) references inventario(cod_inven),
+foreign key(cod_lote) references lote(cod_lote)
+);
+
+
+
+insert into detalle_inventario values(1,1,435.000,438.000);
+insert into detalle_inventario values(1,2,436.000,437.000);
+    
+
+	
+
+  
+
+
+create table ordencompra(
+nro_ord_compra int primary key auto_increment,
+fech_orden_compra date not null,
+fech_entrega_compra date not null,
+direccion_entrega varchar(150) ,
+direccion_factura varchar(150),
+condiciones_pago varchar(80),
+contacto varchar(70),
+  id_prove int  NOT NULL,
+  	id_usu int not null,
+  constraint fkf_prov FOREIGN KEY (id_prove)  REFERENCES proveedor(id_prov),
+	foreign key (id_usu) references usuario(id_usu)
+);
+select*from ordencompra;
+
+create table registro_compra(
+cod_regis_com int primary key auto_increment,
+nro_ord_compra int not null,
+  constraint fkf_regisC FOREIGN KEY (nro_ord_compra)  REFERENCES ordencompra(nro_ord_compra),
+  comprovante varchar(40) not null,
+  fecha_regis_com date not null,
+  fecha_ven_com date not null
+);
+
+
+
+CREATE TABLE detalle_compra(
+nro_ord_compra int  NOT NULL,
+
+id_prod int  NOT NULL,
+CantxUnidad smallint NOT NULL,
+precioUnidad decimal(6,2) NOT NULL,
+  
+
+    constraint fk_pro foreign key (id_prod) references producto(id_prod),
+    
+	constraint fkf_com FOREIGN KEY (nro_ord_compra)  REFERENCES ordencompra(nro_ord_compra)
+);
+
+
+
+
+	 create TABLE ventas(
+Nro_ven int  NOT NULL primary key auto_increment,
+fech_venta datetime ,
+fecha_vencim date,
+id_cli int  NULL,
+id_usu int null,
+tipo_comprobante varchar(20) not null,
+
+num_comprobante varchar (10) not null,
+foreign key (id_usu) references usuario(id_usu),
+    foreign key (id_cli) references cliente(id_cli)
+    );
+
+select*from ventas;
+create TABLE detalle_Venta(
+Nro_ven int  NOT NULL,
+id_prod int  NOT NULL,
+CantxUnidad smallint NOT NULL,
+precioUnidad decimal(6,2) NOT NULL,
+descuento decimal(11,2)	 null,
+primary key(Nro_ven,id_prod),
+  constraint fkpro foreign key (id_prod) references producto(id_prod),
+  constraint fkven foreign key (Nro_ven) references ventas(Nro_ven)
+);
