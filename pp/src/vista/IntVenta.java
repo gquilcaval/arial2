@@ -236,7 +236,7 @@ public class IntVenta extends JInternalFrame {
 		panel_12.setBounds(215, 34, 120, 45);
 		panel_1.add(panel_12);
 		panel_12.setLayout(null);
-		
+		/**/
 		
 		opc2.setHorizontalAlignment(SwingConstants.CENTER);
 		opc2.setForeground(Color.decode(colorPlomo));
