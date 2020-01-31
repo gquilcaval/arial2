@@ -262,27 +262,39 @@ public class IntVentasWindow extends JInternalFrame {
 	private JDateChooser dtmFechaVencimineto;
 	void grabar() {
 		String a=(String)tblProducto.getValueAt(0, 2);
-		if(a==null) {
-			JOptionPane.showMessageDialog(null, "ingrese la cantidad");
-		}
-		else {
-			
+	
 		int id_cli,id_usu;
 		String tipo_comprovante,numero_comprovante,dtmFechaVencimiento;
 		
-		Date fecha1=dtmFechaVencimineto.getDate();
-		String formato = dtmFechaVencimineto.getDateFormatString();
-		SimpleDateFormat sdf = new SimpleDateFormat(formato);
+		tipo_comprovante=cboTipoDeComprovante.getSelectedItem().toString();
 		
-		String fecha=String.valueOf(sdf.format(fecha1));
+
+		String numeroCompra;
+		GestionVentas g=new GestionVentas();
+		numeroCompra =""+g.ObtenerNumero();
 		
-		dtmFechaVencimiento=fecha;
+
+		if(a==null) {
+			JOptionPane.showMessageDialog(null, "ingrese la cantidad");
+		}
+		else if(tipo_comprovante==null || tipo_comprovante=="Seleccione") {
+			JOptionPane.showMessageDialog(null, "ingrese el tipo de comprobante");
+		}
+		else if(dtmFechaVencimineto.getDate()==null) {
+			JOptionPane.showMessageDialog(null, "ingrese la fecha de vencimiento");
+		}
+		else {
+			
+	
+			Date fecha1=dtmFechaVencimineto.getDate();
+			dtmFechaVencimiento=fecha1.toString();
 		id_cli=Integer.parseInt(lblCodigo.getText());
 		id_usu=FrmLogin.e.getId_emp();
-		tipo_comprovante=cboTipoDeComprovante.getSelectedItem().toString();
+		
 		numero_comprovante=lblNumeroVenta.getText();
 		
 		Ventas ve=new Ventas();
+		ve.setNro_ven(Integer.parseInt(numeroCompra));
 		ve.setId_cli(id_cli);
 		ve.setId_emp(id_usu);
 		ve.setDoc_ven(tipo_comprovante);
@@ -291,7 +303,7 @@ public class IntVentasWindow extends JInternalFrame {
 		
 		for(int i=0;i<tblProducto.getRowCount();i++) {
 			DetalleVentas deta=new DetalleVentas();
-			deta.setNro_ven(Integer.parseInt(lblCodigo.getText()));
+			
 			deta.setId_prod(Integer.parseInt(tblProducto.getValueAt(i, 0).toString()));
 			deta.setPrecioUnidad(Double.parseDouble(tblProducto.getValueAt(i, 3).toString()));
 			deta.setCantxUnidad(Integer.parseInt(tblProducto.getValueAt(i, 2).toString()));
