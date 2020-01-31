@@ -76,13 +76,13 @@ public int realizaVenta(Ventas venta, ArrayList<DetalleVentas> detalle) {
 
 			
 				resultado=pst1.executeUpdate();
-				
+				con.commit();
 								//insert into detalle_venta values (1,1,3,500.0)
 					String sql2="insert into detalle_Venta values (?,?,?,?,?)";
 					for (DetalleVentas dt : detalle) {
 						pst1=con.prepareStatement(sql2);
-						System.out.println(dt.getNro_ven());
-						pst1.setInt(1,dt.getNro_ven());
+						System.out.println(venta.getNro_ven());
+						pst1.setInt(1,venta.getNro_ven());
 						pst1.setInt(2, dt.getId_prod());
 						pst1.setInt(3, dt.getCantxUnidad());
 						pst1.setDouble(4,dt.getPrecioUnidad());
