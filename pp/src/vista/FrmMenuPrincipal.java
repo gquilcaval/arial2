@@ -626,7 +626,7 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_5_1.add(label_7_1);
 					
 					panel_9 = new JPanel();
-					panel_9.setBounds(223, 0, 1384, 49);
+					panel_9.setBounds(223, 0, 1356, 49);
 					contentPane.add(panel_9);
 					panel_9.setBackground(Color.decode("#FDFEFE"));
 					panel_9.setLayout(null);
@@ -653,7 +653,7 @@ public class FrmMenuPrincipal extends JFrame {
 					
 					panelPerfil = new JPanel();
 					panelPerfil.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					panelPerfil.setBounds(1624, 0, 169, 49);
+					panelPerfil.setBounds(1589, 0, 204, 49);
 					contentPane.add(panelPerfil);
 					panelPerfil.setBackground(Color.WHITE);
 					panelPerfil.addMouseListener(new MouseAdapter() {
@@ -661,11 +661,11 @@ public class FrmMenuPrincipal extends JFrame {
 						
 						/*---- ABRIR Y ENVIAR TODOS LOS DATOS A DIALOG PERFIL -----------------------*/
 						public void mouseClicked(MouseEvent arg0) {
-							frmPerfil f=new frmPerfil();
+							frmPerfil f=new frmPerfil(FrmMenuPrincipal.this);
+							f.setVisible(true);
 						
-								f.setVisible(true);
-								f.setLocationRelativeTo(null);
 								
+		
 							
 							
 							if (FrmLogin.e.getId_tip_emp().equals("1")) {
@@ -683,7 +683,7 @@ public class FrmMenuPrincipal extends JFrame {
 								
 								
 								
-								frmPerfil.txtNombre_2.setText(FrmLogin.e.getNom_emp());
+								frmPerfil.txtNombre_2.setText("dd");
 								frmPerfil.txtApePat.setText(FrmLogin.e.getApe_pat_emp());
 								frmPerfil.txtApeMat.setText(FrmLogin.e.getApe_mat_emp());
 								frmPerfil.txtDireccion.setText(FrmLogin.e.getDirec_emp());
@@ -698,20 +698,22 @@ public class FrmMenuPrincipal extends JFrame {
 					panelPerfil.setLayout(null);
 					
 					label_15 = new JLabel("");
-					label_15.setBounds(128, 11, 32, 32);
+					label_15.setBounds(162, 11, 32, 32);
 					panelPerfil.add(label_15);
 					
 					label_15.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/arrowbot.png")));
 					label_15.setCursor(new Cursor(12));
 					
 					lblCargo = new JLabel("");
-					lblCargo.setBounds(52, 1, 79, 42);
+					lblCargo.setHorizontalAlignment(SwingConstants.CENTER);
+					lblCargo.setBounds(52, 1, 100, 48);
 					panelPerfil.add(lblCargo);
 					lblCargo.setFont(new Font("Agency FB", Font.PLAIN, 14));
 					lblCargo.setForeground(Color.BLACK);
 					
 					lblUser2 = new JLabel("");
-					lblUser2.setBounds(0, 1, 50, 42);
+					lblUser2.setHorizontalAlignment(SwingConstants.CENTER);
+					lblUser2.setBounds(0, 1, 50, 48);
 					panelPerfil.add(lblUser2);
 					
 					label_19 = new JLabel("");
@@ -739,6 +741,11 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_1.setBackground(Color.decode("#ebf0f4"));
 					panel_1.setBounds(1794, 0, 1, 57);
 					contentPane.add(panel_1);
+					
+					JPanel panel_1_1 = new JPanel();
+					panel_1_1.setBackground(new Color(235, 240, 244));
+					panel_1_1.setBounds(1587, 0, 1, 57);
+					contentPane.add(panel_1_1);
 					UIManager.put("btnDashOpc1.selected", Color.RED);
 				
 			
