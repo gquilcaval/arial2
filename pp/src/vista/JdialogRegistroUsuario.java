@@ -8,6 +8,9 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+
+import java.awt.Checkbox;
+import java.awt.CheckboxGroup;
 import java.awt.Color;
 import javax.swing.JTextField;
 
@@ -58,6 +61,7 @@ public class JdialogRegistroUsuario extends JDialog {
 	private JRadioButton rdbtnHombre;
 	private JRadioButton rdbtnMujer;
 private  ButtonGroup genero;
+
 	/**
 	 * Launch the application.
 	 */

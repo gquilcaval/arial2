@@ -103,6 +103,7 @@ public class FrmBuscarLCiente extends JDialog {
 		getContentPane().add(scrollPane);
 		
 		tblCliente = new JTable();
+		tblCliente.setCellSelectionEnabled(true);
 		tblCliente.setFillsViewportHeight(true);
 		tblCliente.setFocusTraversalKeysEnabled(false);
 		

@@ -75,12 +75,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JSeparator;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import org.jdesktop.core.animation.timing.triggers.TimingTrigger;
 import org.jdesktop.swingx.JXList;
 
 
-public class FrmMenuPrincipal extends JFrame {
+public class FrmMenuPrincipalContable extends JFrame {
 
 	private JPanel contentPane;
 	public static JLabel lblFecha;
@@ -124,7 +122,7 @@ public class FrmMenuPrincipal extends JFrame {
 
 	
 	clsArial clsIcono=new clsArial();
-	static FrmMenuPrincipal frame ;
+	static FrmMenuPrincipalContable frame ;
 	/**
 	 * Launch the application.
 	 */
@@ -132,7 +130,7 @@ public class FrmMenuPrincipal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					frame= new FrmMenuPrincipal();
+					frame= new FrmMenuPrincipalContable();
 					frame.setVisible(true);
 					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
@@ -145,7 +143,7 @@ public class FrmMenuPrincipal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FrmMenuPrincipal() {
+	public FrmMenuPrincipalContable() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent arg0) {
@@ -167,7 +165,7 @@ public class FrmMenuPrincipal extends JFrame {
 		setUndecorated(true);
 		setBackground(Color.WHITE);
 		try {
-			FrmMenuPrincipal.setDefaultLookAndFeelDecorated(true);
+			FrmMenuPrincipalContable.setDefaultLookAndFeelDecorated(true);
 		
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
@@ -261,7 +259,7 @@ public class FrmMenuPrincipal extends JFrame {
 					lblNewLabel_1.setHorizontalTextPosition(SwingConstants.CENTER);
 					lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 					panel_dashboard.add(lblNewLabel_1);
-					lblNewLabel_1.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/IconoDashBoard.png")));
+					lblNewLabel_1.setIcon(new ImageIcon(FrmMenuPrincipalContable.class.getResource("/iconos/IconoDashBoard.png")));
 					
 					label_13 = new JLabel("");
 					label_13.setOpaque(false);
@@ -329,7 +327,7 @@ public class FrmMenuPrincipal extends JFrame {
 					
 					
 					
-					lblComercial = new JLabel("VENTAS");
+					lblComercial = new JLabel("");
 					lblComercial.setBounds(57, 0, 126, 51);
 					
 					panel_ventas.add(lblComercial);
@@ -343,7 +341,7 @@ public class FrmMenuPrincipal extends JFrame {
 					lblComercial.setHorizontalTextPosition(SwingConstants.CENTER);
 					
 					label = new JLabel("");
-					label.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/carrito1.png")));
+					label.setIcon(new ImageIcon(FrmMenuPrincipalContable.class.getResource("/iconos/carrito1.png")));
 					label.setHorizontalTextPosition(SwingConstants.CENTER);
 					label.setHorizontalAlignment(SwingConstants.CENTER);
 					label.setBounds(0, 0, 59, 48);
@@ -406,7 +404,7 @@ public class FrmMenuPrincipal extends JFrame {
 					});
 					panelCompras.setBackground(Color.decode("#2D363F"));
 					panelCompras.setLayout(null);
-					lblCompras = new JLabel("COMPRAS");
+					lblCompras = new JLabel("");
 					lblCompras.setBounds(70, 0, 98, 51);
 					panelCompras.add(lblCompras);
 					lblCompras.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
@@ -418,7 +416,7 @@ public class FrmMenuPrincipal extends JFrame {
 					label_4 = new JLabel("");
 					label_4.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_4.setHorizontalAlignment(SwingConstants.CENTER);
-					label_4.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/reporte.png")));
+					label_4.setIcon(new ImageIcon(FrmMenuPrincipalContable.class.getResource("/iconos/reporte.png")));
 					label_4.setBounds(0, 0, 59, 48);
 					panelCompras.add(label_4);
 					
@@ -475,7 +473,7 @@ public class FrmMenuPrincipal extends JFrame {
 					panelAlmacen.setLayout(null);
 					panelAlmacen.setBackground(Color.decode("#2D363F"));
 					
-					lblAlmacen = new JLabel("ALMACEN");
+					lblAlmacen = new JLabel("");
 				
 					lblAlmacen.setBounds(71, 0, 98, 52);
 					panelAlmacen.add(lblAlmacen);
@@ -487,7 +485,7 @@ public class FrmMenuPrincipal extends JFrame {
 					
 					label_6 = new JLabel("");
 					
-					label_6.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/almacen.png")));
+					label_6.setIcon(new ImageIcon(FrmMenuPrincipalContable.class.getResource("/iconos/almacen.png")));
 					label_6.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_6.setHorizontalAlignment(SwingConstants.CENTER);
 					label_6.setBounds(2, 2, 59, 48);
@@ -528,7 +526,7 @@ public class FrmMenuPrincipal extends JFrame {
 					panel.setBounds(1, 506, 222, 51);
 					panel_4.add(panel);
 					
-					lblSeguridad = new JLabel("USUARIO");
+					lblSeguridad = new JLabel("");
 					lblSeguridad.setHorizontalAlignment(SwingConstants.CENTER);
 					lblSeguridad.setForeground(new Color(152, 163, 175));
 					lblSeguridad.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
@@ -537,7 +535,7 @@ public class FrmMenuPrincipal extends JFrame {
 					panel.add(lblSeguridad);
 					
 					label_2 = new JLabel("");
-					label_2.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/img/lock.png")));
+					label_2.setIcon(new ImageIcon(FrmMenuPrincipalContable.class.getResource("/img/lock.png")));
 					label_2.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_2.setHorizontalAlignment(SwingConstants.CENTER);
 					label_2.setBounds(2, 2, 59, 48);
@@ -579,7 +577,7 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_5.setBounds(1, 596, 222, 51);
 					panel_4.add(panel_5);
 					
-					JLabel lblFinanzas = new JLabel("FINANZAS");
+					JLabel lblFinanzas = new JLabel("");
 					lblFinanzas.setHorizontalAlignment(SwingConstants.CENTER);
 					lblFinanzas.setForeground(new Color(152, 163, 175));
 					lblFinanzas.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
@@ -604,13 +602,6 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_5.add(label_7);
 					
 					JPanel panel_5_1 = new JPanel();
-					panel_5_1.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							
-							clsArial.setInternalFrame(dktBody, new IntReportes(), null, null);
-						}
-					});
 					panel_5_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					panel_5_1.setLayout(null);
 					panel_5_1.setBackground(new Color(45, 54, 63));
@@ -674,7 +665,7 @@ public class FrmMenuPrincipal extends JFrame {
 						
 						/*---- ABRIR Y ENVIAR TODOS LOS DATOS A DIALOG PERFIL -----------------------*/
 						public void mouseClicked(MouseEvent arg0) {
-							frmPerfil f=new frmPerfil(FrmMenuPrincipal.this);
+							frmPerfil f=new frmPerfil(FrmMenuPrincipalContable.this);
 							f.setVisible(true);
 						
 								
@@ -714,7 +705,7 @@ public class FrmMenuPrincipal extends JFrame {
 					label_15.setBounds(162, 11, 32, 32);
 					panelPerfil.add(label_15);
 					
-					label_15.setIcon(new ImageIcon(FrmMenuPrincipal.class.getResource("/iconos/arrowbot.png")));
+					label_15.setIcon(new ImageIcon(FrmMenuPrincipalContable.class.getResource("/iconos/arrowbot.png")));
 					label_15.setCursor(new Cursor(12));
 					
 					lblCargo = new JLabel("");
