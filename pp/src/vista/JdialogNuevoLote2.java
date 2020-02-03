@@ -119,7 +119,7 @@ public class JdialogNuevoLote2 extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				Object[] filas = new Object[5];
 				
-				/*para la fecha*/
+//				/*para la fecha*//**/
 				Date frabricacion=dtmFabricacion.getDate();
 				Date caducidad=dtmCaducidad.getDate();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
