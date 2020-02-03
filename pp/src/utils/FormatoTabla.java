@@ -1,10 +1,11 @@
-package vista;
+package utils;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.io.Console;
 
 import javax.swing.JTable;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 /**
  * @web http://jc-mouse.blogspot.com/
@@ -25,7 +26,7 @@ public class FormatoTabla extends DefaultTableCellRenderer{
     {
         setEnabled(table == null || table.isEnabled()); 
         
-        
+   
         
         
         if(row%2==0) {

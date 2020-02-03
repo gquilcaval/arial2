@@ -18,6 +18,7 @@ import model.Compra;
 import model.OrdenCompra;
 import model.OrdenRegistroCompra;
 import model.RoundedCornerBorder;
+import utils.FormatoTabla;
 import utils.clsArial;
 
 import java.awt.Graphics;
@@ -45,6 +46,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JButton;
 
 public class IntGestionOrdenDeCompra extends JInternalFrame {
 	
@@ -57,6 +59,7 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 	private JLabel lblCerrada;
 	private JLabel lblAnulada;
 	private JComboBox cboFiltro;
+	private JPanel panelBoton;
 	/**
 	 * Launch the application.
 	 */
@@ -140,14 +143,7 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		getContentPane().add(txtBusquedad);
 		
 		
-		/*los componentes agregados*/
 		
-		boton boton=new boton();
-		FrmOrdenDeCompra frmOrdenCompra=new FrmOrdenDeCompra();
-		getContentPane().add(boton.mibotonAgregar(44, 32,frmOrdenCompra));
-		
-		
-		/*--------------------------*/
 		
 		ImageIcon iconSearch = new ImageIcon(getClass().getResource("/iconos/search.png"));
 		Image i = iconSearch.getImage().getScaledInstance(38, 38, Image.SCALE_SMOOTH);
@@ -335,6 +331,38 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		label_3.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 		label_3.setBounds(953, 11, 65, 38);
 		getContentPane().add(label_3);
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+/*los componentes agregados*/
+		
+		boton boton=new boton();
+		FrmOrdenDeCompra frmOrdenCompra=new FrmOrdenDeCompra();
+		
+		panelBoton = new JPanel();
+		panelBoton.setBounds(388, 19, 150, 30);
+		boton.mibotonAgregar(panelBoton);
+		panelBoton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrmOrdenDeCompra o=new FrmOrdenDeCompra();
+			
+			o.setVisible(true);
+			o.setLocationRelativeTo(null);
+			}
+		});
+		
+		
+	
+		getContentPane().add(panelBoton);
+		/*--------------------------*/
 
 	}
 	

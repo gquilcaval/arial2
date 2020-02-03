@@ -15,6 +15,7 @@ import mantenimientos.GestionProductos;
 import model.Categoria;
 import model.HintTextField;
 import model.Producto;
+import model.Tabla_Reutilizable;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -25,6 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class IntRegisProduDatos extends JInternalFrame {
 	private JTextField txtUltilidad;
@@ -266,6 +268,13 @@ public class IntRegisProduDatos extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				registrar();
+				
+Tabla_Reutilizable.model.setRowCount(0);
+				
+				ArrayList<Producto> listado =new GestionProductos().listado();
+				Tabla_Reutilizable.listar(listado);
+				dispose();
+				
 			}
 		});
 		label_17.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -433,10 +442,10 @@ public class IntRegisProduDatos extends JInternalFrame {
 	void registrar() {
 		
 		 int codigo,codbarra,factor,stock;
-		 String descripcion,marca,unidadCompra,unidadVenta,codregistrosani;
+		 String descripcion,marca,unidadCompra,unidadVenta,codregistrosani,nomcat;
 		 double precioProCom,precioProVen;
 		 boolean lote;
-		 int codSunat,idcategoria;
+		 int codSunat;
 		
 		 codbarra=Integer.parseInt(txtCodigoBarra.getText());
 		 
@@ -454,14 +463,15 @@ public class IntRegisProduDatos extends JInternalFrame {
 		
 		 factor=Integer.parseInt(txtFactor.getText());
 		 
-		 idcategoria=Integer.parseInt(txtCategoria.getText());
+		 nomcat=txtCategoria.getText();
 		 
 		 codregistrosani=txtCodigoSanitario.getText();
 		 
 		 codSunat=Integer.parseInt(txtCodigoSunat.getText());
+		 Boolean valor=rdbLote.isSelected()?true:false;
 		 
-		 lote=Boolean.parseBoolean(rdbLote.getText());
-		 
+		 lote=valor;
+		 System.out.println("el lote en registrar es : "+lote);
 		 Producto p=new Producto();
 		 p.setCodbarra(codbarra);
 		 p.setDescripcion(descripcion);
@@ -471,7 +481,7 @@ public class IntRegisProduDatos extends JInternalFrame {
 		 p.setUnidadCompra(unidadCompra);
 		 p.setUnidadVenta(unidadVenta);
 		 p.setFactor(factor);
-		 p.setIdcategoria(idcategoria);
+		 p.setNomCat(nomcat);
 		 p.setCodregistrosani(codregistrosani);
 		 p.setCodSunat(codSunat);
 		 p.setLote(lote);

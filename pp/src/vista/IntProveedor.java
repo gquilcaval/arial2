@@ -28,6 +28,7 @@ import model.HintTextField;
 import model.Proveedores;
 import model.RoundedCornerBorder;
 import model.Tabla;
+import utils.FormatoTabla;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

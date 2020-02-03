@@ -38,7 +38,7 @@ public class FrmBuscarLCiente extends JDialog {
 	DefaultTableModel model =new DefaultTableModel() {
 		public boolean isCellEditable(int filas,int columnas) {
 			
-			if(filas==1) {
+			if(columnas==3) {
 				return true;
 			}
 			else {

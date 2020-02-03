@@ -133,6 +133,7 @@ public static ArrayList<DetalleCompra> carrito=new ArrayList<DetalleCompra>();
 			
 				
 			}
+			
 		});
 		getContentPane().setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		addMouseListener(new MouseAdapter() {
@@ -559,7 +560,8 @@ tblProducto.setModel(model1);
 				
 				IntGestionOrdenDeCompra.model.setRowCount(0);
 				IntGestionOrdenDeCompra.listaOrdeCompra();
-				dispose();
+				FrmOrdenDeCompra j=new FrmOrdenDeCompra();
+				j.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
 				}
 			
 				

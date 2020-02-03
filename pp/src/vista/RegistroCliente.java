@@ -24,6 +24,7 @@ import model.HintTextField;
 import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JSpinner;
 
 public class RegistroCliente extends JDialog {
 	private HintTextField txtNombreCliente;
@@ -37,6 +38,7 @@ public class RegistroCliente extends JDialog {
 	private HintTextField txtFormaPago;
 	private HintTextField txtTipoDocumento;
 	private HintTextField txtNumeroDocumento;
+	private JSpinner spLimiteCredito;
 
 	/**
 	 * Launch the application.
@@ -436,11 +438,19 @@ public class RegistroCliente extends JDialog {
 				panel.add(label);
 			}
 		}
+		
+		spLimiteCredito = new JSpinner();
+		spLimiteCredito.setBounds(475, 309, 106, 25);
+		getContentPane().add(spLimiteCredito);
+		
+		JLabel lblLimiteCredito = new JLabel("limite credito");
+		lblLimiteCredito.setBounds(599, 309, 94, 25);
+		getContentPane().add(lblLimiteCredito);
 	}
 	void registrar() {
 		
 		String nombre,nombreComercial,direccion,depart,distri,telf,cel,correo,formaPago,nDomento,tipoDocumento;
-		
+		double limite_credito;
 		
 		nombre=txtNombreCliente.getText();
 		nombreComercial=txtNombreComercial.getText();
@@ -453,7 +463,7 @@ public class RegistroCliente extends JDialog {
 		formaPago=txtFormaPago.getText();
 		nDomento=txtNumeroDocumento.getText();
 		tipoDocumento=txtTipoDocumento.getText();
-		
+		limite_credito=Double.parseDouble(spLimiteCredito.getValue().toString());
 		
 		
 		
@@ -470,7 +480,7 @@ public class RegistroCliente extends JDialog {
 		c.setFormaPago_cli(formaPago);
 		c.setNum_doc_cli_(nDomento);
 		c.setTip_doc_cli(tipoDocumento);
-		
+		c.setLimite_credito(limite_credito);
 		
 		int ok=new GestionClientes().registrar(c);
 		if(ok!=0){

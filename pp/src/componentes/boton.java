@@ -16,40 +16,33 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.omg.PortableServer.ServantRetentionPolicyValue;
+
 import vista.FrmRegistroCompra;
 
 
 public class boton extends JButton{
 
 	
-JPanel panel;
-public    JPanel  mibotonAgregar(int x,int y,JDialog j ) {
-	 panel=new JPanel();
+public static void  mibotonAgregar(JPanel panel ) {
+	
 	JLabel texto=new JLabel("Agregar");
 	texto.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-	texto.setForeground(Color.decode("#d5e6f9"));
+	texto.setForeground(Color.white);
 	texto.setVerticalTextPosition(CENTER);
 	
 	panel.setBorder(null);
 	
-	panel.setOpaque(true);
-	panel.setBackground(Color.decode("#007bff"));
+	
+	panel.setBackground(Color.decode("#28a745"));
 	
 	panel.setSize(130,30);
 	panel.add(texto);
-	panel.setLocation(x, y);
-	panel.addMouseListener(new MouseAdapter() {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			
-		j.setVisible(true);
-		j.setLocationRelativeTo(null);
-		}
-	});
 	
-	return panel;
-}
+	
+	
 
+}
 
 
 

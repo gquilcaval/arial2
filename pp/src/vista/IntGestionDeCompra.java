@@ -28,6 +28,7 @@ import model.DetalleCompra;
 import model.OrdenRegistroCompra;
 import model.Proveedores;
 import model.RoundedCornerBorder;
+import utils.FormatoTabla;
 import utils.FormatoTablaMain;
 
 import java.awt.event.MouseAdapter;
@@ -52,6 +53,7 @@ public class IntGestionDeCompra extends JInternalFrame {
 	private JScrollPane scrollPane_1;
 	private JTable tblProducto;
 	private JComboBox cboFiltro;
+	private JPanel panel_1;
 
 	/**
 	 * Launch the application.
@@ -107,16 +109,7 @@ public class IntGestionDeCompra extends JInternalFrame {
 		setBounds(223, 79, 1626, 811);
 		getContentPane().setLayout(null);
 		
-		/* el componente botonAgregar*/
-		
-		boton b=new boton();
-		
-		FrmRegistroCompra frmRegistrar=new FrmRegistroCompra();
-		
-		getContentPane().add(b.mibotonAgregar(44, 32,frmRegistrar));
-		
-		
-		/*--------------------------*/
+	
 		JPanel panel = new JPanel();
 		
 		panel.setLayout(null);
@@ -240,6 +233,19 @@ public class IntGestionDeCompra extends JInternalFrame {
 		cboFiltro.setBounds(1020, 32, 138, 30);
 		cboFiltro.setUI(CustomUI.createUI(this));
 		panel.add(cboFiltro);
+		
+		panel_1 = new JPanel();
+		panel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrmRegistroCompra f=new FrmRegistroCompra();
+				f.setVisible(true);
+				f.setLocationRelativeTo(null);
+			}
+		});
+		boton.mibotonAgregar(panel_1);
+		panel_1.setBounds(45, 32, 164, 35);
+		panel.add(panel_1);
 
 		
 	

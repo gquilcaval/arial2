@@ -2,8 +2,41 @@ package model;
 
 public class RegistroCompra {
 
-	private int codRegisCompra,nroOrdenCompra;
-	private String comprovante,fechaRegisCompra,fechaVenCompra;
+	private int codRegisCompra,nroOrdenCompra,idProve,idUsu,nroRegistroCompra;
+	public int getNroRegistroCompra() {
+		return nroRegistroCompra;
+	}
+	public void setNroRegistroCompra(int nroRegistroCompra) {
+		this.nroRegistroCompra = nroRegistroCompra;
+	}
+	private String comprovante,fechaRegisCompra,fechaVenCompra,condicionesPago,contacto;
+	
+	
+
+	public int getIdProve() {
+		return idProve;
+	}
+	public void setIdProve(int idProve) {
+		this.idProve = idProve;
+	}
+	public int getIdUsu() {
+		return idUsu;
+	}
+	public void setIdUsu(int idUsu) {
+		this.idUsu = idUsu;
+	}
+	public String getCondicionesPago() {
+		return condicionesPago;
+	}
+	public void setCondicionesPago(String condicionesPago) {
+		this.condicionesPago = condicionesPago;
+	}
+	public String getContacto() {
+		return contacto;
+	}
+	public void setContacto(String contacto) {
+		this.contacto = contacto;
+	}
 	public int getCodRegisCompra() {
 		return codRegisCompra;
 	}

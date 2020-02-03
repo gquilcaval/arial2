@@ -11,6 +11,8 @@ import java.awt.Rectangle;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -26,11 +28,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 
 import mantenimientos.GestionClientes;
+import mantenimientos.GestionEmpledos;
 import mantenimientos.GestionProductos;
 import mantenimientos.GestionProveedor;
 import model.Clientes;
+import model.Empleados;
 import model.Producto;
 import model.RoundedCornerBorder;
+import model.Tabla_Reutilizable;
+import utils.FormatoTablaMain;
 
 import javax.swing.UIManager;
 import javax.swing.JTable;
@@ -56,6 +62,8 @@ import java.awt.event.MouseEvent;
 
 public class IntGestionProducto extends JInternalFrame {
 	private String colorLetra="#000000";
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -77,7 +85,17 @@ public class IntGestionProducto extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
-	DefaultTableModel model = new DefaultTableModel();
+	public static DefaultTableModel model = new DefaultTableModel() {
+public boolean isCellEditable(int filas,int columnas) {
+			
+			if(columnas==7) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	};
 	private JTable tblProductos;
 	private JTextField textField;
 	private JLabel label_1;
@@ -101,9 +119,10 @@ public class IntGestionProducto extends JInternalFrame {
 		
 		
 
-		
+		model.setColumnCount(0);
+		model.setRowCount(0);
 
-		model.addColumn("Clave");
+	model.addColumn("clave");
 		model.addColumn("Descripcion");
 		
 		model.addColumn("Unidades Existencia");
@@ -115,9 +134,11 @@ public class IntGestionProducto extends JInternalFrame {
 		
 	
 		model.addColumn("Codigo registro sanitario");
+		model.addColumn("modificar");
+
+		model.addColumn("eliminar");
 		
-		
-		
+	
 		
 		setTitle("Gestion Productos");
 		setBounds(100, 100, 1626, 731);
@@ -128,21 +149,88 @@ public class IntGestionProducto extends JInternalFrame {
 		getContentPane().add(scrollPane);
 		
 		tblProductos = new JTable();
-		tblProductos.setRowHeight(25);
-		tblProductos.setIntercellSpacing(new Dimension(1, 3));
-		tblProductos.setGridColor(Color.LIGHT_GRAY);
-		tblProductos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tblProductos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				 int column = tblProductos.getColumnModel().getColumnIndexAtX(e.getX());
+			        int row = e.getY()/tblProductos.getRowHeight();
+			        
+			        if(row < tblProductos.getRowCount() && row >= 0 && column < tblProductos.getColumnCount() && column >= 0){
+			            Object value = tblProductos.getValueAt(row, column);
+			            if(value instanceof JButton){
+			                ((JButton)value).doClick();
+			                JButton boton = (JButton) value;
+
+			                if(boton.getName().equals("m")){
+			               	 JdialogEditarProducto j=new JdialogEditarProducto();
+			                	 int fila1 = tblProductos.getSelectedRow();
+			                	 int codigo=Integer.parseInt(tblProductos.getValueAt(fila1, 0).toString());
+			                	  System.out.println("el codigo el modficar es :"+codigo);
+			                	  
+			                	 ArrayList<Producto> lista=new GestionProductos().listadoXcodigo(codigo);
+			                	  System.out.println("la lista es : "+lista.get(0).getCodbarra());
+			                	  System.out.println("la lista es : "+lista.get(0).getDescripcion());
+			                	  JdialogEditarProducto.lblCodigo.setText(lista.get(0).getCodigo()+"");
+			                	 JdialogEditarProducto.txtCodigoBarra.setText(lista.get(0).getCodbarra()+"");
+			                	 JdialogEditarProducto.txtDescripcion.setText(lista.get(0).getDescripcion());
+			                	 JdialogEditarProducto.txtMarca.setText(lista.get(0).getMarca());
+			                	 JdialogEditarProducto.txtPrecioCompra.setText(lista.get(0).getPrecioProCom()+"");
+			                	 JdialogEditarProducto.txtPrecioVenta.setText(lista.get(0).getPrecioProVen()+"");
+			                	 JdialogEditarProducto.cboUnidadCompra.getModel().setSelectedItem(lista.get(0).getUnidadCompra());
+			                	 JdialogEditarProducto.cboUnidadVenta.getModel().setSelectedItem(lista.get(0).getUnidadVenta());
+			                	 JdialogEditarProducto.txtFactor.setText(lista.get(0).getFactor()+"");
+			                	 JdialogEditarProducto.txtCategoria.setText(lista.get(0).getNomCat());
+			                	 JdialogEditarProducto.txtCodigoSanitario.setText(lista.get(0).getCodregistrosani());
+			                	 JdialogEditarProducto.txtCodigoSunat.setText(lista.get(0).getCodSunat()+"");
+			                	 JdialogEditarProducto.rdbLote.setSelected(lista.get(0).getLote());
+			                	 JdialogEditarProducto.txtStock.setText(lista.get(0).getStock()+"");
+			                	 
+			                
+			                	 j.setVisible(true);
+			                	 j.setLocationRelativeTo(null);
+			                	 
+			                }
+			                if(boton.getName().equals("e")){
+			                	JOptionPane.showMessageDialog(null, "elimino");
+			    				
+			                   
+			                }
+			            }
+			          /*  if(value instanceof JCheckBox){
+			                //((JCheckBox)value).doClick();
+			                JCheckBox ch = (JCheckBox)value;
+			                if(ch.isSelected()==true){
+			                    ch.setSelected(false);
+			                }
+			                if(ch.isSelected()==false){
+			                    ch.setSelected(true);
+			                }
+			                
+			            }*/
+			        }
+				
+				
+				
+			}
+		});
+		/*----------formato tabla-----------------*/
 		
-		tblProductos.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		tblProductos.getTableHeader().setOpaque(false);
-		tblProductos.getTableHeader().setBackground(Color.decode("#005f80"));
-		tblProductos.getTableHeader().setForeground(Color.decode("#f7edd7"));
-		tblProductos.getTableHeader().setFont(new Font("Arial", 1, 12));
-		tblProductos.getTableHeader().setSize(WIDTH,100);
-		tblProductos.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
-		
-		tblProductos.setModel(model);
+		FormatoTablaMain.formatoTabla(tblProductos);
 		scrollPane.setViewportView(tblProductos);
+		
+		ArrayList<DefaultTableModel>lista=new ArrayList<>();
+		lista.add(model);
+		
+	
+		
+		Tabla_Reutilizable t=new Tabla_Reutilizable();
+		t.ver_tabla(tblProductos,  lista,model.getColumnCount());
+		
+		GestionProductos gc = new GestionProductos();
+		ArrayList<Producto> listado = gc.listado();
+		Tabla_Reutilizable.listar(listado);
+		/*-----------------------------------------*/
 		
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setOpaque(true);
@@ -226,7 +314,7 @@ public class IntGestionProducto extends JInternalFrame {
 		
 	}
 	
-	 void listar() {
+	 public static void listar() {
 		
 		GestionProductos gc = new GestionProductos();
 		ArrayList<Producto> lista = gc.listado();

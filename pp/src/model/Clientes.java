@@ -5,8 +5,14 @@ public class Clientes {
 	private int  id_cli ;
 	private String nomb_cli,num_doc_cli_,nom_comercial ,departamento_cli,telf_cli,direc_cli,Distrito_cli,tip_doc_cli,formaPago_cli,tip_persona_cli,correo,celular,estado;
 
+	double limite_credito;
 
-
+	public double getLimite_credito() {
+		return limite_credito;
+	}
+	public void setLimite_credito(double limite_credito) {
+		this.limite_credito = limite_credito;
+	}
 	public String getCorreo() {
 		return correo;
 	}
