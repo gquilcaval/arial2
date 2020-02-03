@@ -46,6 +46,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Console;
 
 public class IntCliente extends JInternalFrame {
 	public static DefaultTableModel model = new DefaultTableModel();
@@ -115,12 +116,12 @@ public class IntCliente extends JInternalFrame {
 	
 		/* model.addColumn("Pendiente Pago"); */
 		model.addColumn("Direccion");
-		
+		model.addColumn("Distrito");
 		model.addColumn("N.Telefono");
 		model.addColumn("Celular");
 		
 		model.addColumn("Correo");
-
+		model.addColumn("limite credito");
 		/*-------*/
 		panel = new JPanel() {
 			@Override
@@ -262,8 +263,28 @@ public class IntCliente extends JInternalFrame {
 		model.getDataVector().removeAllElements();
 		
 		for (Clientes cl : lista) {
+			double limite=cl.getLimite_credito();
+			String cambiar=limite+"";
+			String resultado="";
+			System.out.println(cambiar.length());
+			if(cambiar.length()==6) {
+				resultado=cambiar.substring(0,1)+","+cambiar.substring(1,6);
+			}
+			else if(cambiar.length()==7) {
+				resultado=cambiar.substring(0,2)+","+cambiar.substring(2,7);
+			}
+			else if(cambiar.length()==8) {
+				resultado=cambiar.substring(0,3)+","+cambiar.substring(3,8);
+			}
+			else if(cambiar.length()==9) {
+				resultado=cambiar.substring(0,1)+","+cambiar.substring(1,4)+","+cambiar.substring(4,9);
+			}
+			else {
+				resultado=limite+"";
+			}
+			System.out.println(resultado);
 			Object datos[] = {  cl.getId_cli(),cl.getNomb_cli(),cl.getNom_comercial(),cl.getFormaPago_cli(),
-					cl.getDirec_cli(),cl.getDistrito_cli(),cl.getTelf_cli(),cl.getCelular(),cl.getCorreo() };
+					cl.getDirec_cli(),cl.getDistrito_cli(),cl.getTelf_cli(),cl.getCelular(),cl.getCorreo(),resultado};
 
 			model.addRow(datos);
 

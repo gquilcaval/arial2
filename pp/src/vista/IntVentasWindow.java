@@ -60,6 +60,7 @@ public class IntVentasWindow extends JInternalFrame {
 	public static JLabel lblCodigo;
 	private JComboBox cboTipoDeComprovante;
 	private JLabel lblNumeroVenta;
+	private JPanel panel_agregar;
 	/**
 	 * Launch the application.
 	 */
@@ -96,10 +97,10 @@ public class IntVentasWindow extends JInternalFrame {
 		model.addColumn("cantidad");
 		model.addColumn("precio");
 		model.addColumn("importe");
-		FrmBuscarProductoVenta f=new FrmBuscarProductoVenta();
-		boton b=new boton();
+	
+
 		
-		getContentPane().add(b.mibotonAgregar(328, 239, f));
+		
 		setBackground(Color.RED);
 		setBounds(100, 100, 1626, 901);
 		getContentPane().setLayout(null);
@@ -254,12 +255,26 @@ public class IntVentasWindow extends JInternalFrame {
 		dtmFechaVencimineto.setBounds(705, 218, 109, 20);
 		panel.add(dtmFechaVencimineto);
 		
+		panel_agregar = new JPanel();
+		panel_agregar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				FrmBuscarProductoVenta f=new FrmBuscarProductoVenta();
+				f.setVisible(true);
+				f.setLocationRelativeTo(null);
+			}
+		});
+		panel_agregar.setBounds(207, 228, 121, 29);
+		boton.mibotonAgregar(panel_agregar);
+		panel.add(panel_agregar);
+		
 	
 	
 
 	}
 	ArrayList<DetalleVentas> carrito = new ArrayList<>();
 	private JDateChooser dtmFechaVencimineto;
+	
 	void grabar() {
 		String a=(String)tblProducto.getValueAt(0, 2);
 	

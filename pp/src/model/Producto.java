@@ -11,10 +11,16 @@ public class Producto {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
-	private String descripcion,marca,unidadCompra,unidadVenta,codregistrosani;
+	private String descripcion,marca,unidadCompra,unidadVenta,codregistrosani,nomCat;
+	public String getNomCat() {
+		return nomCat;
+	}
+	public void setNomCat(String nomCat) {
+		this.nomCat = nomCat;
+	}
 	private double precioProCom,precioProVen;
 	private boolean lote;
-	private int codSunat,idcategoria;
+	private int codSunat;
 	public int getCodigo() {
 		return codigo;
 	}
@@ -87,12 +93,7 @@ public class Producto {
 	public void setCodSunat(int codSunat) {
 		this.codSunat = codSunat;
 	}
-	public int getIdcategoria() {
-		return idcategoria;
-	}
-	public void setIdcategoria(int idcategoria) {
-		this.idcategoria = idcategoria;
-	}
+
 	
 
 	

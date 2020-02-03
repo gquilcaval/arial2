@@ -25,7 +25,7 @@ public class GestionClientes implements InterfaceCliente {
 		PreparedStatement pst=null;
 		try {
 			con=MySQLconexion.getConexion();
-			String sql="select id_cli,nomb_cli,nom_comercial,formaDePago,direc_cli,distrito,telf_cli,celular,correo_cli from cliente;";
+			String sql="select id_cli,nomb_cli,nom_comercial,formaDePago,direc_cli,distrito,telf_cli,celular,correo_cli,limite_credito from cliente;";
 			pst=(PreparedStatement) con.prepareStatement(sql);
 			rs=pst.executeQuery();
 			
@@ -41,7 +41,7 @@ public class GestionClientes implements InterfaceCliente {
 				c.setTelf_cli(rs.getString(7));
 				c.setCelular(rs.getString(8));
 				c.setCorreo(rs.getString(9));
-				   
+				c.setLimite_credito(rs.getDouble(10));
 				lista.add(c);
 			}
 			
@@ -81,6 +81,7 @@ public class GestionClientes implements InterfaceCliente {
 				   c.setNomb_cli(rs.getString(2));
 				   c.setNom_comercial(rs.getString(3));
 				   c.setDirec_cli(rs.getString(4));
+					c.setLimite_credito(rs.getDouble(10));
 				lista.add(c);
 			}
 			
@@ -109,7 +110,7 @@ public class GestionClientes implements InterfaceCliente {
 		PreparedStatement pst=null;
 		try {
 			con=MySQLconexion.getConexion();
-			String sql=" insert into cliente values(null,?,?,?,?,?,?,?,?,?,?,?);";
+			String sql=" insert into cliente values(null,?,?,?,?,?,?,?,?,?,?,?,?);";
 			pst=(PreparedStatement) con.prepareStatement(sql);
 			pst.setString(1,reg.getNomb_cli());
 			pst.setString(2, reg.getNom_comercial());
@@ -122,7 +123,7 @@ public class GestionClientes implements InterfaceCliente {
 			pst.setString(9, reg.getFormaPago_cli());
 			pst.setString(10, reg.getNum_doc_cli_());
 			pst.setString(11, reg.getTip_doc_cli());
-			
+			pst.setDouble(12,reg.getLimite_credito());
 			
 		
 			

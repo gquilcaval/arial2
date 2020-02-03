@@ -67,20 +67,41 @@ public int realizaCompra(RegistroCompra c, ArrayList<DetalleCompra> detalle) {
 		PreparedStatement pst2=null;
 		int resultado=0;
 			try {
+				System.out.println("el numero de orden es "+c.getNroRegistroCompra());
 				
 				con=MySQLconexion.getConexion();
 				con.setAutoCommit(false);
 							//insert ventas values(null,'Factura','2018/11/10',1,1);
-				String sql1="insert registro_compra values(null,?,?,?,?)";
+				String sql1="insert registro_compra values(null,?,?,?,?,?,?,?,?)";
 				pst1=con.prepareStatement(sql1);
 				
-				pst1.setInt(1,c.getNroOrdenCompra());
+				if(c.getNroOrdenCompra()==0) {
+				pst1.setString(1,null);
+				}
+				else {
+					pst1.setInt(1, c.getNroOrdenCompra());
+				}
+				
 				pst1.setString(2, c.getComprovante());
 				pst1.setString(3, c.getFechaRegisCompra());
 				pst1.setString(4, c.getFechaVenCompra());
+				pst1.setInt(5, c.getIdProve());
+				pst1.setInt(6, c.getIdUsu());
+				pst1.setString(7, c.getCondicionesPago());
+				pst1.setString(8, c.getContacto());
 				resultado=pst1.executeUpdate();
+				con.commit();
 								//insert into detalle_venta values (1,1,3,500.0)
-					
+				String sql2="insert into detalle_compra_registro_compra values(?,?,?,?);";
+				for (DetalleCompra dt : detalle) {
+					pst1=con.prepareStatement(sql2);
+				
+					pst1.setInt(1, c.getCodRegisCompra());
+					pst1.setInt(2, dt.getIdprodu());
+					pst1.setInt(3, dt.getCantidad());
+					pst1.setDouble(4,dt.getPrecio());
+					resultado=pst1.executeUpdate();
+				}
 									//update producto set stock_prod=stock_prod-1 where id_prod = 1;
 						String sql3="update producto set stock_pro=stock_pro+? where id_prod = ?";
 						for (DetalleCompra dt: detalle) {
@@ -140,7 +161,7 @@ public int ordenCompra(OrdenCompra c,ArrayList<DetalleCompra> d) {
 			pst1.setInt(7, c.getCodUsuario());
 			resultado=pst1.executeUpdate();
 							//insert into detalle_venta values (1,1,3,500.0)
-				String sql2="insert into detalle_compra values(?,?,?,?);";
+				String sql2="insert into detalle_compra_orden_compra values(?,?,?,?);";
 				for (DetalleCompra dt : d) {
 					pst1=con.prepareStatement(sql2);
 					pst1.setInt(1,dt.getNroCompra());
@@ -189,7 +210,7 @@ public ArrayList<OrdenCompra> listadoOrdenCompra() {
 	try {
 		con=MySQLconexion.getConexion();
 		String sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad),2) as 'total' from OrdenCompra o \r\n" + 
-				"				join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
+				"				join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra_orden_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
 				"                group by o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra\r\n" + 
 				"";
 		pst=(PreparedStatement) con.prepareStatement(sql);
@@ -234,7 +255,7 @@ public int ObtenerNumeroRegistroCompra() {
 	PreparedStatement pst = null;
 	try {
 	   con = MySQLconexion.getConexion(); 
-	   String sql = "select max(nro_ord_compra) from registro_compra"; 		  
+	   String sql = "select max(cod_regis_com) from registro_compra"; 		  
 
 	   pst = con.prepareStatement(sql);
 	   // parámetros según la sentencia
@@ -246,9 +267,10 @@ public int ObtenerNumeroRegistroCompra() {
 		  numero=rs.getInt(1); 
 		   //V004
 	
-		  numero=numero+1;
+		  numero+=1;
+		  
 	   }
-
+	   System.out.println(numero);
 	   // Acciones adicionales en caso de consultas
 	} catch (Exception e) {
 	   System.out.println("error en ultimo numero : "+e.getMessage());
@@ -273,7 +295,7 @@ public ArrayList<OrdenCompra> listaOrdenCompra(int codigo) {
 	try {
 		con=MySQLconexion.getConexion();
 		String sql=" select c.id_prod,p.desc_prod,c.CantxUnidad,c.precioUnidad  from OrdenCompra o \r\n" + 
-				"				join detalle_compra c on o.nro_ord_compra=c.nro_ord_compra join producto p on c.id_prod=p.id_prod   where o.nro_ord_compra=?";
+				"				join detalle_compra_orden_compra c on o.nro_ord_compra=c.nro_ord_compra join producto p on c.id_prod=p.id_prod   where o.nro_ord_compra=?";
 		pst=(PreparedStatement) con.prepareStatement(sql);
 		pst.setInt(1, codigo);
 		rs=pst.executeQuery();
@@ -324,9 +346,9 @@ public ArrayList<OrdenRegistroCompra> listadoRegistroCompra() {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad) from registro_compra r \r\n" + 
-				"join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
-				"group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com;";
+		String sql="select  r.cod_regis_com,r.comprovante,r.fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad) from registro_compra r \r\n" + 
+				"				left join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on r.id_prove=pro.id_prov join detalle_compra_registro_compra deta on deta.cod_regis_com=r.cod_regis_com\r\n" + 
+				"				group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com";
 		pst=(PreparedStatement) con.prepareStatement(sql);
 		
 		rs=pst.executeQuery();
@@ -372,8 +394,8 @@ public ArrayList<OrdenRegistroCompra> listadoXcodigoRegisCompra(int codigo) {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select deta.id_prod,pro.desc_prod,deta.CantxUnidad,deta.precioUnidad from detalle_compra deta join producto pro on deta.id_prod=pro.id_prod join \r\n" + 
-				"	ordencompra ord on ord.nro_ord_compra=deta.nro_ord_compra join registro_compra regis on regis.nro_ord_compra=ord.nro_ord_compra where regis.cod_regis_com=?";
+		String sql="select deta.id_prod,pro.desc_prod,deta.CantxUnidad,deta.precioUnidad from detalle_compra_registro_compra deta join producto pro on deta.id_prod=pro.id_prod \r\n" + 
+				" join registro_compra regis on regis.cod_regis_com=deta.cod_regis_com where regis.cod_regis_com=?";
 		pst=(PreparedStatement) con.prepareStatement(sql);
 		pst.setInt(1, codigo);
 		rs=pst.executeQuery();
@@ -405,6 +427,8 @@ public ArrayList<OrdenRegistroCompra> listadoXcodigoRegisCompra(int codigo) {
 	return lista;
 }
 
+
+/*registro compra*/
 @Override
 public ArrayList<OrdenRegistroCompra> listadoXFiltro(String filtro,String busquedad) {
 	ArrayList<OrdenRegistroCompra> lista=new ArrayList<OrdenRegistroCompra>();
@@ -418,19 +442,20 @@ public ArrayList<OrdenRegistroCompra> listadoXFiltro(String filtro,String busque
 		if(filtro.equals("TIPO DOCUMENTO")) {
 			
 		
-		 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad) from registro_compra r  \r\n" + 
-				"				join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
-				"                where r.comprovante like concat(?,'%')\r\n" + 
-				"				group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com ";
+		 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad) from registro_compra r  \r\n" + 
+		 		"								left join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on r.id_prove=pro.id_prov join detalle_compra_registro_compra deta on deta.cod_regis_com=r.cod_regis_com\r\n" + 
+		 		"				                where r.comprovante like concat(?,'%')\r\n" + 
+		 		"								group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com\r\n" + 
+		 		"                 ";
 		
 		}	
 		
 		else if(filtro.equals("PERIODO")) {
 
-			 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,sum(CantxUnidad*precioUnidad) from registro_compra r  \r\n" + 
-					"				join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on ord.id_prove=pro.id_prov join detalle_compra deta on deta.nro_ord_compra=ord.nro_ord_compra\r\n" + 
-					"                where r.fecha_Regis_com like concat(?,'%')\r\n" + 
-					"				group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com ";
+			 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad) from registro_compra r  \r\n" + 
+			 		"								left join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on r.id_prove=pro.id_prov join detalle_compra_registro_compra deta on deta.cod_regis_com=r.cod_regis_com\r\n" + 
+			 		"                where r.fecha_Regis_com like concat(?,'%')\r\n" + 
+			 		"								group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com ";
 			
 			
 		}
@@ -468,6 +493,7 @@ public ArrayList<OrdenRegistroCompra> listadoXFiltro(String filtro,String busque
 	return lista;
 }
 
+/*orden de compra*/
 @Override
 public ArrayList<OrdenCompra> listadoXFiltroOrden(String filtro, String busquedad) {
 	// TODO Auto-generated method stub
@@ -483,7 +509,7 @@ public ArrayList<OrdenCompra> listadoXFiltroOrden(String filtro, String busqueda
 			
 		
 		 sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad*1.18),2) as 'total' from OrdenCompra o \r\n" + 
-		 		"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
+		 		"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra_orden_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
 		 		"                            where nom_usu like concat(?,'%')\r\n" + 
 		 		"				group by o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra";
 		
@@ -494,7 +520,7 @@ public ArrayList<OrdenCompra> listadoXFiltroOrden(String filtro, String busqueda
 		else if(filtro.equals("FECHA ORDEN")) {
 
 			 sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad*1.18),2) as 'total' from OrdenCompra o \r\n" + 
-			 		"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
+			 		"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra_orden_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
 			 		"                            where fech_orden_compra like concat(?,'%')\r\n" + 
 			 		"				group by o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra";
 			
@@ -502,7 +528,7 @@ public ArrayList<OrdenCompra> listadoXFiltroOrden(String filtro, String busqueda
 		}
 		else if(filtro.equals("PROVEEDOR")) {
 			sql="select o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra,round(sum(deta.CantxUnidad*deta.precioUnidad*1.18),2) as 'total' from OrdenCompra o \r\n" + 
-					"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
+					"							join usuario u on o.id_usu=u.id_usu join proveedor p on p.id_prov=o.id_prove join detalle_compra_orden_compra deta on o.nro_ord_compra=deta.nro_ord_compra\r\n" + 
 					"                            where nom_prov like concat(?,'%')\r\n" + 
 					"				group by o.nro_ord_compra,u.nom_usu,o.fech_orden_compra,p.nom_prov,o.contacto,p.telf_prov,p.email_prov,o.fech_entrega_compra";
 		}
@@ -539,6 +565,8 @@ public ArrayList<OrdenCompra> listadoXFiltroOrden(String filtro, String busqueda
 	return lista;
 }
 
+
+/*orden compra*/
 @Override
 public ArrayList<OrdenCompra> obtenerDatosOrdenCompra(int codigo) {
 	ArrayList<OrdenCompra> lista=new ArrayList<OrdenCompra>();
@@ -547,9 +575,10 @@ public ArrayList<OrdenCompra> obtenerDatosOrdenCompra(int codigo) {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select pro.nom_prov,ruc_prov,pro.direc_prov,o.condiciones_pago,u.nom_usu from OrdenCompra o \r\n" + 
-				"				join detalle_compra c on o.nro_ord_compra=c.nro_ord_compra  join proveedor pro on pro.id_prov=o.id_prove join usuario u on u.id_usu=o.id_usu  where o.nro_ord_compra=?\r\n" + 
-				"				group by pro.nom_prov,pro.ruc_prov,pro.direc_prov,o.condiciones_pago";
+		String sql="select pro.nom_prov,ruc_prov,pro.direc_prov,o.condiciones_pago,u.nom_usu,pro.id_prov from OrdenCompra o \r\n" + 
+				"							join detalle_compra_orden_compra c on o.nro_ord_compra=c.nro_ord_compra  join proveedor pro \r\n" + 
+				"                            on pro.id_prov=o.id_prove join usuario u on u.id_usu=o.id_usu  where o.nro_ord_compra=?\r\n" + 
+				"							group by pro.nom_prov,pro.ruc_prov,pro.direc_prov,o.condiciones_pago";
 		pst=(PreparedStatement) con.prepareStatement(sql);
 		pst.setInt(1, codigo);
 		rs=pst.executeQuery();
@@ -564,7 +593,7 @@ public ArrayList<OrdenCompra> obtenerDatosOrdenCompra(int codigo) {
 			reg.setDirecProveedor(rs.getString(3));
 			reg.setCondicionPago(rs.getString(4));
 			reg.setNomUsuario(rs.getString(5));
-	
+			reg.setCodProveedor(rs.getInt(6));
 			lista.add(reg);
 		}
 		

@@ -525,7 +525,7 @@ JOptionPane.showMessageDialog(null, "algo incorrecto");
 Frame a=new Frame();
 new alert.AlertSuccess(a,true).setVisible(true);*/
 JOptionPane.showMessageDialog(null, " Bienvenido " + e.getNom_emp() + "  " + e.getApe_pat_emp());
-FrmMenuPrincipal p = new FrmMenuPrincipal();
+FrmMenuPrincipal p = new FrmMenuPrincipal(); 
 FrmMenuPrincipal.lblUsuario.setText(e.getNom_emp()+" "+e.getApe_pat_emp());
 //METODO PARA VALIDAR RESTRICCION DE GUIS
 if (e.getId_tip_emp().equals("1")) {

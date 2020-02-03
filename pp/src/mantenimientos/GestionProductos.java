@@ -39,7 +39,7 @@ public class GestionProductos implements InterfaceProducto{
 				reg.setUnidadCompra(rs.getString(7));
 				reg.setUnidadVenta(rs.getString(8));
 				reg.setFactor(rs.getInt(9));
-				reg.setIdcategoria(rs.getInt(10));
+				reg.setNomCat(rs.getString(10));
 				reg.setCodregistrosani(rs.getString(11));
 				reg.setCodSunat(rs.getInt(12));
 				reg.setLote(rs.getBoolean(13));
@@ -66,6 +66,58 @@ public class GestionProductos implements InterfaceProducto{
 	}
 
 	@Override
+	public ArrayList<Producto> listadoXcodigo(int codigo) {
+		// TODO Auto-generated method stub
+				ArrayList<Producto> lista=new ArrayList<Producto>();
+				ResultSet rs=null;
+				Connection con=null;
+				PreparedStatement pst=null;
+				try {
+					con=MySQLconexion.getConexion();
+					String sql="select*from producto where cod_barra=?";
+					pst=(PreparedStatement) con.prepareStatement(sql);
+					pst.setInt(1,codigo);
+					rs=pst.executeQuery();
+					
+					while (rs.next()) {
+						Producto reg=new Producto();
+						reg.setCodigo(rs.getInt(1));
+						reg.setCodbarra(rs.getInt(2));
+						reg.setDescripcion(rs.getString(3));
+						reg.setMarca(rs.getString(4));
+						
+						reg.setPrecioProCom(rs.getDouble(5));
+						reg.setPrecioProVen(rs.getDouble(6));
+						reg.setUnidadCompra(rs.getString(7));
+						reg.setUnidadVenta(rs.getString(8));
+						reg.setFactor(rs.getInt(9));
+						reg.setNomCat(rs.getString(10));
+						reg.setCodregistrosani(rs.getString(11));
+						reg.setCodSunat(rs.getInt(12));
+						reg.setLote(rs.getBoolean(13));
+					reg.setStock(rs.getInt(14));
+						
+						lista.add(reg);
+					}
+					
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "error en la sentencia"+e.getMessage());
+				}finally {
+					try {
+						if(pst!=null)pst.close();
+						if(con!=null)con.close();
+					} catch (Exception e2) {
+						
+						JOptionPane.showMessageDialog(null, "error al cerrar");
+					}
+				}
+				return lista;
+	}
+
+	
+	
+	
+	@Override
 	public ArrayList<Producto> listado(String nombre) {
 		// TODO Auto-generated method stub
 		ArrayList<Producto> lista=new ArrayList<Producto>();
@@ -91,7 +143,7 @@ public class GestionProductos implements InterfaceProducto{
 				reg.setUnidadCompra(rs.getString(7));
 				reg.setUnidadVenta(rs.getString(8));
 				reg.setFactor(rs.getInt(9));
-				reg.setIdcategoria(rs.getInt(10));
+				reg.setNomCat(rs.getString(10));
 				reg.setCodregistrosani(rs.getString(11));
 				reg.setCodSunat(rs.getInt(12));
 				reg.setLote(rs.getBoolean(13));
@@ -136,7 +188,7 @@ public class GestionProductos implements InterfaceProducto{
 			pst.setString(6,reg.getUnidadCompra());
 			pst.setString(7, reg.getUnidadVenta());
 			pst.setInt(8, reg.getFactor());
-			pst.setInt(9, reg.getIdcategoria());
+			pst.setString(9,reg.getNomCat());
 			pst.setString(10,reg.getCodregistrosani());
 			pst.setInt(11,reg.getCodSunat());
 			pst.setBoolean(12, reg.getLote());
@@ -162,26 +214,33 @@ public class GestionProductos implements InterfaceProducto{
 		
 	}
 
-public int actualizar(Producto p) {
+public int actualizar(Producto reg) {
 		
 		int rs=0;
 		Connection con=null;
 		PreparedStatement pst=null;
 		try {
 			con=MySQLconexion.getConexion();
-			String sql=" update producto set nom_prod=?,stock_prod=?,pre_prod=?,id_cat=?,id_prov=?  where id_prod=?";
+			String sql="   update producto set cod_barra=? ,desc_prod=?,marca_prod=?,pre_prod_compra=?,pre_prod_lista=?,unidadCompra=?,unidadVenta=?,factor=?,\r\n" + 
+					"    nom_cat=?,codRegistroSanitario=?,codigo_sunat=?,lote=?,stock_pro=? where id_prod=?;";
 			
 			pst=(PreparedStatement) con.prepareStatement(sql);
 			
-			/*falta
-			pst.setString(1,p.getDescripcion());
-			pst.setInt(2,p.getStock());
-			pst.setDouble(3,p.getPrecioUnidad());
-			pst.setString(4,p.getIdcategoria());
-			pst.setInt(5,p.getIdproveedor());
-			pst.setInt(6, p.getCodigo());
-			*/
-		
+			
+			pst.setInt(1, reg.getCodbarra());
+			pst.setString(2, reg.getDescripcion());
+			pst.setString(3,reg.getMarca());
+			pst.setDouble(4, reg.getPrecioProCom());
+			pst.setDouble(5, reg.getPrecioProVen());
+			pst.setString(6,reg.getUnidadCompra());
+			pst.setString(7, reg.getUnidadVenta());
+			pst.setInt(8, reg.getFactor());
+			pst.setString(9,reg.getNomCat());
+			pst.setString(10,reg.getCodregistrosani());
+			pst.setInt(11,reg.getCodSunat());
+			pst.setBoolean(12, reg.getLote());
+			pst.setInt(13, reg.getStock());
+			pst.setInt(14, reg.getCodigo());
 			
 			rs=pst.executeUpdate();
 			
@@ -230,6 +289,7 @@ public int actualizar(Producto p) {
 		}
 		return rs;
 	}
+
 
 	
 }

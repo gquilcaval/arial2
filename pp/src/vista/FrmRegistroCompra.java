@@ -31,10 +31,15 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import com.toedter.calendar.JDateChooser;
+
+import componentes.boton;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,7 +55,7 @@ public class FrmRegistroCompra extends JDialog {
 	public static JLabel lblReloj;
 	public static JLabel lblFecha;
 	private JTextField txtOrdenCompra;
-	DefaultTableModel model=new DefaultTableModel();
+	public static DefaultTableModel model=new DefaultTableModel();
 	private JTable tblRegistroCompra;
 	private JTextField txtTotal;
 	public static double importe;
@@ -60,7 +65,8 @@ public class FrmRegistroCompra extends JDialog {
 	private JComboBox cboComprovante;
 	private JDateChooser dtmEmision;
 	private JDateChooser dtmVencimiento;
-	
+	public String numeroCompra;
+	public int numero;
 	/**
 	 * Launch the application.
 	 */
@@ -79,10 +85,21 @@ public class FrmRegistroCompra extends JDialog {
 	 * Create the dialog.
 	 */
 	public FrmRegistroCompra() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				lblUsuario.setText(FrmLogin.e.getNom_emp());
+			
+				
+			}
+		});
+		
+		
 		setModal(true);
 		
 		/*model para el registro de compra*/
-		
+		model.setColumnCount(0);
+		model.setRowCount(0);
 		model.addColumn("Codigo");
 		model.addColumn("Descripcion");
 		model.addColumn("Cantidad");
@@ -102,6 +119,7 @@ public class FrmRegistroCompra extends JDialog {
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
 		
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new MatteBorder(1, 1, 2, 1, (Color) new Color(0, 0, 0)));
@@ -116,10 +134,10 @@ public class FrmRegistroCompra extends JDialog {
 		panel.add(lblRegistroDeCompra);
 		
 		GestionCompra g=new GestionCompra();
-		String numeroCompra;
-		numeroCompra ="N°0000"+g.ObtenerNumeroRegistroCompra();
+		 numero=g.ObtenerNumeroRegistroCompra();
+		numeroCompra ="N°0000"+numero;
 		
-		JLabel lblNumeroOrden = new JLabel(numeroCompra);
+		lblNumeroOrden = new JLabel(numeroCompra);
 		lblNumeroOrden.setForeground(Color.WHITE);
 		lblNumeroOrden.setFont(new Font("Segoe UI", Font.BOLD, 14));
 		lblNumeroOrden.setBounds(1216, 27, 78, 14);
@@ -139,6 +157,7 @@ public class FrmRegistroCompra extends JDialog {
 		JLabel label_2 = new JLabel("________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________");
 		label_2.setBounds(0, 96, 1367, 14);
 		getContentPane().add(label_2);
+		
 		
 		lblFecha = new JLabel("");
 		lblFecha.setForeground(Color.BLACK);
@@ -169,7 +188,7 @@ public class FrmRegistroCompra extends JDialog {
 		
 		JLabel lblDireccion = new JLabel("Direccion       :");
 		lblDireccion.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		lblDireccion.setBounds(10, 180, 115, 14);
+		lblDireccion.setBounds(10, 179, 115, 14);
 		panel_1.add(lblDireccion);
 		
 		txtProveedor = new JTextField();
@@ -198,11 +217,11 @@ public class FrmRegistroCompra extends JDialog {
 		
 		textField = new JTextField();
 		textField.setColumns(10);
-		textField.setBounds(133, 17, 222, 20);
+		textField.setBounds(93, 17, 222, 20);
 		panel_2.add(textField);
 		
 		JLabel label_3 = new JLabel("");
-		label_3.setBounds(365, 17, 20, 20);
+		label_3.setBounds(314, 17, 20, 20);
 		panel_2.add(label_3);
 		
 		JLabel label_5 = new JLabel("");
@@ -211,11 +230,28 @@ public class FrmRegistroCompra extends JDialog {
 		label_5.setBounds(466, 0, 56, 50);
 		panel_2.add(label_5);
 		
+		txtCodigo = new JLabel("");
+		txtCodigo.setForeground(Color.WHITE);
+		txtCodigo.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		txtCodigo.setBounds(340, 0, 49, 50);
+		panel_2.add(txtCodigo);
+		
 		txtDireccion = new JTextField();
-		txtDireccion.setBounds(135, 178, 221, 20);
+		txtDireccion.setBounds(135, 177, 221, 20);
 		txtDireccion.setOpaque(false);
 		panel_1.add(txtDireccion);
 		txtDireccion.setColumns(10);
+		
+		JLabel lblContacto = new JLabel("Contacto       :");
+		lblContacto.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		lblContacto.setBounds(10, 220, 115, 14);
+		panel_1.add(lblContacto);
+		
+		txtContacto = new JTextField();
+		txtContacto.setOpaque(false);
+		txtContacto.setColumns(10);
+		txtContacto.setBounds(135, 218, 221, 20);
+		panel_1.add(txtContacto);
 		
 		JLabel lblComprobante = new JLabel("Comprobante");
 		lblComprobante.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -268,8 +304,6 @@ public class FrmRegistroCompra extends JDialog {
 		lblFechaDeVencimiento.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 		lblFechaDeVencimiento.setBounds(10, 160, 125, 14);
 		panel_3.add(lblFechaDeVencimiento);
-		
-		JComboBox cboFormaPago; 
 		cboFormaPago= new JComboBox();
 		cboFormaPago.setModel(new DefaultComboBoxModel(new String[] {"credito 30 ", "credito 90"}));
 		cboFormaPago.setBounds(146, 110, 94, 20);
@@ -315,6 +349,13 @@ public class FrmRegistroCompra extends JDialog {
 		lblOrdenDeCompra.setBounds(10, 72, 115, 14);
 		panel_7.add(lblOrdenDeCompra);
 		
+	
+		
+		
+		
+		
+	
+		
 		txtOrdenCompra = new JTextField();
 		txtOrdenCompra.setBounds(134, 70, 95, 20);
 		panel_7.add(txtOrdenCompra);
@@ -325,18 +366,19 @@ public class FrmRegistroCompra extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				model.setRowCount(0);
-				int codigoRegisCompra=Integer.parseInt(txtOrdenCompra.getText());
+				int codigoOrdenCompra=Integer.parseInt(txtOrdenCompra.getText());
 				
-				ArrayList<OrdenCompra>datosProducto= g.listaOrdenCompra(codigoRegisCompra);
-				ArrayList<OrdenCompra>lista= g.obtenerDatosOrdenCompra(codigoRegisCompra);
+				ArrayList<OrdenCompra>datosProducto= g.listaOrdenCompra(codigoOrdenCompra);
+				ArrayList<OrdenCompra>lista= g.obtenerDatosOrdenCompra(codigoOrdenCompra);
 				if(lista.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "el numero de orden no existe");
 				}
 				else {
 					
+				int codigoProve=lista.get(0).getCodProveedor();
 				
-				System.out.println(lista.get(0).getNomUsuario());
 				lblUsuario.setText(lista.get(0).getNomUsuario());
+				txtCodigo.setText(codigoProve+"");
 				txtProveedor.setText(lista.get(0).getNomProveedor());
 				txtRuc.setText(lista.get(0).getRuc());
 				txtDireccion.setText(lista.get(0).getDirecProveedor());
@@ -390,12 +432,12 @@ public class FrmRegistroCompra extends JDialog {
 		panel_7.add(btnPoner);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(34, 422, 1260, 235);
+		scrollPane.setBounds(34, 466, 1260, 235);
 		getContentPane().add(scrollPane);
 		
 		tblRegistroCompra = new JTable();
 		tblRegistroCompra.setModel(model);
-		scrollPane.setViewportView(tblRegistroCompra);
+		scrollPane.setColumnHeaderView(tblRegistroCompra);
 		
 		JLabel label_19 = new JLabel("Total");
 		label_19.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -405,7 +447,7 @@ public class FrmRegistroCompra extends JDialog {
 		txtTotal = new JTextField();
 		txtTotal.setEditable(false);
 		txtTotal.setColumns(10);
-		txtTotal.setBounds(1208, 686, 86, 20);
+		txtTotal.setBounds(1194, 708, 86, 20);
 		getContentPane().add(txtTotal);
 		
 		label_6 = new JLabel("Grabar");
@@ -430,6 +472,21 @@ public class FrmRegistroCompra extends JDialog {
 		label_6.setBounds(1194, 739, 100, 25);
 		getContentPane().add(label_6);
 		
+		JPanel panel_5 = new JPanel();
+		panel_5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				FrmBuscarProductoRegistroCompra f=new FrmBuscarProductoRegistroCompra();
+				f.setVisible(true);
+				f.setLocationRelativeTo(null);
+			}
+		});
+		
+		panel_5.setBounds(34, 426, 166, 29);
+		
+		boton.mibotonAgregar(panel_5);
+		getContentPane().add(panel_5);
+		
 		iniciaReloj();
 	}
 	
@@ -438,6 +495,10 @@ public class FrmRegistroCompra extends JDialog {
 	private JTextField textField;
 	private JTextField txtDireccion;
 	private JLabel label_6;
+	private JTextField txtContacto;
+	private JLabel lblNumeroOrden;
+	private JLabel txtCodigo;
+	private JComboBox cboFormaPago;
 	
 	
 	
@@ -448,13 +509,29 @@ public class FrmRegistroCompra extends JDialog {
 	
 void grabar() {
 		
-		int nroOrdenCompra;
-		String comprovante,fechaRegis,fechaVenci;
+		int nroOrdenCompra,idProve,idUsu,nroRegistroCompra;
+		String comprovante,fechaRegis,fechaVenci,formaPago,contacto;
 		
 		GestionCompra c=new GestionCompra();
-		nroOrdenCompra=c.ObtenerNumeroRegistroCompra();
-		comprovante=cboComprovante.getSelectedItem().toString();
 		
+		System.out.println(numero);
+		nroRegistroCompra=numero;
+		
+		String texto=txtOrdenCompra.getText();
+		
+		if(texto.isEmpty()) {
+			nroOrdenCompra=0;
+		}else {
+			
+		nroOrdenCompra=Integer.parseInt(txtOrdenCompra.getText());
+		}
+		
+		
+		comprovante=cboComprovante.getSelectedItem().toString();
+		idProve=1;
+		idUsu=FrmLogin.e.getId_emp();
+		formaPago=cboFormaPago.getSelectedItem().toString();
+		contacto=txtContacto.getText();
 		/*para la fecha*/
 		Date fecha1=dtmEmision.getDate();
 		Date fecha2=dtmVencimiento.getDate();
@@ -466,11 +543,16 @@ void grabar() {
 		
 		
 		RegistroCompra r=new RegistroCompra();
+		r.setCodRegisCompra(nroRegistroCompra);
 		r.setNroOrdenCompra(nroOrdenCompra);
 		r.setComprovante(comprovante);
 		r.setFechaRegisCompra(fechaRegis);
 		r.setFechaVenCompra(fechaVenci);
 		
+		r.setCondicionesPago(formaPago);
+		r.setContacto(contacto);
+		r.setIdProve(idProve);
+		r.setIdUsu(idUsu);
 		
 		
 		for(int i=0;i<tblRegistroCompra.getRowCount();i++) {
@@ -478,7 +560,7 @@ void grabar() {
 			
 			deta.setIdprodu(Integer.parseInt(tblRegistroCompra.getValueAt(i, 0).toString()));
 			deta.setCantidad(Integer.parseInt(tblRegistroCompra.getValueAt(i, 2).toString()));
-			
+			deta.setPrecio(Double.parseDouble(tblRegistroCompra.getValueAt(i, 3).toString()));
 			carrito.add(deta);
 		}
 		
