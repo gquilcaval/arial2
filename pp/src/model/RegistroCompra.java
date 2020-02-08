@@ -3,6 +3,25 @@ package model;
 public class RegistroCompra {
 
 	private int codRegisCompra,nroOrdenCompra,idProve,idUsu,nroRegistroCompra;
+	private boolean pagado,anulado,recibido;
+	public boolean isPagado() {
+		return pagado;
+	}
+	public void setPagado(boolean pagado) {
+		this.pagado = pagado;
+	}
+	public boolean isAnulado() {
+		return anulado;
+	}
+	public void setAnulado(boolean anulado) {
+		this.anulado = anulado;
+	}
+	public boolean isRecibido() {
+		return recibido;
+	}
+	public void setRecibido(boolean recibido) {
+		this.recibido = recibido;
+	}
 	public int getNroRegistroCompra() {
 		return nroRegistroCompra;
 	}

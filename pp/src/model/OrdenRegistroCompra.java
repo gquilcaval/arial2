@@ -5,6 +5,25 @@ public class OrdenRegistroCompra {
 	private int codigo,nroOrdenCompra;
 	private String comprovante,fechaRegisCom,fechaVenCom,nomProveedor,formaPago;
 	
+	private boolean pagado,anulado,recibido;
+	public boolean isPagado() {
+		return pagado;
+	}
+	public void setPagado(boolean pagado) {
+		this.pagado = pagado;
+	}
+	public boolean isAnulado() {
+		return anulado;
+	}
+	public void setAnulado(boolean anulado) {
+		this.anulado = anulado;
+	}
+	public boolean isRecibido() {
+		return recibido;
+	}
+	public void setRecibido(boolean recibido) {
+		this.recibido = recibido;
+	}
 	/*para el detalleCompra0*/
 	int codPro,cantidad;
 	String nomPro;

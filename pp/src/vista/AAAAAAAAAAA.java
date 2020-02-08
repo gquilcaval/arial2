@@ -13,8 +13,10 @@ import javax.swing.table.DefaultTableModel;
 
 import mantenimientos.GestionEmpledos;
 import mantenimientos.GestionProductos;
+import model.Celda_CheckBox;
 import model.Empleados;
 import model.Producto;
+import model.Render_CheckBox;
 import model.Tabla_Reutilizable;
 
 import javax.swing.JScrollPane;
@@ -25,6 +27,7 @@ import java.awt.event.MouseEvent;
 public class AAAAAAAAAAA extends JDialog {
 	private JTable tblPrueba;
 	DefaultTableModel model=new DefaultTableModel();
+	private JButton btnEnviar;
 	/**
 	 * Launch the application.
 	 */
@@ -42,7 +45,7 @@ public class AAAAAAAAAAA extends JDialog {
 	 * Create the dialog.
 	 */
 	public AAAAAAAAAAA() {
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 335);
 		getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -58,59 +61,47 @@ public class AAAAAAAAAAA extends JDialog {
 		model.addColumn("e");
 		model.addColumn("e");
 		tblPrueba = new JTable();
-		tblPrueba.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				 int column = tblPrueba.getColumnModel().getColumnIndexAtX(e.getX());
-			        int row = e.getY()/tblPrueba.getRowHeight();
-			        
-			        if(row < tblPrueba.getRowCount() && row >= 0 && column < tblPrueba.getColumnCount() && column >= 0){
-			            Object value = tblPrueba.getValueAt(row, column);
-			            if(value instanceof JButton){
-			                ((JButton)value).doClick();
-			                JButton boton = (JButton) value;
-
-			                if(boton.getName().equals("m")){
-			                	
-			                
-			                	JOptionPane.showMessageDialog(null, "modifico");
-			                  
-			                }
-			                if(boton.getName().equals("e")){
-			                	JOptionPane.showMessageDialog(null, "elimino");
-			    				
-			                   
-			                }
-			            }
-			          /*  if(value instanceof JCheckBox){
-			                //((JCheckBox)value).doClick();
-			                JCheckBox ch = (JCheckBox)value;
-			                if(ch.isSelected()==true){
-			                    ch.setSelected(false);
-			                }
-			                if(ch.isSelected()==false){
-			                    ch.setSelected(true);
-			                }
-			                
-			            }*/
-			        }
-			        
-			}
-		});
+	
+		model.setDataVector(new Object[][] {
+		        { false, "Juan Perez", "12", "Hombre" },
+		        { false, "Homero J. Simpsons", "40", "Hombre" },
+		        { true, "Ned Flanders", "35", "Hombre" },
+		        { true, "Asuka Langley", "15", "Si gracias" },
+		        { false, "Rei Ayanami", "16", "Mujer" },
+		        { true, "shinji ikari", "15", "No se sabe" } }, new Object[] {
+		        "CheckBox", "Nombre", "Edad", "Sexo" });
+		
+		
+		
+		tblPrueba.setModel(model);
+		tblPrueba.getColumnModel().getColumn( 0 ).setCellEditor( new Celda_CheckBox() );
+        //para pintar la columna con el CheckBox en la tabla, en este caso, la primera columna
+		tblPrueba.getColumnModel().getColumn( 0 ).setCellRenderer(new Render_CheckBox());
+ 
+		
 		scrollPane.setViewportView(tblPrueba);
 		
-		
-		
-	ArrayList<DefaultTableModel>lista=new ArrayList<>();
-		lista.add(model);
-		
-		GestionProductos gc = new GestionProductos();
-		ArrayList<Producto> listado = gc.listado();
-		
-		Tabla_Reutilizable t=new Tabla_Reutilizable();
-		t.ver_tabla(tblPrueba, lista, model.getColumnCount());
-		t.listar(listado);
-	}
+		btnEnviar = new JButton("enviar");
+		btnEnviar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				for(int i=0;i<tblPrueba.getRowCount();i++) {
+					boolean valor=Boolean.parseBoolean(tblPrueba.getValueAt(i, 0).toString());
+					System.out.println(	valor);
+				}
 
+				
+			}
+		});
+		btnEnviar.setBounds(39, 261, 89, 23);
+		getContentPane().add(btnEnviar);
+		
+		
+		
+	
+
+		
+
+	}
 }

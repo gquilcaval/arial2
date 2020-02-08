@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+
+import java.awt.Checkbox;
 import java.awt.Color;
 import javax.swing.JTextField;
 import java.awt.Graphics;
@@ -24,9 +26,12 @@ import javax.swing.table.DefaultTableModel;
 import componentes.boton;
 import mantenimientos.GestionCompra;
 import mantenimientos.GestionProveedor;
+import model.Celda_CheckBox;
 import model.DetalleCompra;
+
 import model.OrdenRegistroCompra;
 import model.Proveedores;
+import model.Render_CheckBox;
 import model.RoundedCornerBorder;
 import utils.FormatoTabla;
 import utils.FormatoTablaMain;
@@ -49,7 +54,7 @@ public class IntGestionDeCompra extends JInternalFrame {
 	private String colorFondo = "#ebf0f4";
 	public static DefaultTableModel model = new DefaultTableModel();
 	DefaultTableModel model1 = new DefaultTableModel();
-	private JTable tblCompra;
+	public static JTable tblCompra;
 	private JScrollPane scrollPane_1;
 	private JTable tblProducto;
 	private JComboBox cboFiltro;
@@ -79,6 +84,7 @@ public class IntGestionDeCompra extends JInternalFrame {
 			@Override
 			public void internalFrameOpened(InternalFrameEvent arg0) {
 				listadoRegistroCompra();
+				
 			}
 		});
 
@@ -94,7 +100,9 @@ public class IntGestionDeCompra extends JInternalFrame {
 		model.addColumn("Caja");
 		
 		model.addColumn("Total");
-		
+		model.addColumn("Pagado");
+		model.addColumn("Anulado");
+		model.addColumn("Recibido");
 
 		model1.setRowCount(0);
 		model1.setColumnCount(0);
@@ -105,7 +113,8 @@ public class IntGestionDeCompra extends JInternalFrame {
 	
 		model1.addColumn("Descuento");
 		model1.addColumn("Total");
-
+	
+		
 		setBounds(223, 79, 1626, 811);
 		getContentPane().setLayout(null);
 		
@@ -196,10 +205,11 @@ public class IntGestionDeCompra extends JInternalFrame {
 
 			}
 		});
+		
 		scrollPane.setViewportView(tblCompra);
 		FormatoTablaMain.formatoTabla(tblCompra);
 		tblCompra.setModel(model);
-
+		
 		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(44, 484, 1517, 225);
 		scrollPane_1.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -259,9 +269,17 @@ public class IntGestionDeCompra extends JInternalFrame {
 		for (OrdenRegistroCompra cl : lista) {
 
 			Object o[] = { cl.getCodigo(), cl.getComprovante(), cl.getFechaRegisCom(),
-					cl.getNomProveedor(), cl.getFormaPago(), cl.getFechaVenCom(), "", cl.getTotal() };
+					cl.getNomProveedor(), cl.getFormaPago(), cl.getFechaVenCom(), "", cl.getTotal() ,true,true,false};
 			model.addRow(o);
 		}
-
+		tblCompra.getColumnModel().getColumn( 8 ).setCellEditor( new Celda_CheckBox() );
+        //para pintar la columna con el CheckBox en la tabla, en este caso, la primera columna
+		tblCompra.getColumnModel().getColumn( 8 ).setCellRenderer(new Render_CheckBox());
+		tblCompra.getColumnModel().getColumn( 9 ).setCellEditor( new Celda_CheckBox() );
+        //para pintar la columna con el CheckBox en la tabla, en este caso, la primera columna
+		tblCompra.getColumnModel().getColumn( 9 ).setCellRenderer(new Render_CheckBox());
+		tblCompra.getColumnModel().getColumn( 10 ).setCellEditor( new Celda_CheckBox() );
+        //para pintar la columna con el CheckBox en la tabla, en este caso, la primera columna
+		tblCompra.getColumnModel().getColumn( 10).setCellRenderer(new Render_CheckBox());
 	}
 }

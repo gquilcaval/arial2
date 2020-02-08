@@ -21,6 +21,7 @@ import utils.MySQLconexion;
 
 public class GestionCompra implements InterfaceCompra {
 
+	/*orden compra*/
 	public int ObtenerNumero() {
 		// TODO Auto-generated method stub
 		int numero=1; // tipo de resultado
@@ -60,6 +61,7 @@ public class GestionCompra implements InterfaceCompra {
 		return numero; 
 	}
 
+	/*registro compra*/
 public int realizaCompra(RegistroCompra c, ArrayList<DetalleCompra> detalle) {
 		
 		Connection con = null;
@@ -72,7 +74,7 @@ public int realizaCompra(RegistroCompra c, ArrayList<DetalleCompra> detalle) {
 				con=MySQLconexion.getConexion();
 				con.setAutoCommit(false);
 							//insert ventas values(null,'Factura','2018/11/10',1,1);
-				String sql1="insert registro_compra values(null,?,?,?,?,?,?,?,?)";
+				String sql1="insert registro_compra values(null,?,?,?,?,?,?,?,?,?,?,?)";
 				pst1=con.prepareStatement(sql1);
 				
 				if(c.getNroOrdenCompra()==0) {
@@ -89,6 +91,9 @@ public int realizaCompra(RegistroCompra c, ArrayList<DetalleCompra> detalle) {
 				pst1.setInt(6, c.getIdUsu());
 				pst1.setString(7, c.getCondicionesPago());
 				pst1.setString(8, c.getContacto());
+				pst1.setBoolean(9, c.isPagado());
+				pst1.setBoolean(10, c.isAnulado());
+				pst1.setBoolean(11, c.isRecibido());
 				resultado=pst1.executeUpdate();
 				con.commit();
 								//insert into detalle_venta values (1,1,3,500.0)
@@ -133,6 +138,7 @@ public int realizaCompra(RegistroCompra c, ArrayList<DetalleCompra> detalle) {
 		return resultado;
 	}
 
+/*orden compra*/
 @Override
 public int ordenCompra(OrdenCompra c,ArrayList<DetalleCompra> d) {
 	// TODO Auto-generated method stub
@@ -201,6 +207,7 @@ public int ordenCompra(OrdenCompra c,ArrayList<DetalleCompra> d) {
 	return resultado;
 }
 
+/*orden compra*/
 @Override
 public ArrayList<OrdenCompra> listadoOrdenCompra() {
 	ArrayList<OrdenCompra> lista=new ArrayList<OrdenCompra>();
@@ -286,6 +293,7 @@ public int ObtenerNumeroRegistroCompra() {
 	return numero; 
 }
 
+/*ORDEN COMPRA*/
 @Override
 public ArrayList<OrdenCompra> listaOrdenCompra(int codigo) {
 	ArrayList<OrdenCompra> lista=new ArrayList<OrdenCompra>();
@@ -346,9 +354,9 @@ public ArrayList<OrdenRegistroCompra> listadoRegistroCompra() {
 	PreparedStatement pst=null;
 	try {
 		con=MySQLconexion.getConexion();
-		String sql="select  r.cod_regis_com,r.comprovante,r.fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad) from registro_compra r \r\n" + 
-				"				left join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on r.id_prove=pro.id_prov join detalle_compra_registro_compra deta on deta.cod_regis_com=r.cod_regis_com\r\n" + 
-				"				group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com";
+		String sql="select  r.cod_regis_com,r.comprovante,r.fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad),r.pagado,r.anulado,r.recibido from registro_compra r \r\n" + 
+				"								left join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on r.id_prove=pro.id_prov join detalle_compra_registro_compra deta on deta.cod_regis_com=r.cod_regis_com\r\n" + 
+				"								group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,r.pagado,r.anulado,r.recibido;";
 		pst=(PreparedStatement) con.prepareStatement(sql);
 		
 		rs=pst.executeQuery();
@@ -364,7 +372,9 @@ public ArrayList<OrdenRegistroCompra> listadoRegistroCompra() {
 			reg.setFormaPago(rs.getString(6));
 			reg.setFechaVenCom(rs.getString(7));
 			reg.setTotal(rs.getDouble(8));
-			
+			reg.setPagado(rs.getBoolean(9));
+			reg.setAnulado(rs.getBoolean(10));
+			reg.setRecibido(rs.getBoolean(11));
 			
 			lista.add(reg);
 		}
@@ -442,20 +452,20 @@ public ArrayList<OrdenRegistroCompra> listadoXFiltro(String filtro,String busque
 		if(filtro.equals("TIPO DOCUMENTO")) {
 			
 		
-		 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad) from registro_compra r  \r\n" + 
+		 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad),r.pagado,r.anulado,r.recibido from registro_compra r  \r\n" + 
 		 		"								left join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on r.id_prove=pro.id_prov join detalle_compra_registro_compra deta on deta.cod_regis_com=r.cod_regis_com\r\n" + 
 		 		"				                where r.comprovante like concat(?,'%')\r\n" + 
-		 		"								group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com\r\n" + 
+		 		"								group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,r.pagado,r.anulado,r.recibido\r\n" + 
 		 		"                 ";
 		
 		}	
 		
 		else if(filtro.equals("PERIODO")) {
 
-			 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad) from registro_compra r  \r\n" + 
+			 sql="select  r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,r.condiciones_pago,r.fecha_ven_com,sum(deta.CantxUnidad*deta.precioUnidad),r.pagado,r.anulado,r.recibido from registro_compra r  \r\n" + 
 			 		"								left join ordencompra ord on r.nro_ord_compra=ord.nro_ord_compra join proveedor pro on r.id_prove=pro.id_prov join detalle_compra_registro_compra deta on deta.cod_regis_com=r.cod_regis_com\r\n" + 
 			 		"                where r.fecha_Regis_com like concat(?,'%')\r\n" + 
-			 		"								group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com ";
+			 		"								group by r.cod_regis_com,r.comprovante,fecha_regis_com,pro.nom_prov,r.nro_ord_compra,ord.condiciones_pago,r.fecha_ven_com,r.pagado,r.anulado,r.recibido ";
 			
 			
 		}

@@ -7,6 +7,9 @@ import java.io.Console;
 import javax.swing.JTable;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+
+import model.Celda_CheckBox;
+import model.Render_CheckBox;
 /**
  * @web http://jc-mouse.blogspot.com/
  * @author Mouse
