@@ -125,6 +125,7 @@ public class FrmMenuPrincipal extends JFrame {
 	
 	clsArial clsIcono=new clsArial();
 	static FrmMenuPrincipal frame ;
+	private JPanel panel_1_2;
 	/**
 	 * Launch the application.
 	 */
@@ -608,7 +609,7 @@ public class FrmMenuPrincipal extends JFrame {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							
-							clsArial.setInternalFrame(dktBody, new IntReportes(), null, null);
+							new clsArial().setInternalFrame(dktBody	, new IntCaja(), null, null);
 						}
 					});
 					panel_5_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -617,19 +618,19 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_5_1.setBounds(1, 682, 222, 51);
 					panel_4.add(panel_5_1);
 					
-					JLabel lblReportes = new JLabel("REPORTES");
-					lblReportes.setHorizontalAlignment(SwingConstants.CENTER);
-					lblReportes.setForeground(new Color(152, 163, 175));
-					lblReportes.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
-					lblReportes.setBackground(new Color(44, 57, 68));
-					lblReportes.setBounds(71, 0, 98, 52);
-					panel_5_1.add(lblReportes);
+					JLabel lblCaja = new JLabel("CAJA");
+					lblCaja.setHorizontalAlignment(SwingConstants.CENTER);
+					lblCaja.setForeground(new Color(152, 163, 175));
+					lblCaja.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
+					lblCaja.setBackground(new Color(44, 57, 68));
+					lblCaja.setBounds(71, 0, 98, 52);
+					panel_5_1.add(lblCaja);
 					
 					JLabel label_5_1 = new JLabel("");
 					label_5_1.setHorizontalTextPosition(SwingConstants.CENTER);
 					label_5_1.setHorizontalAlignment(SwingConstants.CENTER);
 					label_5_1.setBounds(2, 2, 59, 48);
-					new clsArial().modifiedIcon("/img/reporte.png", 29, 29, label_5_1);
+					new clsArial().modifiedIcon("/img/caja.png", 29, 29, label_5_1);
 					panel_5_1.add(label_5_1);
 					
 					JLabel label_7_1 = new JLabel("");
@@ -638,8 +639,41 @@ public class FrmMenuPrincipal extends JFrame {
 					label_7_1.setBounds(218, 0, 3, 52);
 					panel_5_1.add(label_7_1);
 					
+					JPanel panel_5_1_1 = new JPanel();
+					panel_5_1_1.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent arg0) {
+							clsArial.setInternalFrame(dktBody, new IntReportes(), null, null);
+						}
+					});
+					panel_5_1_1.setLayout(null);
+					panel_5_1_1.setBackground(new Color(45, 54, 63));
+					panel_5_1_1.setBounds(1, 764, 222, 51);
+					panel_4.add(panel_5_1_1);
+					
+					JLabel lblReportes = new JLabel("REPORTES");
+					lblReportes.setHorizontalAlignment(SwingConstants.CENTER);
+					lblReportes.setForeground(new Color(152, 163, 175));
+					lblReportes.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
+					lblReportes.setBackground(new Color(44, 57, 68));
+					lblReportes.setBounds(71, 0, 98, 52);
+					panel_5_1_1.add(lblReportes);
+					
+					JLabel label_5_1_1 = new JLabel("");
+					label_5_1_1.setHorizontalTextPosition(SwingConstants.CENTER);
+					label_5_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+					label_5_1_1.setBounds(2, 2, 59, 48);
+					new clsArial().modifiedIcon("/img/reporte.png", 29, 29, label_5_1_1);
+					panel_5_1_1.add(label_5_1_1);
+					
+					JLabel label_7_1_1 = new JLabel("");
+					label_7_1_1.setOpaque(false);
+					label_7_1_1.setBackground(new Color(15, 149, 236));
+					label_7_1_1.setBounds(218, 0, 3, 52);
+					panel_5_1_1.add(label_7_1_1);
+					
 					panel_9 = new JPanel();
-					panel_9.setBounds(223, 0, 1356, 49);
+					panel_9.setBounds(223, 0, 1356, 57);
 					contentPane.add(panel_9);
 					panel_9.setBackground(Color.decode("#FDFEFE"));
 					panel_9.setLayout(null);
@@ -656,6 +690,38 @@ public class FrmMenuPrincipal extends JFrame {
 					panel_9.add(lblReloj);
 					lblReloj.setForeground(Color.BLACK);
 					
+					JPanel panelCaja = new JPanel();
+					panelCaja.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent arg0) {
+							JdialogCambiarCaja caja=new JdialogCambiarCaja();
+							caja.setVisible(true);
+						}
+					});
+					panelCaja.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					panelCaja.setLayout(null);
+					panelCaja.setBackground(Color.WHITE);
+					panelCaja.setBounds(1191, 5, 155, 49);
+					panel_9.add(panelCaja);
+					
+					JLabel lblCaja_1 = new JLabel("Caja 1");
+					lblCaja_1.setHorizontalAlignment(SwingConstants.CENTER);
+					lblCaja_1.setForeground(Color.BLACK);
+					lblCaja_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
+					lblCaja_1.setBounds(92, 1, 60, 48);
+					panelCaja.add(lblCaja_1);
+					
+					JLabel lbliconCaja = new JLabel("");
+					lbliconCaja.setHorizontalAlignment(SwingConstants.CENTER);
+					new clsArial().modifiedIcon("/img/caja_color.png", 38, 38, lbliconCaja);
+					lbliconCaja.setBounds(32, 1, 50, 48);
+					panelCaja.add(lbliconCaja);
+					
+					panel_1_2 = new JPanel();
+					panel_1_2.setBackground(new Color(235, 240, 244));
+					panel_1_2.setBounds(1176, 0, 1, 57);
+					panel_9.add(panel_1_2);
+					
 					dktBody = 	new JDesktopPane();
 					contentPane.add(dktBody);
 
@@ -666,7 +732,7 @@ public class FrmMenuPrincipal extends JFrame {
 					
 					panelPerfil = new JPanel();
 					panelPerfil.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-					panelPerfil.setBounds(1589, 0, 204, 49);
+					panelPerfil.setBounds(1589, 5, 204, 49);
 					contentPane.add(panelPerfil);
 					panelPerfil.setBackground(Color.WHITE);
 					panelPerfil.addMouseListener(new MouseAdapter() {

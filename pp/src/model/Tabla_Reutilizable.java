@@ -84,6 +84,10 @@ public static  void listar(ArrayList<Producto> lista) {
 
 	}
 }
+
+public static void listarFinanzas() {
+	
+}
 	
 public void setBox(JTable tabla ,TableColumn column) {
 	column.setCellEditor(new JDateChooserEditor(new JCheckBox()));

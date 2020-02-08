@@ -34,6 +34,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.JTextField;
+import java.awt.Cursor;
 
 public class IntUsuario extends JInternalFrame {
 	private JTable tblUsuarios;
@@ -69,54 +70,6 @@ public class IntUsuario extends JInternalFrame {
 		/*-----------------------------------------------------------------------------*/
 		
 		getContentPane().setLayout(null);
-		
-		JPanel panel = new JPanel(){
-			
-			/* -------------REDONDEO BORDES JPANEL -----------*/
-			protected void paintComponent(Graphics g) {
-				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-					Graphics2D g2 = (Graphics2D) g.create();
-					g2.setPaint(getBackground());
-					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
-					g2.dispose();
-				}
-				super.paintComponent(g);
-			}
-
-			@Override
-			public void updateUI() {
-				super.updateUI();
-				setOpaque(false);
-				setBorder(new RoundedCornerBorder());
-			}
-		};
-		panel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				JdialogRegistroUsuario registroUsuario=new JdialogRegistroUsuario();
-				registroUsuario.setVisible(true);
-				registroUsuario.setLocationRelativeTo(null);
-			}
-		});
-		panel.setBackground(Color.decode("#1493e1"));
-		panel.setBounds(1435, 90, 132, 35);
-		getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JLabel lbliconoNuevo = new JLabel("");
-		lbliconoNuevo.setHorizontalAlignment(SwingConstants.CENTER);
-		lbliconoNuevo.setBounds(0, 0, 51, 35);
-	
-		clsIcono.modifiedIcon("/iconos/sumar.png", 25, 25,lbliconoNuevo);
-		panel.add(lbliconoNuevo);
-		
-		JLabel lblNuevo = new JLabel("Nuevo");
-		lblNuevo.setForeground(Color.WHITE);
-		lblNuevo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblNuevo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNuevo.setBounds(56, 0, 76, 35);
-		panel.add(lblNuevo);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(100, 203, 1467, 550);
@@ -255,6 +208,50 @@ public class IntUsuario extends JInternalFrame {
 		txtBusqUsu.setBounds(543, 90, 541, 35);
 		getContentPane().add(txtBusqUsu);
 		txtBusqUsu.setColumns(10);
+		
+		JPanel panel = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+
+			@Override
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JdialogRegistroUsuario registroUsuario=new JdialogRegistroUsuario();
+				registroUsuario.setVisible(true);
+			}
+		});
+		panel.setLayout(null);
+		panel.setBackground(new Color(35, 43, 55));
+		panel.setBounds(1480, 95, 87, 30);
+		getContentPane().add(panel);
+		
+		JLabel lblNuevo = new JLabel("Nuevo");
+		lblNuevo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNuevo.setForeground(Color.WHITE);
+		lblNuevo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 11));
+		lblNuevo.setBounds(34, 7, 48, 15);
+		panel.add(lblNuevo);
+		
+		JLabel lbliconoNuevo = new JLabel("");
+		lbliconoNuevo.setHorizontalAlignment(SwingConstants.CENTER);
+		new clsArial().modifiedIcon("/iconos/sumar.png", 17, 17, lbliconoNuevo);
+		lbliconoNuevo.setBounds(10, 5, 23, 22);
+		panel.add(lbliconoNuevo);
 		
 
 			}

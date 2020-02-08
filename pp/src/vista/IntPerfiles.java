@@ -18,6 +18,7 @@ import model.Empleados;
 import model.RoundedCornerBorder;
 import model.Tabla;
 import model.TablaPerfiles;
+import utils.clsArial;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -62,56 +63,9 @@ public class IntPerfiles extends JInternalFrame {
 		/*-----------------------------------------------------------------------------*/
 		
 		getContentPane().setLayout(null);
-		
-		JPanel panel = new JPanel(){
-			
-			/* -------------REDONDEO BORDES JPANEL -----------*/
-			protected void paintComponent(Graphics g) {
-				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
-					Graphics2D g2 = (Graphics2D) g.create();
-					g2.setPaint(getBackground());
-					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
-					g2.dispose();
-				}
-				super.paintComponent(g);
-			}
-
-			@Override
-			public void updateUI() {
-				super.updateUI();
-				setOpaque(false);
-				setBorder(new RoundedCornerBorder());
-			}
-		};
-		panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		panel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JdialogRegistroPerfil perfil=new JdialogRegistroPerfil();
-				perfil.setVisible(true);
-				perfil.setLocationRelativeTo(null);
-			}
-		});
-		panel.setBackground(Color.decode("#1493e1"));
-		panel.setBounds(1374, 90, 132, 35);
-		getContentPane().add(panel);
-		panel.setLayout(null);
-		
-		JLabel lbliconoNuevo = new JLabel("");
-		lbliconoNuevo.setHorizontalAlignment(SwingConstants.CENTER);
-		lbliconoNuevo.setBounds(0, 0, 51, 35);
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 		Icon iconoEscalado = new ImageIcon(imgEscalada);
-		lbliconoNuevo.setIcon(iconoEscalado);
-		panel.add(lbliconoNuevo);
-		
-		JLabel lblNuevo = new JLabel("Nuevo");
-		lblNuevo.setForeground(Color.WHITE);
-		lblNuevo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 17));
-		lblNuevo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNuevo.setBounds(56, 0, 76, 35);
-		panel.add(lblNuevo);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(303, 235, 977, 217);
@@ -176,6 +130,50 @@ public class IntPerfiles extends JInternalFrame {
 			                
 			});
 		scrollPane.setViewportView(tblPerfiles);
+		
+		JPanel panel = new JPanel() {
+			protected void paintComponent(Graphics g) {
+				if (!isOpaque() && getBorder() instanceof RoundedCornerBorder) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setPaint(getBackground());
+					g2.fill(((RoundedCornerBorder) getBorder()).getBorderShape(0, 0, getWidth() - 1, getHeight() - 1));
+					g2.dispose();
+				}
+				super.paintComponent(g);
+			}
+
+			@Override
+			public void updateUI() {
+				super.updateUI();
+				setOpaque(false);
+				setBorder(new RoundedCornerBorder());
+			}
+		};
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JdialogRegistroPerfil registroPerfil=new JdialogRegistroPerfil();
+				registroPerfil.setVisible(true);
+			}
+		});
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel.setLayout(null);
+		panel.setBackground(Color.decode(new clsArial().colorCeleste));
+		panel.setBounds(303, 102, 87, 30);
+		getContentPane().add(panel);
+		
+		JLabel lblNuevo = new JLabel("Nuevo");
+		lblNuevo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNuevo.setForeground(Color.WHITE);
+		lblNuevo.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 11));
+		lblNuevo.setBounds(34, 7, 48, 15);
+		panel.add(lblNuevo);
+		
+		JLabel lbliconoNuevo = new JLabel("");
+		lbliconoNuevo.setHorizontalAlignment(SwingConstants.CENTER);
+		new clsArial().modifiedIcon("/iconos/sumar.png", 17, 17, lbliconoNuevo);
+		lbliconoNuevo.setBounds(10, 5, 23, 22);
+		panel.add(lbliconoNuevo);
 		
 
 			}

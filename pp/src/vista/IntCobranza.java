@@ -12,13 +12,18 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import mantenimientos.GestionEmpledos;
+import mantenimientos.GestionProductos;
 import model.Empleados;
 import model.HintTextField;
+import model.Producto;
 import model.RoundedCornerBorder;
 import model.Tabla;
 import model.TablaPerfiles;
+import model.Tabla_Reutilizable;
+import utils.FormatoTablaMain;
 import utils.clsArial;
 
 import java.awt.Font;
@@ -130,7 +135,7 @@ public class IntCobranza extends JInternalFrame {
 		getContentPane().add(scrollPane);
 		
 		tblCobranza = new JTable();
-		t.ver_tabla(tblCobranza);
+		
 		tblCobranza.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -221,6 +226,13 @@ public class IntCobranza extends JInternalFrame {
 				
 			}
 		});
+		t.ver_tabla(tblCobranza);
+		
+		
+
+		
+		
+		
 		scrollPane.setViewportView(tblCobranza);
 		
 		txtBusqUsu =new HintTextField("Search") {

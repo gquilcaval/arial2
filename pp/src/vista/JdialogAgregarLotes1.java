@@ -178,8 +178,8 @@ public class JdialogAgregarLotes1 extends JDialog {
 	}
 	ArrayList<Lotes> listado=new ArrayList<>();
 	void agregar() {
-		int codLote,existenciaInicial,existenciaActual,venceDias,idPro;
-		String fechaProduccion,fechaCaducidad,fechaUltimoMovimiento;
+		int codLote,existenciaInicial,existenciaActual,idPro;
+		String fechaProduccion,fechaCaducidad;
 		
 		
 		

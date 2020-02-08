@@ -23,7 +23,7 @@ public class GestionLotes implements InterfaceLotes {
 			con=MySQLconexion.getConexion();
 			String sql="insert into lote values(?,?,?,?,?,venceDias(fecha_produccion,fecha_caducidad),curdate(),?);";
 			
-			System.out.println(lista.get(0).getCod_lote()+"  "+lista.get(1).getCod_lote());
+			
 			for (Lotes l : lista) {
 				pst = con.prepareStatement(sql);
 				pst.setInt(1, l.getCod_lote());
