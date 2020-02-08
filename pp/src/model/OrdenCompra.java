@@ -4,6 +4,7 @@ public class OrdenCompra {
 	
 	int nroOrdenCompra,codProveedor,codUsuario;
 	double total;
+	
 	public double getTotal() {
 		return total;
 	}
