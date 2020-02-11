@@ -231,6 +231,7 @@ nro_ord_compra int  ,
    pagado boolean,
    anulado boolean,
    recibido boolean,
+   
   	foreign key (id_usu) references usuario(id_usu),
     FOREIGN KEY (id_prove)  REFERENCES proveedor(id_prov),
      FOREIGN KEY (nro_ord_compra)  REFERENCES ordencompra(nro_ord_compra)
@@ -241,7 +242,9 @@ nro_ord_compra int  ,
 select*from registro_compra;
 
 insert into registro_compra values(null,null,'factura','2020/10/10','2020/10/10',1,1,'credito','juan',false,false,false);
-insert into detalle_compra_registro_compra values(1,1,2,15);
+
+
+
 CREATE TABLE detalle_compra_registro_compra(
 cod_regis_com int  NOT NULL,
 
@@ -252,7 +255,7 @@ foreign key (id_prod) references producto(id_prod),
 FOREIGN KEY (cod_regis_com)  REFERENCES registro_compra(cod_regis_com)
 );
 
-
+insert into detalle_compra_registro_compra values(1,1,2,15);
 
 	 create TABLE ventas(
 Nro_ven int  NOT NULL primary key auto_increment,
@@ -263,11 +266,12 @@ id_usu int null,
 tipo_comprobante varchar(20) not null,
 
 num_comprobante varchar (10) not null,
+formaPago varchar(70),
 foreign key (id_usu) references usuario(id_usu),
     foreign key (id_cli) references cliente(id_cli)
     );
 
-select*from ventas;
+
 create TABLE detalle_Venta(
 Nro_ven int  NOT NULL,
 id_prod int  NOT NULL,
@@ -278,21 +282,18 @@ primary key(Nro_ven,id_prod),
   constraint fkpro foreign key (id_prod) references producto(id_prod),
   constraint fkven foreign key (Nro_ven) references ventas(Nro_ven)
 );
-select*from producto;
-select *from detalle_venta;
 
-
-select*from producto;
-
-
-
-select*from ventas;
 /*cajas movimientos cortes de caja etc*/
 
 create table caja(
 cod_caja int auto_increment primary key,
 nom_caja varchar(30) not null
 );
+select*from caja;
+insert into caja values(null,'caja 1');
+insert into caja values(null,'caja 2');
+insert into caja values(null,'caja 3');
+select*from caja;
 
 
 create table movimiento(
@@ -304,25 +305,43 @@ Nro_ven int,
 cod_regis_com int,
 
 
-entrada decimal(10,1) not null,
-salida decimal(10,1) not null,
+entrada decimal(10,1)  null,
+salida decimal(10,1)  null,
 saldo decimal(10,1) not null,
-caja varchar(50) not null,
-tiene_corte_caja boolean  null,
+cod_caja int not null,
+tiene_corte_caja boolean default false  null,
+constraint fkv2 FOREIGN KEY (cod_caja)  REFERENCES caja(cod_caja),
 constraint fkv FOREIGN KEY (cod_regis_com)  REFERENCES registro_compra(cod_regis_com),
- constraint fkv foreign key (Nro_ven) references ventas(Nro_ven)
+ constraint fkv1 foreign key (Nro_ven) references ventas(Nro_ven)
 );
+
 
 
 create table corteCaja(
 codigo_corte_caja int auto_increment primary key,
 fecha datetime,
-caja varchar(50) not null,
+cod_caja int not null,
 contado decimal(10,1) null,
 calculado decimal(10,1) null,
 diferencia decimal(10,1)null,
-retirado decimal(10,1) not null
+retirado decimal(10,1) not null,
+constraint fkv2as FOREIGN KEY (cod_caja)  REFERENCES caja(cod_caja)
+);
+
+
+create table detalle_corte_caja(
+codigo_corte_caja int,
+cod_movimiento int,
+nomCaja varchar(70) not null,
+constraint fkasdv FOREIGN KEY (codigo_corte_caja)  REFERENCES corteCaja(codigo_corte_caja),
+ constraint fkvasd1 foreign key (cod_movimiento) references movimiento(cod_movimiento)
 )
+
+select*from corteCaja;
+select*from detalle_corte_caja;
+
+select*From movimiento;
+
 /*--*/
 create table cotizacion(
 
