@@ -65,7 +65,7 @@ public int realizaVenta(Ventas venta, ArrayList<DetalleVentas> detalle) {
 				con=MySQLconexion.getConexion();
 				con.setAutoCommit(false);
 							//insert ventas values(null,'Factura','2018/11/10',1,1);
-				String sql1="insert into ventas values(null,SYSDATE(),?,?,?,?,?)";
+				String sql1="insert into ventas values(null,SYSDATE(),?,?,?,?,?,?)";
 				pst1=con.prepareStatement(sql1);
 
 				pst1.setString(1, venta.getFecha_vencimiento());
@@ -73,7 +73,7 @@ public int realizaVenta(Ventas venta, ArrayList<DetalleVentas> detalle) {
 				pst1.setInt(3, venta.getId_emp());
 				pst1.setString(4,venta.getDoc_ven());
 				pst1.setString(5,venta.getNumeroComprovante());
-
+				pst1.setString(6, venta.getFormaPago());
 			
 				resultado=pst1.executeUpdate();
 				con.commit();

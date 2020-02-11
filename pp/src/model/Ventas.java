@@ -2,8 +2,14 @@ package model;
 
 public class Ventas {
 	private int Nro_ven ,id_cli,id_emp;
-	private String doc_ven,fech_ven,numeroComprovante,fecha_vencimiento;
+	private String doc_ven,fech_ven,numeroComprovante,fecha_vencimiento,formaPago;
 	
+	public String getFormaPago() {
+		return formaPago;
+	}
+	public void setFormaPago(String formaPago) {
+		this.formaPago = formaPago;
+	}
 	public String getFecha_vencimiento() {
 		return fecha_vencimiento;
 	}

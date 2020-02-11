@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -73,9 +74,9 @@ public class FrmBuscarLCiente extends JDialog {
 		model.setRowCount(0);
 		model.setColumnCount(0);
 		model.addColumn("Codigo");
-		model.addColumn("nombre");
-		model.addColumn("nombre comercial");
 	
+		model.addColumn("nombre comercial");
+	model.addColumn("forma pago");
 	
 	
 		getContentPane().setBackground(Color.WHITE);
@@ -120,9 +121,9 @@ public class FrmBuscarLCiente extends JDialog {
 				
 					
 					int fila=tblCliente.getSelectedRow();
-					
-					IntVentasWindow.txtCliente.setText(""+tblCliente.getValueAt(fila, 2));
 					IntVentasWindow.lblCodigo.setText(""+tblCliente.getValueAt(fila, 0));
+					IntVentasWindow.txtCliente.setText(""+tblCliente.getValueAt(fila, 1));
+					IntVentasWindow.cboFormaPago.setSelectedItem(tblCliente.getValueAt(fila, 2));
 					dispose();
 				
 			}
@@ -139,7 +140,7 @@ public class FrmBuscarLCiente extends JDialog {
 		model.getDataVector().removeAllElements();
 		for (Clientes cl : listado) {
 			
-			Object o[]= {cl.getId_cli(),cl.getNomb_cli(),cl.getNom_comercial()
+			Object o[]= {cl.getId_cli(),cl.getNom_comercial(),cl.getFormaPago_cli()
 					};
 			model.addRow(o);
 		}

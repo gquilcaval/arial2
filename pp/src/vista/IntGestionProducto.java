@@ -227,8 +227,8 @@ public boolean isCellEditable(int filas,int columnas) {
 		Tabla_Reutilizable t=new Tabla_Reutilizable();
 		t.ver_tabla(tblProductos,  lista,model.getColumnCount());
 		
-		GestionProductos gc = new GestionProductos();
-		ArrayList<Producto> listado = gc.listado();
+		
+		ArrayList<Producto> listado = new GestionProductos().listado();
 		Tabla_Reutilizable.listar(listado);
 		/*-----------------------------------------*/
 		

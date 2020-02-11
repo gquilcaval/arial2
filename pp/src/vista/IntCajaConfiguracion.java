@@ -12,13 +12,22 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
+import mantenimientos.GestionCaja;
 import mantenimientos.GestionEmpledos;
+import mantenimientos.GestionProductos;
+import model.Caja;
 import model.Empleados;
 import model.HintTextField;
+import model.Producto;
 import model.RoundedCornerBorder;
 import model.Tabla;
 import model.TablaPerfiles;
+import model.Tabla_Reutilizable;
+import utils.FormatoTabla;
+import utils.FormatoTablaMain;
 import utils.clsArial;
 
 import java.awt.Font;
@@ -43,7 +52,7 @@ import javax.swing.JTextArea;
 import java.awt.Cursor;
 
 public class IntCajaConfiguracion extends JInternalFrame {
-
+ public static DefaultTableModel model=new DefaultTableModel();
 	/**
 	 * Launch the application.
 	 */
@@ -61,10 +70,15 @@ public class IntCajaConfiguracion extends JInternalFrame {
 	}
 
 	Tabla t=new Tabla();
+	private JTable tblCaja;
 	/**
 	 * Create the frame.
 	 */
 	public IntCajaConfiguracion() {
+		model.addColumn("codigo");
+		model.addColumn("caja");
+		model.addColumn("modificar");
+		model.addColumn("eliminar");
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(0, 68, 1642, 851);
 		setBorder(null);
@@ -117,6 +131,71 @@ public class IntCajaConfiguracion extends JInternalFrame {
 		panel.add(lbliconoNuevo);
 		new clsArial().modifiedIcon("/iconos/sumar.png", 17, 17, lbliconoNuevo);
 		lbliconoNuevo.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		scrollPane.getViewport().setBackground(Color.WHITE);
+		scrollPane.setBounds(26, 114, 679, 547);
+		getContentPane().add(scrollPane);
+		
+		tblCaja = new JTable();
+		tblCaja.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int column = tblCaja.getColumnModel().getColumnIndexAtX(e.getX());
+		        int row = e.getY()/tblCaja.getRowHeight();
+		        
+		        if(row < tblCaja.getRowCount() && row >= 0 && column < tblCaja.getColumnCount() && column >= 0){
+		            Object value = tblCaja.getValueAt(row, column);
+		            if(value instanceof JButton){
+		                ((JButton)value).doClick();
+		                JButton boton = (JButton) value;
+
+		                if(boton.getName().equals("m")){
+		               	 JdialogEditarProducto j=new JdialogEditarProducto();
+		                	JOptionPane.showMessageDialog(null, "entro al modificar");
+		                	 
+		                }
+		                if(boton.getName().equals("e")){
+		                	JOptionPane.showMessageDialog(null, "elimino");
+		    				
+		                   
+		                }
+		            }
+		          /*  if(value instanceof JCheckBox){
+		                //((JCheckBox)value).doClick();
+		                JCheckBox ch = (JCheckBox)value;
+		                if(ch.isSelected()==true){
+		                    ch.setSelected(false);
+		                }
+		                if(ch.isSelected()==false){
+		                    ch.setSelected(true);
+		                }
+		                
+		            }*/
+		        }
+			
+				
+				
+				
+				
+			}
+		});
+		/*esto es solo para darle diseño*/
+		FormatoTablaMain.formatoTabla(tblCaja);
+		
+		/*ahora para agregar el modelo*/
+		
+		ArrayList<DefaultTableModel>lista=new ArrayList<>();
+		lista.add(model);
+		
+		Tabla_Reutilizable t=new Tabla_Reutilizable();
+		t.ver_tabla(tblCaja,  lista,model.getColumnCount());
+		
+		ArrayList<Caja> listado = new GestionCaja().listado();
+		Tabla_Reutilizable.listarCaja(listado);
+		/*----------------*/
+		scrollPane.setViewportView(tblCaja);
 		
 		
 

@@ -13,7 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+import mantenimientos.GestionCorteCaja;
 import mantenimientos.GestionEmpledos;
+import model.CorteCaja;
 import model.Empleados;
 import model.HintTextField;
 import model.RoundedCornerBorder;
@@ -129,7 +131,17 @@ public class IntCajaCortes extends JInternalFrame {
 		iconoCorte.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				
+				int codigoCaja=Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText().toString());
+				System.out.println("codigo caja "+codigoCaja);
+			ArrayList<CorteCaja> listado=new GestionCorteCaja().calcularCalculado(1);
+			System.out.println("el calculado es  "+listado.get(0).getCalculado());
+			
+			double calculado=listado.get(0).getCalculado();
+				
+				
 				JdialogCajaCorte corte=new JdialogCajaCorte();
+				JdialogCajaCorte.lblcalculado.setText(calculado+"");
 				corte.setVisible(true);
 			}
 		});
