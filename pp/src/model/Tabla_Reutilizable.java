@@ -89,6 +89,19 @@ public static void listarFinanzas() {
 	
 }
 	
+
+public static  void listarCaja(ArrayList<Caja> listado) {
+   
+	
+	
+	
+	for (Caja cl : listado) {
+		Object datos[] = {cl.getCodCaja(),cl.getNomCaja(),btn1,btn2 };
+
+		model.addRow(datos);
+
+	}
+}
 public void setBox(JTable tabla ,TableColumn column) {
 	column.setCellEditor(new JDateChooserEditor(new JCheckBox()));
 	DefaultTableCellRenderer renderer=new DefaultTableCellRenderer();

@@ -143,9 +143,20 @@ public class FrmBuscarProductoVenta extends JDialog {
 
 				int fila = tblProducto.getSelectedRow();
 
+				String codigo=tblProducto.getValueAt(fila,0).toString();
+				String descripcion=tblProducto.getValueAt(fila, 1).toString();
+				String precio=tblProducto.getValueAt(fila, 2).toString();
+				
+				IntVentasWindow.lblcodigo.setText(codigo);
+				IntVentasWindow.lbldescripcion.setText(descripcion);
+				IntVentasWindow.lblprecio.setText(precio);
+				
+				
+				
+				
+				/*
 				Object[] filas = new Object[6];
 
-				// Sección 3
 				filas[0] = tblProducto.getValueAt(fila, 0);
 				filas[1] = tblProducto.getValueAt(fila, 1);
 				filas[3] = tblProducto.getValueAt(fila, 2);
@@ -153,9 +164,9 @@ public class FrmBuscarProductoVenta extends JDialog {
 				
 			
 				
-				/*le envio el boton eliminar*/
+				--le envio el boton eliminar
 				 IntVentasWindow.tblProducto.setDefaultRenderer(Object.class, new Render());
-			
+				 
 				 
 				 
 				
@@ -167,10 +178,11 @@ public class FrmBuscarProductoVenta extends JDialog {
 			    	btnEliminar.setIcon(ic);
 			    	btnEliminar.setName("eliminar");
 			
+			    
 				filas[5]=btnEliminar;
 				
 				IntVentasWindow.model.addRow(filas);
-			
+			*/
 
 				
 

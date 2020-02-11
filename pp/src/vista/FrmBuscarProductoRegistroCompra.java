@@ -143,41 +143,13 @@ public class FrmBuscarProductoRegistroCompra extends JDialog {
 
 				int fila = tblProducto.getSelectedRow();
 
-				Object[] filas = new Object[6];
-
-				// Sección 3
-				filas[0] = tblProducto.getValueAt(fila, 0);
-				filas[1] = tblProducto.getValueAt(fila, 1);
-				filas[3] = tblProducto.getValueAt(fila, 2);
+				String codigo=tblProducto.getValueAt(fila,0).toString();
+				String descripcion=tblProducto.getValueAt(fila, 1).toString();
+				String precio=tblProducto.getValueAt(fila, 2).toString();
 				
-				
-			
-				
-				/*le envio el boton eliminar*/
-				 FrmOrdenDeCompra.tblProducto.setDefaultRenderer(Object.class, new Render());
-			
-				 
-				 
-				
-				 
-				btnEliminar = new JButton("eliminar");
-			        ImageIcon delete = new ImageIcon(getClass().getResource("/img/eliminar.png"));
-			    	Image i = delete.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-			    	Icon ic = new ImageIcon(i);
-			    	btnEliminar.setIcon(ic);
-			    	btnEliminar.setName("eliminar");
-			
-				filas[5]=btnEliminar;
-				
-				FrmRegistroCompra.model.addRow(filas);
-			
-
-				
-
-				
-
-			
-				
+				FrmRegistroCompra.lblcodigo.setText(codigo);
+				FrmRegistroCompra.lbldescripcion.setText(descripcion);
+				FrmRegistroCompra.lblprecio.setText(precio);
 
 				
 				

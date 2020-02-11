@@ -126,6 +126,8 @@ public class FrmMenuPrincipal extends JFrame {
 	clsArial clsIcono=new clsArial();
 	static FrmMenuPrincipal frame ;
 	private JPanel panel_1_2;
+	public static JLabel lblCaja_1;
+	public static JLabel lblCodCaja;
 	/**
 	 * Launch the application.
 	 */
@@ -704,7 +706,8 @@ public class FrmMenuPrincipal extends JFrame {
 					panelCaja.setBounds(1191, 5, 155, 49);
 					panel_9.add(panelCaja);
 					
-					JLabel lblCaja_1 = new JLabel("Caja 1");
+					lblCaja_1 = new JLabel("Caja 1");
+					
 					lblCaja_1.setHorizontalAlignment(SwingConstants.CENTER);
 					lblCaja_1.setForeground(Color.BLACK);
 					lblCaja_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
@@ -716,6 +719,10 @@ public class FrmMenuPrincipal extends JFrame {
 					new clsArial().modifiedIcon("/img/caja_color.png", 38, 38, lbliconCaja);
 					lbliconCaja.setBounds(32, 1, 50, 48);
 					panelCaja.add(lbliconCaja);
+					
+					lblCodCaja = new JLabel("1");
+					lblCodCaja.setBounds(0, 1, 19, 14);
+					panelCaja.add(lblCodCaja);
 					
 					panel_1_2 = new JPanel();
 					panel_1_2.setBackground(new Color(235, 240, 244));

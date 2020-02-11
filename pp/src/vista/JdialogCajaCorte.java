@@ -6,20 +6,31 @@ import javax.swing.JDialog;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+import mantenimientos.GestionCorteCaja;
+import model.CorteCaja;
+import model.DetalleCorteCaja;
+import model.Movimiento;
 import model.RoundedCornerBorder;
 import utils.clsArial;
 import javax.swing.JTextField;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.SystemColor;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class JdialogCajaCorte extends JDialog {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField lblcontado;
+	public static JTextField lblcalculado;
+	private JTextField lbldiferencia;
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
@@ -32,9 +43,12 @@ public class JdialogCajaCorte extends JDialog {
 	private JTextField textField_12;
 	private JTextField textField_13;
 	private JTextField textField_14;
-	private JTextField textField_15;
+	private JTextField lblretirado;
 	private JPanel panel_1_1;
-
+	private JLabel lblCalculado;
+	public int numeroConcatenado=0;
+	public String concatenado="";
+	StringBuilder sb = new StringBuilder();
 	/**
 	 * Launch the application.
 	 */
@@ -78,11 +92,11 @@ public class JdialogCajaCorte extends JDialog {
 		lblCaja.setBounds(294, 11, 74, 37);
 		panel.add(lblCaja);
 		
-		JLabel lblCaja_2 = new JLabel("Caja 1");
+		JLabel lblCaja_2 = new JLabel(FrmMenuPrincipal.lblCaja_1.getText());
 		lblCaja_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCaja_2.setForeground(new Color(240, 240, 240, 240));
 		lblCaja_2.setFont(new Font("Segoe UI", Font.PLAIN, 19));
-		lblCaja_2.setBounds(365, 11, 74, 37);
+		lblCaja_2.setBounds(365, 11, 97, 37);
 		panel.add(lblCaja_2);
 		
 		JLabel lblEfectivo = new JLabel("Efectivo");
@@ -92,26 +106,49 @@ public class JdialogCajaCorte extends JDialog {
 		lblEfectivo.setBounds(26, 134, 64, 14);
 		getContentPane().add(lblEfectivo);
 		
-		textField = new JTextField();
-		textField.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		textField.setBounds(112, 133, 102, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		lblcontado = new JTextField();
 		
-		textField_1 = new JTextField();
-		textField_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		textField_1.setColumns(10);
-		textField_1.setBounds(224, 133, 102, 20);
-		getContentPane().add(textField_1);
+		lblcontado.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				char digito=e.getKeyChar();
+				if(Character.isDigit(digito)) {
+					
+				char numero=e.getKeyChar();
+				sb.append(numero);
+				concatenado=sb.toString();
+				int numeroParse=Integer.parseInt(concatenado+"");
+				
+				
+				
+				double calculado=Double.parseDouble(lblcalculado.getText());
+				double resultado=calculado-numeroParse;
+				
+				
+				lbldiferencia.setText(resultado+"");
+
+				}
+				}
+		});
+		lblcontado.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblcontado.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		lblcontado.setBounds(112, 133, 102, 20);
+		getContentPane().add(lblcontado);
+		lblcontado.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField_2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		textField_2.setColumns(10);
-		textField_2.setBounds(336, 133, 102, 20);
-		getContentPane().add(textField_2);
+		lblcalculado = new JTextField();
+		lblcalculado.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblcalculado.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		lblcalculado.setColumns(10);
+		lblcalculado.setBounds(224, 133, 102, 20);
+		getContentPane().add(lblcalculado);
+		
+		lbldiferencia = new JTextField();
+		lbldiferencia.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbldiferencia.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		lbldiferencia.setColumns(10);
+		lbldiferencia.setBounds(336, 133, 102, 20);
+		getContentPane().add(lbldiferencia);
 		
 		textField_3 = new JTextField();
 		textField_3.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -127,7 +164,7 @@ public class JdialogCajaCorte extends JDialog {
 		lblContado.setBounds(128, 108, 64, 14);
 		getContentPane().add(lblContado);
 		
-		JLabel lblCalculado = new JLabel("Calculado");
+		 lblCalculado = new JLabel("Calculado");
 		lblCalculado.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCalculado.setForeground(Color.BLACK);
 		lblCalculado.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
@@ -239,12 +276,12 @@ public class JdialogCajaCorte extends JDialog {
 		textField_14.setBounds(540, 195, 102, 20);
 		getContentPane().add(textField_14);
 		
-		textField_15 = new JTextField();
-		textField_15.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField_15.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		textField_15.setColumns(10);
-		textField_15.setBounds(540, 258, 102, 20);
-		getContentPane().add(textField_15);
+		lblretirado = new JTextField();
+		lblretirado.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblretirado.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		lblretirado.setColumns(10);
+		lblretirado.setBounds(540, 258, 102, 20);
+		getContentPane().add(lblretirado);
 		
 		JLabel lblRetiroPorCorte = new JLabel("Retiro por Corte");
 		lblRetiroPorCorte.setHorizontalAlignment(SwingConstants.CENTER);
@@ -276,6 +313,12 @@ public class JdialogCajaCorte extends JDialog {
 				setBorder(new RoundedCornerBorder());
 			}
 		};
+		panel_3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				insertarCorteCaja();
+			}
+		});
 		panel_3.setLayout(null);
 		panel_3.setBackground(new Color(35, 43, 55));
 		panel_3.setBounds(308, 330, 130, 34);
@@ -295,5 +338,53 @@ public class JdialogCajaCorte extends JDialog {
 		
 
 	}
+	ArrayList<DetalleCorteCaja> detalle=new ArrayList<>();
+ArrayList<DetalleCorteCaja> detallito=new ArrayList<>();
+	void insertarCorteCaja() {
+		
+		int codCaja;
+		double contado,calculado,diferencia,retirado;
+		
+		codCaja=Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText());
+		contado=Double.parseDouble(lblcontado.getText());
+		calculado=Double.parseDouble(lblcalculado.getText());
+		diferencia=Double.parseDouble(lbldiferencia.getText());
+		retirado=Double.parseDouble(lblretirado.getText());
+		
+		/*tabla corte caja*/
+		CorteCaja c=new CorteCaja();
+		
+		int numeroCodigoCorteCaja=new GestionCorteCaja().ObtenerNumero();
+		
+		c.setCodCorteCaja(numeroCodigoCorteCaja);
+		c.setCodCaja(codCaja);
+		c.setContado(contado);
+		c.setCalculado(calculado);
+		c.setDiferencia(diferencia);
+		c.setRetirado(retirado);
+		
+		/*-----*
+		
+		/*listado para le detalle*/
+		detalle=new GestionCorteCaja().listadoParaElDetalle(Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText()));
 
+		for (DetalleCorteCaja d : detalle) {
+			System.out.println("el codigo movi "+d.getCodMovi());
+			System.out.println("el nombre de la caja "+d.getNomCaja());
+			DetalleCorteCaja deta=new DetalleCorteCaja();
+			deta.setCodMovi(d.getCodMovi());
+			deta.setNomCaja(d.getNomCaja());
+			detallito.add(deta);
+		}
+		
+		
+		/*metodo insertarCorteCaja*/
+		int ok=new GestionCorteCaja().registrarCorteDeCaja(c, detallito);
+		if(ok!=0) {
+			JOptionPane.showMessageDialog(null, "registro correctamente");
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "hubo errores");
+		}
+	}
 }
