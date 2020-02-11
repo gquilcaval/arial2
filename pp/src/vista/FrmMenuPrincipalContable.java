@@ -327,7 +327,7 @@ public class FrmMenuPrincipalContable extends JFrame {
 					
 					
 					
-					lblComercial = new JLabel("");
+					lblComercial = new JLabel("PLAN DE CUENTAS");
 					lblComercial.setBounds(57, 0, 126, 51);
 					
 					panel_ventas.add(lblComercial);
@@ -608,7 +608,7 @@ public class FrmMenuPrincipalContable extends JFrame {
 					panel_5_1.setBounds(1, 682, 222, 51);
 					panel_4.add(panel_5_1);
 					
-					JLabel lblReportes = new JLabel("REPORTES");
+					JLabel lblReportes = new JLabel("");
 					lblReportes.setHorizontalAlignment(SwingConstants.CENTER);
 					lblReportes.setForeground(new Color(152, 163, 175));
 					lblReportes.setFont(new Font("Segoe UI Symbol", Font.BOLD, 13));
