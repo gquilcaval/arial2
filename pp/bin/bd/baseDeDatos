@@ -270,8 +270,7 @@ formaPago varchar(70),
 foreign key (id_usu) references usuario(id_usu),
     foreign key (id_cli) references cliente(id_cli)
     );
-
-
+ 
 create TABLE detalle_Venta(
 Nro_ven int  NOT NULL,
 id_prod int  NOT NULL,
@@ -314,7 +313,7 @@ constraint fkv2 FOREIGN KEY (cod_caja)  REFERENCES caja(cod_caja),
 constraint fkv FOREIGN KEY (cod_regis_com)  REFERENCES registro_compra(cod_regis_com),
  constraint fkv1 foreign key (Nro_ven) references ventas(Nro_ven)
 );
-
+select*from movimiento;
 
 
 create table corteCaja(
@@ -325,6 +324,8 @@ contado decimal(10,1) null,
 calculado decimal(10,1) null,
 diferencia decimal(10,1)null,
 retirado decimal(10,1) not null,
+nom_usuario varchar(70) ,
+descripcion varchar(70),
 constraint fkv2as FOREIGN KEY (cod_caja)  REFERENCES caja(cod_caja)
 );
 
@@ -336,54 +337,3 @@ nomCaja varchar(70) not null,
 constraint fkasdv FOREIGN KEY (codigo_corte_caja)  REFERENCES corteCaja(codigo_corte_caja),
  constraint fkvasd1 foreign key (cod_movimiento) references movimiento(cod_movimiento)
 )
-
-select*from corteCaja;
-select*from detalle_corte_caja;
-
-select*From movimiento;
-
-/*--*/
-create table cotizacion(
-
-);
-create table detalle_cotizacion(
-
-);
-
-create table trasporte(
-
-);
-
-
-create table gui_remision(
-
-);
-
-
-create table movimientos(
-
-);
-
-
-    DELIMITER //
-create PROCEDURE dowhile(in numero int)
-BEGIN
-declare palabra varchar(30);
-declare letra varchar(30);
-  WHILE numero > 0 DO
-	set palabra='abcdefghijklmnopqrstuvwxyz';
-    set letra=SUBSTR(palabra,numero,numero+1);
-    insert into proveedor values (null,concat(letra,'holas'), '98765485213', 'Av.inca garcilazo 268', '2521383', '973755465', 'nefectronicsgm@gmail.com', 'Activo', '45789654123664578682');
-   SET NUMERO=NUMERO-1;
-  END WHILE;
-END //
-    
-    CALL dowhile (100);
-
-    
-    select*from proveedor;
-
-
-
-
-                
