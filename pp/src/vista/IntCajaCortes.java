@@ -15,12 +15,18 @@ import javax.swing.SwingConstants;
 
 import mantenimientos.GestionCorteCaja;
 import mantenimientos.GestionEmpledos;
+import mantenimientos.GestionProductos;
 import model.CorteCaja;
+import model.CorteCajaListadito;
 import model.Empleados;
 import model.HintTextField;
+import model.Movimiento;
+import model.Producto;
 import model.RoundedCornerBorder;
 import model.Tabla;
 import model.TablaPerfiles;
+import model.Tabla_Reutilizable;
+import utils.FormatoTablaMain;
 import utils.clsArial;
 
 import java.awt.Font;
@@ -43,6 +49,9 @@ import javax.mail.internet.NewsAddress;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
 import java.awt.Cursor;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class IntCajaCortes extends JInternalFrame {
 
@@ -63,12 +72,61 @@ public class IntCajaCortes extends JInternalFrame {
 	}
 
 	Tabla t=new Tabla();
+	public static JLabel lblcaja;
+	public static JLabel lblnombre;
+	public static JLabel lblusuario;
+	public static JLabel lblfecha;
+	public static JLabel lblhora;
+	int numeroCodigoCorteCaja=new GestionCorteCaja().ObtenerNumero()-1;
+	public static DefaultTableModel model=new DefaultTableModel();
+	public static DefaultTableModel modelDetalle=new DefaultTableModel();
 	private JTable tblCorteCaja;
-	private JTable table;
+	private JTable tblDetalleCorteCaja;
 	/**
 	 * Create the frame.
 	 */
 	public IntCajaCortes() {
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameOpened(InternalFrameEvent arg0) {
+				System.out.println(numeroCodigoCorteCaja);
+				ArrayList<CorteCajaListadito> list=new GestionCorteCaja().listadito(numeroCodigoCorteCaja);
+				
+				if(list.isEmpty()) {
+					
+				}
+				else {
+					
+				System.out.println("el nombre de caja es "+list.get(0).getNomCaja());
+				lblcaja.setText(list.get(0).getNomCaja());
+				lblusuario.setText(list.get(0).getDesUsu());
+				lblnombre.setText(list.get(0).getNomUsu());
+				lblfecha.setText(list.get(0).getFechaCorteCaja());
+				lblhora.setText(list.get(0).getHoraCorteCaja());
+
+				}
+			}
+		});
+		model.setRowCount(0);
+		model.setColumnCount(0);
+		model.addColumn("cod");
+		model.addColumn("fecha");
+		model.addColumn("caja");
+		model.addColumn("contado");
+		model.addColumn("calculado");
+		model.addColumn("diferencia");
+		model.addColumn("retirado");
+		model.addColumn("usuario");
+		
+		
+		modelDetalle.setRowCount(0);
+		modelDetalle.setRowCount(0);
+		modelDetalle.addColumn("cod Movimiento");
+		modelDetalle.addColumn("fecha");
+		modelDetalle.addColumn("nro venta");
+		modelDetalle.addColumn("nro compra");
+		modelDetalle.addColumn("entrada");
+		modelDetalle.addColumn("salida");
 		getContentPane().setBackground(Color.decode("#ebf0f4"));
 		setBounds(0, 68, 1642, 851);
 		setBorder(null);
@@ -158,15 +216,36 @@ public class IntCajaCortes extends JInternalFrame {
 		lblCorteDe.setBounds(32, 72, 46, 14);
 		panel_1.add(lblCorteDe);
 		
+		lblcaja = new JLabel("");
+		lblcaja.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+		lblcaja.setBounds(190, 176, 131, 20);
+		panel_1.add(lblcaja);
+		
+		 lblusuario = new JLabel("");
+		lblusuario.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+		lblusuario.setBounds(190, 224, 131, 20);
+		panel_1.add(lblusuario);
+		
+		lblnombre = new JLabel("");
+		lblnombre.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+		lblnombre.setBounds(173, 268, 131, 20);
+		panel_1.add(lblnombre);
+		
+		 lblfecha = new JLabel("");
+		lblfecha.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+		lblfecha.setBounds(173, 310, 131, 20);
+		panel_1.add(lblfecha);
+		
+		lblhora = new JLabel("");
+		lblhora.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
+		lblhora.setBounds(173, 354, 131, 20);
+		panel_1.add(lblhora);
+		
 		JPanel pnlConsultMovCaja = new JPanel();
 		pnlConsultMovCaja.setBackground(Color.WHITE);
 		pnlConsultMovCaja.setBounds(417, 11, 1215, 802);
 		getContentPane().add(pnlConsultMovCaja);
 		pnlConsultMovCaja.setLayout(null);
-		
-		tblCorteCaja = new JTable();
-		tblCorteCaja.setBounds(10, 159, 1195, 304);
-		pnlConsultMovCaja.add(tblCorteCaja);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(45, 54, 63));
@@ -210,10 +289,57 @@ public class IntCajaCortes extends JInternalFrame {
 		lblFechaFinal.setBounds(239, 121, 94, 20);
 		pnlConsultMovCaja.add(lblFechaFinal);
 		
-		table = new JTable();
-		table.setBounds(10, 502, 1195, 289);
-		pnlConsultMovCaja.add(table);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 169, 1195, 364);
+		pnlConsultMovCaja.add(scrollPane);
 		
+		tblCorteCaja = new JTable();
+		tblCorteCaja.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				modelDetalle.setRowCount(0);
+				
+				int fila = tblCorteCaja.getSelectedRow();
+				
+				int codigo = Integer.parseInt(tblCorteCaja.getValueAt(fila, 0).toString());
+				
+				System.out.println("el codigo es : "+codigo);
+				ArrayList<Movimiento> lista=new GestionCorteCaja().listadoXmovimiento(codigo);
+				
+				for (Movimiento m : lista) {
+					
+					Object o[] = { m.getCodMovi(),m.getFecha(),m.getNro_ven(),m.getCod_regis_com(),m.getEntrada(),m.getSalida() };
+					modelDetalle.addRow(o);
+					
+				}
+				
+				
+			}
+		});
+		FormatoTablaMain.formatoTabla(tblCorteCaja);
+		scrollPane.setViewportView(tblCorteCaja);
+	/*----*/
+		ArrayList<DefaultTableModel>lista=new ArrayList<>();
+		lista.add(model);
+		
+	
+		
+		Tabla_Reutilizable t=new Tabla_Reutilizable();
+		t.ver_tabla(tblCorteCaja,  lista,model.getColumnCount());
+		
+		
+		ArrayList<CorteCajaListadito> listado = new GestionCorteCaja().listaditoult();
+		Tabla_Reutilizable.listarCorteCaja(listado);
+		/*----*/
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 568, 1195, 223);
+		pnlConsultMovCaja.add(scrollPane_1);
+		
+		tblDetalleCorteCaja = new JTable();
+		FormatoTablaMain.formatoTabla(tblDetalleCorteCaja);
+		scrollPane_1.setViewportView(tblDetalleCorteCaja);
+		tblDetalleCorteCaja.setModel(modelDetalle);
 
 			}
 

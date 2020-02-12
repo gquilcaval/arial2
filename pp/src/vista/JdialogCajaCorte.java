@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import mantenimientos.GestionCorteCaja;
 import model.CorteCaja;
+import model.CorteCajaListadito;
 import model.DetalleCorteCaja;
 import model.Movimiento;
 import model.RoundedCornerBorder;
@@ -48,10 +49,13 @@ public class JdialogCajaCorte extends JDialog {
 	private JLabel lblCalculado;
 	public int numeroConcatenado = 0;
 	public String concatenado = "";
-	StringBuilder sb = new StringBuilder();
-	public int numeroParse;
-	public double calculado;
-public double resultado;
+	
+	
+
+	public int numeroCodigoCorteCaja=new GestionCorteCaja().ObtenerNumero();
+	private java.text.DecimalFormat formato =
+            new java.text.DecimalFormat("0.0"); 
+
 	/**
 	 * Launch the application.
 	 */
@@ -110,14 +114,31 @@ public double resultado;
 
 		lblcontado = new JTextField();
 
+	
+
 		lblcontado.addKeyListener(new KeyAdapter() {
+			
 			@Override
+
 			public void keyPressed(KeyEvent e) {
+
+				
+
+				
+				float numeroParse=Integer.parseInt(lblcontado.getText());
 			
 				
+				
+				double calculado=Double.parseDouble(lblcalculado.getText());
+				double resultado=calculado-numeroParse;
+				
+			//	String n=String.format("%.1f", numeroParse+.0);
+				lbldiferencia.setText(resultado+"");
+
+				
+
 			}
 		});
-		lblcontado.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblcontado.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		lblcontado.setBounds(112, 133, 102, 20);
 		getContentPane().add(lblcontado);
@@ -304,6 +325,24 @@ public double resultado;
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				insertarCorteCaja();
+				
+				
+				
+				ArrayList<CorteCajaListadito> list=new GestionCorteCaja().listadito(numeroCodigoCorteCaja);
+				if(list.isEmpty()) {
+					
+				}else {
+					
+				
+				IntCajaCortes.lblcaja.setText(list.get(0).getNomCaja());
+				IntCajaCortes.lblusuario.setText(list.get(0).getDesUsu());
+				IntCajaCortes.lblnombre.setText(list.get(0).getNomUsu());
+				IntCajaCortes.lblfecha.setText(list.get(0).getFechaCorteCaja());
+				IntCajaCortes.lblhora.setText(list.get(0).getHoraCorteCaja());
+				
+				
+			}
+				dispose();	
 			}
 		});
 		panel_3.setLayout(null);
@@ -331,18 +370,28 @@ public double resultado;
 	void insertarCorteCaja() {
 
 		int codCaja;
-		double contado, calculado, diferencia, retirado;
 
-		codCaja = Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText());
-		contado = Double.parseDouble(lblcontado.getText());
-		calculado = Double.parseDouble(lblcalculado.getText());
-		diferencia = Double.parseDouble(lbldiferencia.getText());
-		retirado = Double.parseDouble(lblretirado.getText());
+		
 
 		/* tabla corte caja */
-		CorteCaja c = new CorteCaja();
+
 
 		int numeroCodigoCorteCaja = new GestionCorteCaja().ObtenerNumero();
+
+
+		double contado,calculado,diferencia,retirado;
+		
+		codCaja=Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText());
+		contado=Double.parseDouble(lblcontado.getText());
+		calculado=Double.parseDouble(lblcalculado.getText());
+		diferencia=Double.parseDouble(lbldiferencia.getText());
+		retirado=Double.parseDouble(lblretirado.getText());
+		
+		/*tabla corte caja*/
+		CorteCaja c=new CorteCaja();
+		
+	
+		
 
 		c.setCodCorteCaja(numeroCodigoCorteCaja);
 		c.setCodCaja(codCaja);
@@ -351,7 +400,10 @@ public double resultado;
 		c.setDiferencia(diferencia);
 		c.setRetirado(retirado);
 
-		/*-----*
+		c.setNomUsu(FrmMenuPrincipal.lblUsuario.getText().toString());
+		c.setDescripcion(FrmMenuPrincipal.lblCargo.getText().toString());
+
+		/*--------*
 		
 		/*listado para le detalle*/
 		detalle = new GestionCorteCaja().listadoParaElDetalle(Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText()));

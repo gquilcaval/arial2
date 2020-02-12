@@ -1,8 +1,14 @@
 package model;
 
 public class Movimiento {
-
-	String comentario,tipo_movimiento,nomCaja;
+	
+	String comentario,tipo_movimiento,nomCaja,fecha;
+	public String getFecha() {
+		return fecha;
+	}
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
+	}
 	public String getNomCaja() {
 		return nomCaja;
 	}
