@@ -31,7 +31,7 @@ CREATE TABLE cliente(
     
     );
     
-    
+
 
 
 insert into cliente values(null,'juancito','pasteleria juancho','lurigancho 2543 av abc','lima','lurigancho','1234567','123456789','juancho@pasteleria.com','credito 30','12345678910','ruc',15000.0);
@@ -337,3 +337,5 @@ nomCaja varchar(70) not null,
 constraint fkasdv FOREIGN KEY (codigo_corte_caja)  REFERENCES corteCaja(codigo_corte_caja),
  constraint fkvasd1 foreign key (cod_movimiento) references movimiento(cod_movimiento)
 )
+
+//
