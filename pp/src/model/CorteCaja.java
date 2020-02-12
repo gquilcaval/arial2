@@ -1,7 +1,19 @@
 package model;
 
 public class CorteCaja {
-
+String nomUsu,descripcion;
+	public String getNomUsu() {
+	return nomUsu;
+}
+public void setNomUsu(String nomUsu) {
+	this.nomUsu = nomUsu;
+}
+public String getDescripcion() {
+	return descripcion;
+}
+public void setDescripcion(String descripcion) {
+	this.descripcion = descripcion;
+}
 	int codCorteCaja,codCaja;
 	public int getCodCorteCaja() {
 		return codCorteCaja;

@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import mantenimientos.GestionCorteCaja;
 import model.CorteCaja;
+import model.CorteCajaListadito;
 import model.DetalleCorteCaja;
 import model.Movimiento;
 import model.RoundedCornerBorder;
@@ -49,6 +50,7 @@ public class JdialogCajaCorte extends JDialog {
 	public int numeroConcatenado=0;
 	public String concatenado="";
 	StringBuilder sb = new StringBuilder();
+	public int numeroCodigoCorteCaja=new GestionCorteCaja().ObtenerNumero();
 	/**
 	 * Launch the application.
 	 */
@@ -317,6 +319,24 @@ public class JdialogCajaCorte extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				insertarCorteCaja();
+				
+				
+				
+				ArrayList<CorteCajaListadito> list=new GestionCorteCaja().listadito(numeroCodigoCorteCaja);
+				if(list.isEmpty()) {
+					
+				}else {
+					
+				
+				IntCajaCortes.lblcaja.setText(list.get(0).getNomCaja());
+				IntCajaCortes.lblusuario.setText(list.get(0).getDesUsu());
+				IntCajaCortes.lblnombre.setText(list.get(0).getNomUsu());
+				IntCajaCortes.lblfecha.setText(list.get(0).getFechaCorteCaja());
+				IntCajaCortes.lblhora.setText(list.get(0).getHoraCorteCaja());
+				
+				
+			}
+				dispose();	
 			}
 		});
 		panel_3.setLayout(null);
@@ -354,7 +374,7 @@ ArrayList<DetalleCorteCaja> detallito=new ArrayList<>();
 		/*tabla corte caja*/
 		CorteCaja c=new CorteCaja();
 		
-		int numeroCodigoCorteCaja=new GestionCorteCaja().ObtenerNumero();
+	
 		
 		c.setCodCorteCaja(numeroCodigoCorteCaja);
 		c.setCodCaja(codCaja);
@@ -362,7 +382,8 @@ ArrayList<DetalleCorteCaja> detallito=new ArrayList<>();
 		c.setCalculado(calculado);
 		c.setDiferencia(diferencia);
 		c.setRetirado(retirado);
-		
+		c.setNomUsu(FrmMenuPrincipal.lblUsuario.getText().toString());
+		c.setDescripcion(FrmMenuPrincipal.lblCargo.getText().toString());
 		/*-----*
 		
 		/*listado para le detalle*/

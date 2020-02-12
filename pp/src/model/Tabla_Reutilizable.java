@@ -102,6 +102,21 @@ public static  void listarCaja(ArrayList<Caja> listado) {
 
 	}
 }
+
+public static  void listarCorteCaja(ArrayList<CorteCajaListadito> list) {
+   
+	
+	
+	
+	for (CorteCajaListadito cl : list) {
+		Object datos[] = {cl.getCodCaja(),cl.getFecha(),cl.getNomCaja(),cl.getContado(),cl.getCalculado(),cl.getDiferencia(),cl.getRetirado(),cl.getDesUsu(),cl.getNomUsu() };
+
+		model.addRow(datos);
+
+	}
+}
+
+
 public void setBox(JTable tabla ,TableColumn column) {
 	column.setCellEditor(new JDateChooserEditor(new JCheckBox()));
 	DefaultTableCellRenderer renderer=new DefaultTableCellRenderer();
