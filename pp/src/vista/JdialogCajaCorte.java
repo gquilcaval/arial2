@@ -51,6 +51,8 @@ public class JdialogCajaCorte extends JDialog {
 	public String concatenado="";
 	StringBuilder sb = new StringBuilder();
 	public int numeroCodigoCorteCaja=new GestionCorteCaja().ObtenerNumero();
+	private java.text.DecimalFormat formato =
+            new java.text.DecimalFormat("0.0"); 
 	/**
 	 * Launch the application.
 	 */
@@ -109,30 +111,26 @@ public class JdialogCajaCorte extends JDialog {
 		getContentPane().add(lblEfectivo);
 		
 		lblcontado = new JTextField();
-		
+	
 		lblcontado.addKeyListener(new KeyAdapter() {
+			
 			@Override
-			public void keyPressed(KeyEvent e) {
-				char digito=e.getKeyChar();
-				if(Character.isDigit(digito)) {
-					
-				char numero=e.getKeyChar();
-				sb.append(numero);
-				concatenado=sb.toString();
-				int numeroParse=Integer.parseInt(concatenado+"");
+			public void keyReleased(KeyEvent e) {
 				
+				
+				float numeroParse=Integer.parseInt(lblcontado.getText());
+			
 				
 				
 				double calculado=Double.parseDouble(lblcalculado.getText());
 				double resultado=calculado-numeroParse;
 				
-				
+			//	String n=String.format("%.1f", numeroParse+.0);
 				lbldiferencia.setText(resultado+"");
 
-				}
-				}
+				
+			}
 		});
-		lblcontado.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblcontado.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		lblcontado.setBounds(112, 133, 102, 20);
 		getContentPane().add(lblcontado);
