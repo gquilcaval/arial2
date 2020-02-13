@@ -63,7 +63,7 @@ public void ver_tabla(JTable tabla,ArrayList<DefaultTableModel>models,int longit
         btn2.setName("e");
         
         /*fdfd*/
-
+        /*MBASDAASDASDSD*/
   	  btnVer = new JButton();
       btnVer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
       ImageIcon ver = new ImageIcon(getClass().getResource("/img/ver.png"));
