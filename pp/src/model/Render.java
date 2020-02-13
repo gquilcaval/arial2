@@ -3,7 +3,8 @@ package model;
 import java.awt.Component;
 
 import javax.swing.JButton;
-
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -33,12 +34,12 @@ public class Render extends DefaultTableCellRenderer {
 	            }
 	            return btn;
 	        }
-	      
+	    
 	        
-	      /*  if(value instanceof JCheckBox){
+	        if(value instanceof JCheckBox){
 	            JCheckBox ch = (JCheckBox)value;
 	            return ch;
-	        }*/
+	        }
 	        
 	        return super.getTableCellRendererComponent(table, value, isSelected, 
 	                hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.

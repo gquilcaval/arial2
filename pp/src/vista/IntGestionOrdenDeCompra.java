@@ -19,6 +19,7 @@ import model.OrdenCompra;
 import model.OrdenRegistroCompra;
 import model.RoundedCornerBorder;
 import utils.FormatoTabla;
+import utils.FormatoTablaMain;
 import utils.clsArial;
 
 import java.awt.Graphics;
@@ -171,23 +172,11 @@ public class IntGestionOrdenDeCompra extends JInternalFrame {
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
-		table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		table.setRowHeight(25);
-		table.setIntercellSpacing(new Dimension(1, 3));
-		table.setGridColor(Color.LIGHT_GRAY);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
 		scrollPane.setViewportView(table);
+		FormatoTablaMain.formatoTabla(table);
 		
 		
-		table.getTableHeader().setOpaque(false);
-		table.getTableHeader().setBackground(Color.decode("#005f80"));
-		table.getTableHeader().setForeground(Color.decode("#F4F5F7"));
-		table.getTableHeader().setFont(new Font("Arial", 1, 12));
-		table.getTableHeader().setSize(WIDTH,100);
-		table.getTableHeader().setPreferredSize(new java.awt.Dimension(0, 35));
-		table.setRowHeight(30);
-		table.setDefaultRenderer(Object.class, new FormatoTabla());
-		table.setForeground(Color.decode("#39393C"));
 		table.setModel(model);
 		
 		JPanel panel_1 = new JPanel();

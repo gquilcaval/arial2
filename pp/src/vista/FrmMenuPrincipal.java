@@ -105,7 +105,6 @@ public class FrmMenuPrincipal extends JFrame {
 	private JLabel label_6;
 	private JLabel lblArial;
 	private JLabel label_4;
-
 	private JPanel panel_4;
 	private JLabel label_14;
 	private JLabel label_15;
@@ -580,7 +579,7 @@ public class FrmMenuPrincipal extends JFrame {
 						public void mouseClicked(MouseEvent arg0) {
 
 							
-							clsIcono.setInternalFrame(dktBody,new IntFinanzas(),null,null);
+							clsArial.setInternalFrame(dktBody,new IntFinanzas(),null,null);
 						}
 					});
 					panel_5.setLayout(null);

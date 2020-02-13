@@ -237,7 +237,7 @@ public class IntCliente extends JInternalFrame {
 		tblClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		tblClientes.getTableHeader().setOpaque(false);
-		tblClientes.getTableHeader().setBackground(Color.decode("#005f80"));
+		
 		tblClientes.getTableHeader().setForeground(Color.decode("#f7edd7"));
 		tblClientes.getTableHeader().setFont(new Font("Arial", 1, 12));
 		tblClientes.getTableHeader().setSize(WIDTH,100);

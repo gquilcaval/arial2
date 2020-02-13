@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.EventQueue;
 
+import javax.mail.internet.NewsAddress;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -14,14 +15,35 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+
+import mantenimientos.GestionFinanzas;
+import model.Celda_CheckBox;
+import model.Cobranza;
+import model.Render_CheckBox;
+import model.Tabla_Reutilizable;
+import utils.FormatoTablaMain;
+
 import javax.swing.UIManager;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class JdialogCobranzaPendientes extends JDialog {
-	private JTable table;
+	public static JTable tblPendientesCobranza;
+	public static JLabel lblTelfono_1;
+	public static JLabel lblCelular_1;
+	public static JLabel lblCorreo_1;
+	public static JLabel lblNomCliente;
+	public static JLabel lblnomCli2;
+	public static String cliente;
+	private JScrollPane scrollPane;
 
+	DefaultTableModel model=new DefaultTableModel();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -42,9 +64,20 @@ public class JdialogCobranzaPendientes extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
+	
+	
 	public JdialogCobranzaPendientes() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				mostrarTabla();
+			}
+		});
+		setModal(true);
+		
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 1135, 561);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
 		JPanel panelheader = new JPanel();
@@ -60,12 +93,12 @@ public class JdialogCobranzaPendientes extends JDialog {
 		lblPendientesDeCobro.setBounds(384, 11, 334, 21);
 		panelheader.add(lblPendientesDeCobro);
 		
-		JLabel lblBenavidezCastroJorge = new JLabel("BENAVIDEZ CASTRO, JORGE");
-		lblBenavidezCastroJorge.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBenavidezCastroJorge.setForeground(SystemColor.menu);
-		lblBenavidezCastroJorge.setFont(new Font("Segoe UI", Font.BOLD, 18));
-		lblBenavidezCastroJorge.setBounds(384, 43, 334, 21);
-		panelheader.add(lblBenavidezCastroJorge);
+		lblNomCliente = new JLabel("");
+		lblNomCliente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNomCliente.setForeground(SystemColor.menu);
+		lblNomCliente.setFont(new Font("Segoe UI", Font.BOLD, 18));
+		lblNomCliente.setBounds(384, 43, 334, 21);
+		panelheader.add(lblNomCliente);
 		
 		JLabel lblPendientesDeCobranza = new JLabel("Pendientes de cobranza");
 		lblPendientesDeCobranza.setForeground(Color.decode("#6ecbf0"));
@@ -73,12 +106,26 @@ public class JdialogCobranzaPendientes extends JDialog {
 		lblPendientesDeCobranza.setBounds(10, 112, 159, 21);
 		getContentPane().add(lblPendientesDeCobranza);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 146, 646, 365);
 		getContentPane().add(scrollPane);
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		model.addColumn("Tipo");
+		model.addColumn("Numero");
+		model.addColumn("Vencimiento");
+		model.addColumn("Mora");
+		model.addColumn("Moneda");
+		model.addColumn("Total");
+		model.addColumn("Seleccionar");
+		tblPendientesCobranza = new JTable();
+		tblPendientesCobranza.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+			}
+		});
+		scrollPane.setViewportView(tblPendientesCobranza);
+		
+		
 		
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.LIGHT_GRAY);
@@ -87,12 +134,13 @@ public class JdialogCobranzaPendientes extends JDialog {
 		separator.setBounds(666, 100, 2, 411);
 		getContentPane().add(separator);
 		
-		JLabel label = new JLabel("BENAVIDEZ CASTRO, JORGE");
-		label.setHorizontalAlignment(SwingConstants.LEFT);
-		label.setForeground(Color.decode("#707070"));
-		label.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
-		label.setBounds(691, 113, 334, 21);
-		getContentPane().add(label);
+		lblnomCli2 = new JLabel("");
+		lblnomCli2.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		lblnomCli2.setForeground(Color.decode("#707070"));
+		lblnomCli2.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		lblnomCli2.setBounds(691, 113, 334, 21);
+		getContentPane().add(lblnomCli2);
 		
 		JLabel lblTelfono = new JLabel("Tel\u00E9fono :");
 		lblTelfono.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
@@ -176,6 +224,55 @@ public class JdialogCobranzaPendientes extends JDialog {
 		lblEnviarEstadoDe.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEnviarEstadoDe.setForeground(new Color(250, 250, 250));
 		lblEnviarEstadoDe.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 11));
+		
+		lblTelfono_1 = new JLabel("");
+		lblTelfono_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTelfono_1.setForeground(Color.GRAY);
+		lblTelfono_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		lblTelfono_1.setBounds(760, 147, 159, 15);
+		getContentPane().add(lblTelfono_1);
+		
+		lblCelular_1 = new JLabel("");
+		lblCelular_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCelular_1.setForeground(Color.GRAY);
+		lblCelular_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		lblCelular_1.setBounds(760, 173, 159, 15);
+		getContentPane().add(lblCelular_1);
+		
+		lblCorreo_1 = new JLabel("");
+		lblCorreo_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCorreo_1.setForeground(Color.GRAY);
+		lblCorreo_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		lblCorreo_1.setBounds(760, 199, 159, 15);
+		getContentPane().add(lblCorreo_1);
 
+		
+	}
+	
+	void mostrarTabla (){
+		
+	
+		  /* TABLA COBRANZA PENDIENTES*/
+				FormatoTablaMain.formatoTabla(tblPendientesCobranza);
+						ArrayList<DefaultTableModel>listaCli=new ArrayList<>();
+						listaCli.add(model);
+						
+						Tabla_Reutilizable ta=new Tabla_Reutilizable();
+						ta.ver_otraTabla(tblPendientesCobranza,  listaCli,model.getColumnCount());
+						
+						
+						ArrayList<Cobranza> listadocoHoy = new GestionFinanzas().listadoxCliente(cliente);
+						
+						Tabla_Reutilizable.listarCobranzaCliente(listadocoHoy);
+		
+						
+						
+						for (Cobranza c: listadocoHoy) {
+							lblTelfono_1.setText(c.getTelf_cli());
+							lblCelular_1.setText(c.getCell_cli());
+							lblCorreo_1.setText(c.getCorreo_cli());
+						}
+						tblPendientesCobranza.getColumnModel().getColumn(6).setCellEditor( new Celda_CheckBox() );
+						tblPendientesCobranza.getColumnModel().getColumn( 6 ).setCellRenderer(new Render_CheckBox());
 	}
 }

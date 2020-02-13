@@ -19,6 +19,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.table.DefaultTableModel;
 
 import model.Tabla;
+import utils.clsArial;
 
 public class IntFinanzas extends JInternalFrame {
 
@@ -60,23 +61,12 @@ public class IntFinanzas extends JInternalFrame {
 		addInternalFrameListener(new InternalFrameAdapter() {
 		@Override
 		public void internalFrameOpened(InternalFrameEvent arg0) {
-			dkFinanzas.removeAll();
-			dkFinanzas.repaint();
-			IntCobranza cobranza=new IntCobranza();
-			dkFinanzas.add(cobranza);
-			try {
-				cobranza.setMaximum(true);
-				cobranza.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
-				cobranza.show(); 
-				
-			
+	
+			new clsArial().setInternalFrame(dkFinanzas, new IntCobranza(), null, null);
+		}
+		
 		
 			
-			
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
 	});
 	
 	
