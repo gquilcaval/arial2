@@ -5,9 +5,14 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Panel;
+import java.util.Properties;
 import java.util.Base64.Decoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.awt.Color;
 import javax.swing.JTabbedPane;
 import java.awt.FlowLayout;
@@ -15,15 +20,27 @@ import java.awt.ComponentOrientation;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import java.awt.SystemColor;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JdialogEnvioEstadoCuenta extends JDialog {
-	private JTextField textField;
 	private JTextField textField_1;
-	private JTextField textField_3;
+	private JTextField txtAsunto;
+	private JTextField txtRemitente;
+	private JTextField txtReceptor;
+	private JTextArea txtObservaciones;
 
 	/**
 	 * Launch the application.
@@ -46,9 +63,11 @@ public class JdialogEnvioEstadoCuenta extends JDialog {
 	 * Create the dialog.
 	 */
 	public JdialogEnvioEstadoCuenta() {
-		setModal(true);
+		
 		getContentPane().setBackground(Color.WHITE);
 		setBounds(100, 100, 504, 538);
+		setModal(true);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -64,11 +83,53 @@ public class JdialogEnvioEstadoCuenta extends JDialog {
 		lblCobranzaMedios.setBounds(125, 11, 248, 14);
 		panel.add(lblCobranzaMedios);
 		
-		JButton btnAceptar = new JButton("Enviar");
-		btnAceptar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
-		btnAceptar.setBackground(new Color(240,240,240));
-		btnAceptar.setBounds(200, 465, 89, 23);
-		getContentPane().add(btnAceptar);
+		JButton btnEnviar = new JButton("Enviar");
+		btnEnviar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 Properties propiedad = new Properties();
+			        propiedad.setProperty("mail.smtp.host", "smtp.gmail.com");
+			        propiedad.setProperty("mail.smtp.starttls.enable", "true");
+			        propiedad.setProperty("mail.smtp.port", "587");
+			        propiedad.setProperty("mail.smtp.auth","true");
+			        
+
+			        
+			        Session sesion = Session.getDefaultInstance(propiedad);
+			        String correoEnvia = txtRemitente.getText();
+			        String contrasena = "ciclope2210";
+			        String receptor = txtReceptor.getText();
+			        String asunto = txtAsunto.getText();
+			        String mensaje=txtObservaciones.getText();
+			        
+			        MimeMessage mail = new MimeMessage(sesion);
+			        try {
+			            mail.setFrom(new InternetAddress (correoEnvia));
+			            mail.addRecipient(Message.RecipientType.TO, new InternetAddress (receptor));
+			            mail.setSubject(asunto);
+			            mail.setText(mensaje);
+			            
+			            Transport transportar = sesion.getTransport("smtp");
+			            transportar.connect(correoEnvia,contrasena);
+			            transportar.sendMessage(mail, mail.getRecipients(Message.RecipientType.TO));          
+			            transportar.close();
+			            
+			            JOptionPane.showMessageDialog(null, "Listo, Estado de cuenta enviado");
+			            
+			            dispose();
+			        } catch (AddressException ex) {
+			            Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
+			            JOptionPane.showMessageDialog(null, "Error al enviar");
+			        } catch (MessagingException ex) {
+			            Logger.getLogger(Panel.class.getName()).log(Level.SEVERE, null, ex);
+			            JOptionPane.showMessageDialog(null, "Error al enviar");
+			        }
+			        
+			}
+		});
+		btnEnviar.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		btnEnviar.setBackground(new Color(240,240,240));
+		btnEnviar.setBounds(200, 465, 89, 23);
+		getContentPane().add(btnEnviar);
 		
 		JLabel lblDe = new JLabel("De :");
 		lblDe.setForeground(new Color(119, 119, 119));
@@ -106,10 +167,10 @@ public class JdialogEnvioEstadoCuenta extends JDialog {
 		lblAsunto.setBounds(22, 150, 52, 21);
 		getContentPane().add(lblAsunto);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		textArea.setBounds(22, 182, 451, 198);
-		getContentPane().add(textArea);
+		txtObservaciones = new JTextArea();
+		txtObservaciones.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		txtObservaciones.setBounds(22, 182, 451, 198);
+		getContentPane().add(txtObservaciones);
 		
 		JButton btnAdjuntar = new JButton("Adjuntar");
 		btnAdjuntar.setFont(new Font("Segoe UI", Font.PLAIN, 10));
@@ -129,27 +190,40 @@ public class JdialogEnvioEstadoCuenta extends JDialog {
 		separator_1.setBounds(84, 169, 389, 2);
 		getContentPane().add(separator_1);
 		
-		textField = new JTextField();
-		textField.setBorder(null);
-		textField.setColumns(10);
-		textField.setBounds(84, 85, 389, 20);
-		getContentPane().add(textField);
+		txtReceptor = new JTextField();
+		txtReceptor.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		txtReceptor.setBorder(null);
+		txtReceptor.setColumns(10);
+		txtReceptor.setBounds(84, 85, 389, 20);
+		getContentPane().add(txtReceptor);
 		
 		textField_1 = new JTextField();
+		textField_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
 		textField_1.setBorder(null);
 		textField_1.setColumns(10);
 		textField_1.setBounds(84, 116, 389, 20);
 		getContentPane().add(textField_1);
 		
-		textField_3 = new JTextField();
-		textField_3.setBorder(null);
-		textField_3.setColumns(10);
-		textField_3.setBounds(84, 150, 389, 20);
-		getContentPane().add(textField_3);
+		txtAsunto = new JTextField();
+		txtAsunto.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		txtAsunto.setBorder(null);
+		txtAsunto.setColumns(10);
+		txtAsunto.setBounds(84, 150, 389, 20);
+		getContentPane().add(txtAsunto);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(84, 59, 350, 20);
-		getContentPane().add(comboBox);
+		JSeparator separator_5_1 = new JSeparator();
+		separator_5_1.setForeground(SystemColor.menu);
+		separator_5_1.setBackground(SystemColor.menu);
+		separator_5_1.setBounds(84, 77, 389, 2);
+		getContentPane().add(separator_5_1);
+		
+		txtRemitente = new JTextField();
+		txtRemitente.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		txtRemitente.setText("gquilcaval@gmail.com");
+		txtRemitente.setColumns(10);
+		txtRemitente.setBorder(null);
+		txtRemitente.setBounds(84, 58, 389, 20);
+		getContentPane().add(txtRemitente);
 
 	}
 }

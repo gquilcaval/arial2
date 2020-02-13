@@ -9,13 +9,21 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
+import org.jfree.data.time.Month;
 
 import mantenimientos.GestionEmpledos;
+import mantenimientos.GestionFinanzas;
 import mantenimientos.GestionProductos;
+import model.Cobranza;
 import model.Empleados;
 import model.HintTextField;
 import model.Producto;
@@ -37,17 +45,25 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import java.awt.ComponentOrientation;
 import com.toedter.calendar.JYearChooser;
 import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JDayChooser;
+import com.toedter.components.JSpinField;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
 public class IntCobranza extends JInternalFrame {
 	private JTable tblCobranza;
-
+public static DefaultTableModel model=new DefaultTableModel();
+public static DefaultTableModel model2=new DefaultTableModel();
 	/**
 	 * Launch the application.
 	 */
@@ -64,13 +80,32 @@ public class IntCobranza extends JInternalFrame {
 		});
 	}
 
-	Tabla t=new Tabla();
+
+	
 	private JTextField txtBusqUsu;
 	private JTable tblCobranzaHoy;
+	private JMonthChooser spinMes;
+	private JYearChooser spinAño;
 	/**
 	 * Create the frame.
 	 */
 	public IntCobranza() {
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameOpened(InternalFrameEvent arg0) {
+	             /* TABLA COBRANZA HOY*/
+				FormatoTablaMain.formatoTabla(tblCobranzaHoy);
+						ArrayList<DefaultTableModel>listaHoy=new ArrayList<>();
+						listaHoy.add(model2);
+						
+						Tabla_Reutilizable ta=new Tabla_Reutilizable();
+						ta.ver_otraTabla(tblCobranzaHoy,  listaHoy,model2.getColumnCount());
+						
+						
+						ArrayList<Cobranza> listadocoHoy = new GestionFinanzas().listadoCobranzaHoy();
+						Tabla_Reutilizable.listarCobranzaHoy(listadocoHoy);
+			}
+		});
 		getContentPane().setBackground(Color.decode("#ebf0f4"));
 		setBounds(0, 68, 1642, 851);
 		setBorder(null);
@@ -109,6 +144,33 @@ public class IntCobranza extends JInternalFrame {
 				registroUsuario.setLocationRelativeTo(null);
 			}
 		});
+		
+		model.setRowCount(0);
+		model.setColumnCount(0);
+		model.addColumn("cliente");
+		model.addColumn("tipo Doc.");
+		model.addColumn("Doc. Id");
+		model.addColumn("Tipo");
+		model.addColumn("Numero");
+		model.addColumn("Condiciones");
+		model.addColumn("Emision");
+		model.addColumn("Vencimiento");
+		model.addColumn("Vendedor");
+		model.addColumn("Moneda");
+		model.addColumn("Total");
+		model.addColumn("Abono");
+		model.addColumn("Saldo");
+		model.addColumn("Vence(dias)");
+		model.addColumn("Dias mora");
+		model.addColumn("");
+		
+		model2.setRowCount(0);
+		model2.setColumnCount(0);
+		model2.addColumn("Cliente");
+		model2.addColumn("Moneda");
+		model2.addColumn("Pendiente");
+		model2.addColumn("");
+	
 		panel.setBackground(Color.decode("#1493e1"));
 		panel.setBounds(1500, 11, 132, 35);
 		getContentPane().add(panel);
@@ -149,54 +211,21 @@ public class IntCobranza extends JInternalFrame {
 			                ((JButton)value).doClick();
 			                JButton boton = (JButton) value;
 
-			                if(boton.getName().equals("m")){
+			                if(boton.getName().equals("v")){
 			                	
-			                
-			                  
-			                	 JdialogEditarUsu editarUsu=new JdialogEditarUsu();
+				                
+				                  
+			                	 JdialogCobranzaPendientes cobranzaPendientes=new JdialogCobranzaPendientes();
 			                  /*eNVIANDO DATOS DEL USUARIO PARA EDITAR*/
 			                  int fila1 = tblCobranza.getSelectedRow();
-			                  System.out.println("el codigo el modficar es :"+tblCobranza.getValueAt(fila1, 0).toString());
-			                  JdialogEditarUsu.txtIdUsu.setText(tblCobranza.getValueAt(fila1, 0).toString());
-			                  JdialogEditarUsu.txtNomUsu.setText(tblCobranza.getValueAt(fila1, 1).toString());
-			                  JdialogEditarUsu.txtApellidoPat.setText(tblCobranza.getValueAt(fila1, 2).toString());
-			                  JdialogEditarUsu.txtApeMat.setText(tblCobranza.getValueAt(fila1, 3).toString());
-			    				//sex_emp=tblUsuarios.getValueAt(fila1, 4).toString();
-			                  JdialogEditarUsu.txtEmail.setText(tblCobranza.getValueAt(fila1, 5).toString());
-			                  JdialogEditarUsu.txtSueldo.setText( tblCobranza.getValueAt(fila1,6).toString());
-			    				//estado_emp=tblUsuarios.getValueAt(fila1, 7).toString();
-			                  JdialogEditarUsu.txtDirecUsu.setText(tblCobranza.getValueAt(fila1, 8).toString());
-			                  JdialogEditarUsu.txtTelf.setText(tblCobranza.getValueAt(fila1, 9).toString());
-			                  JdialogEditarUsu.txtCell.setText(tblCobranza.getValueAt(fila1, 10).toString());
-			                  JdialogEditarUsu.txtDniUsu.setText(tblCobranza.getValueAt(fila1, 11).toString());
-			                  JdialogEditarUsu.txtLogeo.setText(tblCobranza.getValueAt(fila1, 12).toString());
-			                  JdialogEditarUsu.txtPswUsu.setText(tblCobranza.getValueAt(fila1, 13).toString());
-			    			//	id_tip_emp=tblUsuarios.getValueAt(fila1, 9).toString();
-			                  
-			                 /*----PRIVILEGIOS DEL USUARIO ----*/ 
-			                  ArrayList<Empleados> list=new GestionEmpledos().privilegios(tblCobranza.getValueAt(fila1, 0).toString());
-			          		for (Empleados cl : list) {
-			          		
-			          			if ("ventas".equals(cl.getNom_privilegio())) {
-			          				
-			          				JdialogEditarUsu.chckbxVentas.setSelected(cl.isEstadoPrivilegio());
-			          			}
-			                      if ("compras".equals(cl.getNom_privilegio())) {
-			          				
-			                    	  JdialogEditarUsu.chckbxCompras.setSelected(cl.isEstadoPrivilegio());
-			          			}
-			                      if ("usuarios".equals(cl.getNom_privilegio())) {
-			          				
-			                    	  JdialogEditarUsu.chckbxUsuarios.setSelected(cl.isEstadoPrivilegio());
-			          			}
-			                     if ("almacen".equals(cl.getNom_privilegio())) {
-			          				
-			                    	 JdialogEditarUsu.chckbxAlmacn.setSelected(cl.isEstadoPrivilegio());
-			          			}
-
-			          		}
+			                  System.out.println("el codigo A VER es :"+tblCobranza.getValueAt(fila1, 0).toString());
+			                  JdialogCobranzaPendientes.lblNomCliente.setText(tblCobranza.getValueAt(fila1, 0).toString());
+			                  JdialogCobranzaPendientes.lblnomCli2.setText(tblCobranza.getValueAt(fila1, 0).toString());
+			                  JdialogCobranzaPendientes.cliente=(tblCobranza.getValueAt(fila1, 0).toString());
+			                  JdialogCobranzaPendientes.cliente=(tblCobranza.getValueAt(fila1, 0).toString());
 			          	 
-		                  editarUsu.setVisible(true);
+			                  //JdialogCobranzaPendientes.tblPendientesCobranza.setValueAt(tblCobranza.getValueAt(fila1, column), row, column);
+			          		cobranzaPendientes.setVisible(true);
 			                  
 			                }
 			                if(boton.getName().equals("e")){
@@ -226,14 +255,22 @@ public class IntCobranza extends JInternalFrame {
 				
 			}
 		});
-		t.ver_tabla(tblCobranza);
-		
-		
-
-		
-		
-		
+	
+		FormatoTablaMain.formatoTabla(tblCobranza);
+	
 		scrollPane.setViewportView(tblCobranza);
+		
+		ArrayList<DefaultTableModel>lista=new ArrayList<>();
+		lista.add(model);
+		
+		Tabla_Reutilizable t=new Tabla_Reutilizable();
+		t.ver_tabla(tblCobranza,  lista,model.getColumnCount());
+		
+		
+		ArrayList<Cobranza> listado = new GestionFinanzas().listado();
+		Tabla_Reutilizable.listarCobranza(listado);
+		
+		
 		
 		txtBusqUsu =new HintTextField("Search") {
 			
@@ -292,7 +329,64 @@ public class IntCobranza extends JInternalFrame {
 		panelConbranzaHoy.add(scrollPane_1);
 		
 		tblCobranzaHoy = new JTable();
-		scrollPane_1.setViewportView(tblCobranzaHoy);
+		tblCobranzaHoy.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				 int column = tblCobranzaHoy.getColumnModel().getColumnIndexAtX(arg0.getX());
+			        int row = arg0.getY()/tblCobranzaHoy.getRowHeight();
+			        
+			        if(row < tblCobranzaHoy.getRowCount() && row >= 0 && column < tblCobranzaHoy.getColumnCount() && column >= 0){
+			            Object value = tblCobranzaHoy.getValueAt(row, column);
+			            if(value instanceof JButton){
+			                ((JButton)value).doClick();
+			                JButton boton = (JButton) value;
+
+			                if(boton.getName().equals("v")){
+			                	
+			                
+			                  
+			                	 JdialogCobranzaPendientes cobranzaPendientes=new JdialogCobranzaPendientes();
+			                  /*eNVIANDO DATOS DEL USUARIO PARA EDITAR*/
+			                  int fila1 = tblCobranzaHoy.getSelectedRow();
+			                  System.out.println("el codigo A VER es :"+tblCobranzaHoy.getValueAt(fila1, 0).toString());
+			                  JdialogCobranzaPendientes.lblNomCliente.setText(tblCobranzaHoy.getValueAt(fila1, 0).toString());
+			                  JdialogCobranzaPendientes.lblnomCli2.setText(tblCobranzaHoy.getValueAt(fila1, 0).toString());
+			                  JdialogCobranzaPendientes.cliente=(tblCobranzaHoy.getValueAt(fila1, 0).toString());
+			                
+			          	 
+			          		cobranzaPendientes.setVisible(true);
+			                  
+			                }
+			                if(boton.getName().equals("e")){
+			                	int fila1 = tblCobranza.getSelectedRow();
+			                	System.out.println("en eliminar es :"+tblCobranza.getValueAt(fila1, 0).toString());
+			    				String id=tblCobranza.getValueAt(fila1, 0).toString();	// <-- SE CAPTURA DNI DE LA FILA PA ELIMINAR
+			    			
+			    				eliminar(id);
+			    				
+			                   
+			                }
+			            }
+			          /*  if(value instanceof JCheckBox){
+			                //((JCheckBox)value).doClick();
+			                JCheckBox ch = (JCheckBox)value;
+			                if(ch.isSelected()==true){
+			                    ch.setSelected(false);
+			                }
+			                if(ch.isSelected()==false){
+			                    ch.setSelected(true);
+			                }
+			                
+			            }*/
+			        }
+			}
+		});
+FormatoTablaMain.formatoTabla(tblCobranza);
+		
+scrollPane_1.setViewportView(tblCobranzaHoy);
+		
+ 
+	
 		
 		JLabel lblTotalCobraHoy = new JLabel("1400");
 		lblTotalCobraHoy.setForeground(new Color(240,240,240));
@@ -311,13 +405,83 @@ public class IntCobranza extends JInternalFrame {
 		lblT.setBounds(27, 747, 75, 45);
 		panelConbranzaHoy.add(lblT);
 		lblT.setFont(new Font("Segoe UI", Font.BOLD, 25));
+	
 		
-		JDateChooser dtpFecha = new JDateChooser();
-		
+		spinMes = new JMonthChooser();
+		spinMes.getComboBox().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				spinAño.addPropertyChangeListener(new PropertyChangeListener() {
 
-		dtpFecha.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
-		dtpFecha.setBounds(442, 11, 150, 35);
-		getContentPane().add(dtpFecha);
+					/*------------------------AÑO --------------------------------------*/
+					@Override
+					public void propertyChange(PropertyChangeEvent arg0) {
+				
+						
+						try {
+							Tabla_Reutilizable t=new Tabla_Reutilizable();
+							t.ver_tabla(tblCobranza,  lista,model.getColumnCount());
+							System.out.println(spinMes.getMonth());
+							ArrayList<Cobranza> listado = new GestionFinanzas().listadoxFecha( arg0.getNewValue().toString(),Integer.toString(spinMes.getMonth()) );
+							Tabla_Reutilizable.listarCobranza(listado);
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+				        
+						
+					}
+					});
+				
+				
+				/*------------------------ MES --------------------------------------*/
+				spinMes.addPropertyChangeListener(new PropertyChangeListener() {
+					
+					
+					   
+
+					@Override
+					public void propertyChange(PropertyChangeEvent arg0) {
+				
+
+						
+						
+							
+						
+						
+						try {
+							Tabla_Reutilizable t=new Tabla_Reutilizable();
+							t.ver_tabla(tblCobranza,  lista,model.getColumnCount());
+							System.out.println(spinAño.getYear());
+							ArrayList<Cobranza> listado = new GestionFinanzas().listadoxFecha(Integer.toString(spinAño.getYear()),  arg0.getNewValue().toString());
+							Tabla_Reutilizable.listarCobranza(listado);
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+				        
+						
+					}
+					});
+			}
+		});
+		spinMes.setMonth(0);
+		
+		spinMes.setBackground(Color.WHITE);
+		spinMes.getSpinner().setForeground(Color.WHITE);
+		spinMes.getSpinner().setBackground(Color.WHITE);
+		spinMes.getComboBox().setBackground(Color.WHITE);
+		spinMes.getComboBox().setFont(new Font("Segoe UI Semibold", Font.PLAIN, 12));
+		spinMes.setBounds(581, 11, 91, 35);
+		
+		getContentPane().add(spinMes);
+		
+		spinAño = new JYearChooser();
+		
+		spinAño.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
+		spinAño.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		spinAño.getSpinner().setFont(new Font("Segoe UI Semibold", Font.PLAIN, 30));
+		
+		spinAño.setBounds(442, 11, 103, 35);
+		getContentPane().add(spinAño);
 		
 
 			}
@@ -337,4 +501,18 @@ void eliminar(String id) {
 	}
 
 }
+void MostrarTabla() {
+    /* TABLA COBRANZA HOY*/
+FormatoTablaMain.formatoTabla(tblCobranzaHoy);
+ArrayList<DefaultTableModel>listaHoy=new ArrayList<>();
+listaHoy.add(model2);
+
+Tabla_Reutilizable ta=new Tabla_Reutilizable();
+ta.ver_otraTabla(tblCobranzaHoy,  listaHoy,model2.getColumnCount());
+
+
+ArrayList<Cobranza> listadocoHoy = new GestionFinanzas().listadoCobranzaHoy();
+Tabla_Reutilizable.listarCobranzaHoy(listadocoHoy);
 }
+
+  }

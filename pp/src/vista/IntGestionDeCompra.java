@@ -48,6 +48,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Component;
 
 public class IntGestionDeCompra extends JInternalFrame {
 	private JTextField txtBusquedad;

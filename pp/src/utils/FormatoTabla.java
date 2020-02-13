@@ -4,7 +4,10 @@ import java.awt.Component;
 import java.awt.Font;
 import java.io.Console;
 
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -27,11 +30,14 @@ public class FormatoTabla extends DefaultTableCellRenderer{
     @Override 
     public Component getTableCellRendererComponent ( JTable table, Object value, boolean isSelected, boolean focused, int row, int column ) 
     {
+    
         setEnabled(table == null || table.isEnabled()); 
         
-   
+        setHorizontalAlignment(CENTER);
+       
+      
         
-        
+       
         if(row%2==0) {
         	setBackground(Color.decode("#ebebeb"));
         }
