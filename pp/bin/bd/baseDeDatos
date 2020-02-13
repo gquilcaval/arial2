@@ -418,7 +418,7 @@ declare letra varchar(30);
    SET NUMERO=NUMERO-1;
   END WHILE;
 END //
-    
+    /**/
     CALL dowhile (100);
 
     

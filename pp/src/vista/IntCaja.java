@@ -123,7 +123,7 @@ public class IntCaja extends JInternalFrame {
 			lblPagos.setForeground(Color.decode(colorNegro));
 		
 			rayaPago.setVisible(true);
-			
+			/*-----*/
 			lblCobranza.setForeground(Color.decode(colorPlomo));
 			rayaUsu.setVisible(false);
 			new clsArial().setInternalFrame(dkCaja,new IntCajaCortes(), null, null);
