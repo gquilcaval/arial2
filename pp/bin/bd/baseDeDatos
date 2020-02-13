@@ -1,4 +1,5 @@
 
+
 DROP DATABASE  arial_sql1;  
  
 create database arial_sql1;
@@ -202,7 +203,10 @@ contacto varchar(70),
 	foreign key (id_usu) references usuario(id_usu)
 );
 insert into ordencompra values(null,'2020/10/05','2020/11/04','b','a','credito 90','juan',1,1);
-select*from ordencompra;
+
+
+
+
 CREATE TABLE detalle_compra_orden_compra(
 nro_ord_compra int  NOT NULL,
 
@@ -257,6 +261,36 @@ FOREIGN KEY (cod_regis_com)  REFERENCES registro_compra(cod_regis_com)
 
 insert into detalle_compra_registro_compra values(1,1,2,15);
 
+
+create table cotizacion(
+nro_cotizacion int not null primary key auto_increment,
+fecha_coti datetime ,
+id_usu int null,
+facturado boolean,
+total decimal(10,1) ,
+vencimiento date,
+id_cli int ,
+
+foreign key (id_usu) references usuario(id_usu),
+foreign key (id_cli) references cliente(id_cli)
+);
+
+
+insert into cotizacion values(null,sysdate(),1,false,75.0,'2020/05/01',1);
+select*from cotizacion;
+
+create table detalle_cotizacion(
+nro_cotizacion int ,
+id_prod int ,
+cantidad smallint NOT NULL,
+precio decimal(10,1) NOT NULL,
+descuento decimal(10,1)	 null,
+FOREIGN KEY (nro_cotizacion)  REFERENCES cotizacion(nro_cotizacion),
+foreign key (id_prod) references producto(id_prod)
+);
+
+insert into detalle_cotizacion values(1,1,3,75.0,0);
+
 	 create TABLE ventas(
 Nro_ven int  NOT NULL primary key auto_increment,
 fech_venta datetime ,
@@ -270,7 +304,7 @@ formaPago varchar(70),
 foreign key (id_usu) references usuario(id_usu),
     foreign key (id_cli) references cliente(id_cli)
     );
- 
+
 create TABLE detalle_Venta(
 Nro_ven int  NOT NULL,
 id_prod int  NOT NULL,
@@ -286,12 +320,13 @@ primary key(Nro_ven,id_prod),
 
 create table caja(
 cod_caja int auto_increment primary key,
-nom_caja varchar(30) not null
+nom_caja varchar(30) not null,
+saldo decimal(15,1)
 );
 select*from caja;
-insert into caja values(null,'caja 1');
-insert into caja values(null,'caja 2');
-insert into caja values(null,'caja 3');
+insert into caja values(null,'caja 1',0.0);
+insert into caja values(null,'caja 2',0.0);
+insert into caja values(null,'caja 3',0.0);
 select*from caja;
 
 
@@ -315,7 +350,7 @@ constraint fkv FOREIGN KEY (cod_regis_com)  REFERENCES registro_compra(cod_regis
 );
 select*from movimiento;
 
-
+select*From caja;
 create table corteCaja(
 codigo_corte_caja int auto_increment primary key,
 fecha datetime,
@@ -338,4 +373,58 @@ constraint fkasdv FOREIGN KEY (codigo_corte_caja)  REFERENCES corteCaja(codigo_c
  constraint fkvasd1 foreign key (cod_movimiento) references movimiento(cod_movimiento)
 )
 
-//
+
+
+select*from corteCaja;
+select*from detalle_corte_caja;
+
+selecT*from movimiento;
+
+select*from caja;
+
+select saldo from movimiento where cod_Caja=1 order by cod_movimiento desc limit 1;
+
+
+/*--*/
+
+create table detalle_cotizacion(
+
+);
+
+create table trasporte(
+
+);
+
+
+create table gui_remision(
+
+);
+
+
+create table movimientos(
+
+);
+
+
+    DELIMITER //
+create PROCEDURE dowhile(in numero int)
+BEGIN
+declare palabra varchar(30);
+declare letra varchar(30);
+  WHILE numero > 0 DO
+	set palabra='abcdefghijklmnopqrstuvwxyz';
+    set letra=SUBSTR(palabra,numero,numero+1);
+    insert into proveedor values (null,concat(letra,'holas'), '98765485213', 'Av.inca garcilazo 268', '2521383', '973755465', 'nefectronicsgm@gmail.com', 'Activo', '45789654123664578682');
+   SET NUMERO=NUMERO-1;
+  END WHILE;
+END //
+    
+    CALL dowhile (100);
+
+    
+    select*from proveedor;
+
+
+
+
+                
