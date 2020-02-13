@@ -62,7 +62,7 @@ public void ver_tabla(JTable tabla,ArrayList<DefaultTableModel>models,int longit
     	btn2.setIcon(ic);
         btn2.setName("e");
         
-        
+        /*fdfd*/
 
   	  btnVer = new JButton();
       btnVer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

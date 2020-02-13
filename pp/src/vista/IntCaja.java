@@ -126,7 +126,10 @@ public class IntCaja extends JInternalFrame {
 			/*-----*/
 			lblCobranza.setForeground(Color.decode(colorPlomo));
 			rayaUsu.setVisible(false);
-			new clsArial().setInternalFrame(dkCaja,new IntCajaCortes(), null, null);
+
+				
+				new clsArial().setInternalFrame(dkCaja,new IntCajaCortes(), null, null);
+		
 			
 		}
 	});
