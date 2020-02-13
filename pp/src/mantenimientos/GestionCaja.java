@@ -32,6 +32,7 @@ public class GestionCaja implements InterfaceCaja{
 				
 				c.setCodCaja(rs.getInt(1));
 				c.setNomCaja(rs.getString(2));
+				c.setSaldo(rs.getDouble(3));
 				lista.add(c);
 			}
 		
@@ -56,7 +57,7 @@ public class GestionCaja implements InterfaceCaja{
 		PreparedStatement pst=null;
 		try {
 			con=MySQLconexion.getConexion();
-			String sql=" insert into caja values(null,?)";
+			String sql=" insert into caja values(null,?,?)";
 			pst=(PreparedStatement) con.prepareStatement(sql);
 			pst.setString(1,c.getNomCaja());
 			
@@ -78,6 +79,39 @@ public class GestionCaja implements InterfaceCaja{
 		}
 		return rs;
 		
+	}
+
+	@Override
+	public int actualizar(Caja c) {
+		int rs=0;
+		Connection con=null;
+		PreparedStatement pst=null;
+		try {
+			con=MySQLconexion.getConexion();
+			String sql=" update caja set saldo=? where cod_caja=?";
+			
+			pst=(PreparedStatement) con.prepareStatement(sql);
+			
+			pst.setDouble(1, c.getSaldo());
+			pst.setInt(2, c.getCodCaja());
+		
+			
+			rs=pst.executeUpdate();
+			
+			
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error cliente en uso");
+		}finally {
+			try {
+				if(pst!=null)pst.close();
+				if(con!=null)con.close();
+			} catch (Exception e2) {
+				
+				JOptionPane.showMessageDialog(null, "error al cerrar");
+			}
+		}
+		return rs;
 	}
 
 }

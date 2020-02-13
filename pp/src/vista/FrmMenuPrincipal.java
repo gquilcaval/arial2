@@ -40,6 +40,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,6 +65,8 @@ import javax.swing.JButton;
 import java.awt.Rectangle;
 import java.awt.Component;
 import keeptoo.KGradientPanel;
+import mantenimientos.GestionCaja;
+import model.Caja;
 import model.Empleados;
 import utils.clsArial;
 
@@ -128,6 +131,9 @@ public class FrmMenuPrincipal extends JFrame {
 	private JPanel panel_1_2;
 	public static JLabel lblCaja_1;
 	public static JLabel lblCodCaja;
+	public static JLabel lblSaldo;
+	
+	ArrayList<Caja> listado=new GestionCaja().listado();
 	/**
 	 * Launch the application.
 	 */
@@ -705,13 +711,14 @@ public class FrmMenuPrincipal extends JFrame {
 					panelCaja.setBackground(Color.WHITE);
 					panelCaja.setBounds(1191, 5, 155, 49);
 					panel_9.add(panelCaja);
-					
-					lblCaja_1 = new JLabel("Caja 1");
+						
+					String nomCaja=listado.get(0).getNomCaja();
+					lblCaja_1 = new JLabel(nomCaja);
 					
 					lblCaja_1.setHorizontalAlignment(SwingConstants.CENTER);
 					lblCaja_1.setForeground(Color.BLACK);
 					lblCaja_1.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 14));
-					lblCaja_1.setBounds(92, 1, 60, 48);
+					lblCaja_1.setBounds(92, 1, 60, 20);
 					panelCaja.add(lblCaja_1);
 					
 					JLabel lbliconCaja = new JLabel("");
@@ -720,9 +727,16 @@ public class FrmMenuPrincipal extends JFrame {
 					lbliconCaja.setBounds(32, 1, 50, 48);
 					panelCaja.add(lbliconCaja);
 					
-					lblCodCaja = new JLabel("1");
+					
+					int codigo=Integer.parseInt(listado.get(0).getCodCaja()+"");
+					lblCodCaja = new JLabel(codigo+"");
 					lblCodCaja.setBounds(0, 1, 19, 14);
 					panelCaja.add(lblCodCaja);
+					
+					double saldo=Double.parseDouble(listado.get(0).getSaldo()+"");
+					lblSaldo = new JLabel(saldo+"");
+					lblSaldo.setBounds(102, 35, 50, 14);
+					panelCaja.add(lblSaldo);
 					
 					panel_1_2 = new JPanel();
 					panel_1_2.setBackground(new Color(235, 240, 244));

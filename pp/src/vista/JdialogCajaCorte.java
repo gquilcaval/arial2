@@ -11,7 +11,9 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+import mantenimientos.GestionCaja;
 import mantenimientos.GestionCorteCaja;
+import model.Caja;
 import model.CorteCaja;
 import model.CorteCajaListadito;
 import model.DetalleCorteCaja;
@@ -113,19 +115,10 @@ public class JdialogCajaCorte extends JDialog {
 		getContentPane().add(lblEfectivo);
 
 		lblcontado = new JTextField();
-
-	
-
 		lblcontado.addKeyListener(new KeyAdapter() {
-			
 			@Override
-
-			public void keyPressed(KeyEvent e) {
-
-				
-
-				
-				float numeroParse=Integer.parseInt(lblcontado.getText());
+			public void keyReleased(KeyEvent arg0) {
+float numeroParse=Integer.parseInt(lblcontado.getText());
 			
 				
 				
@@ -134,11 +127,12 @@ public class JdialogCajaCorte extends JDialog {
 				
 			//	String n=String.format("%.1f", numeroParse+.0);
 				lbldiferencia.setText(resultado+"");
-
-				
-
 			}
 		});
+
+	
+
+		
 		lblcontado.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 13));
 		lblcontado.setBounds(112, 133, 102, 20);
 		getContentPane().add(lblcontado);
@@ -326,7 +320,7 @@ public class JdialogCajaCorte extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				insertarCorteCaja();
 				
-				
+				actualizarSaldo();
 				
 				ArrayList<CorteCajaListadito> list=new GestionCorteCaja().listadito(numeroCodigoCorteCaja);
 				if(list.isEmpty()) {
@@ -344,6 +338,7 @@ public class JdialogCajaCorte extends JDialog {
 			}
 				dispose();	
 			}
+
 		});
 		panel_3.setLayout(null);
 		panel_3.setBackground(new Color(35, 43, 55));
@@ -423,6 +418,23 @@ public class JdialogCajaCorte extends JDialog {
 			JOptionPane.showMessageDialog(null, "registro correctamente");
 		} else {
 			JOptionPane.showMessageDialog(null, "hubo errores");
+		}
+	}
+
+	private void actualizarSaldo() {
+		// TODO Auto-generated method stub
+		Caja c=new Caja();
+		double saldito=Double.parseDouble(FrmMenuPrincipal.lblSaldo.getText())-Double.parseDouble(lblretirado.getText());
+		c.setSaldo(saldito);
+		FrmMenuPrincipal.lblSaldo.setText(saldito+"");
+		c.setCodCaja(Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText()));
+		int ok =new GestionCaja().actualizar(c);
+		
+		if(ok!=0) {
+			System.out.println("el saldo se actualizo correctamente");
+		}
+		else {
+			System.out.println("hubo errores al actualizar el saldo");
 		}
 	}
 }

@@ -48,6 +48,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import com.toedter.calendar.JDateChooser;
 
 
 public class IntVenta extends JInternalFrame {
@@ -105,7 +106,7 @@ public class IntVenta extends JInternalFrame {
 			}
 		});
 		setBorder(null);
-		setBounds(223, 79, 1644, 901);
+		setBounds(223, 79, 1644, 915);
 		getContentPane().setLayout(null);
 		
 		/*-----BORDE SUPERIOR DISABLE ----*/
@@ -115,7 +116,7 @@ public class IntVenta extends JInternalFrame {
 		dk = new JDesktopPane();
 		dk.setBorder(new MatteBorder(1, 0, 0, 0, (Color) new Color(220, 225, 229)));
 		dk.setBackground(Color.WHITE);
-		dk.setBounds(0, 77, 1642, 728);
+		dk.setBounds(0, 77, 1642, 811);
 		getContentPane().add(dk);
 	
 	
@@ -233,13 +234,13 @@ public class IntVenta extends JInternalFrame {
 		
 		
 		
-		panel_12.setBounds(215, 34, 120, 45);
+		panel_12.setBounds(405, 33, 120, 45);
 		panel_1.add(panel_12);
 		panel_12.setLayout(null);
 		
 		opc2.setHorizontalAlignment(SwingConstants.CENTER);
 		opc2.setForeground(Color.decode(colorPlomo));
-		opc2.setBounds(0, 3, 121, 29);
+		opc2.setBounds(0, 0, 121, 29);
 		panel_12.add(opc2);
 		
 		opc2.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -248,6 +249,37 @@ public class IntVenta extends JInternalFrame {
 		panel_3.setBounds(32, 40, 70, 3);
 		panel_12.add(panel_3);
 		panel_3.setBackground(Color.decode(colorCeleste));
+		
+		JLabel lblCotizacion = new JLabel("Cotizacion");
+		lblCotizacion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				dk.removeAll();
+				dk.repaint();
+				IntGestionCotizacion coti=new IntGestionCotizacion();
+				dk.add(coti);
+				try {
+					coti.setMaximum(true);
+					coti.setUI(null);  //<------------ QUITAR BORDE DE UN INTERNAL FRAME  
+					coti.show(); 
+					
+				
+			
+				
+				
+				} catch (Exception ex) {
+					// TODO: handle exception
+				}
+				
+			
+				
+			}
+		});
+		lblCotizacion.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCotizacion.setForeground(new Color(128, 135, 147));
+		lblCotizacion.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		lblCotizacion.setBounds(241, 33, 121, 29);
+		panel_1.add(lblCotizacion);
 		panel_3.setVisible(false);
 		panel_2.setVisible(false);
 		

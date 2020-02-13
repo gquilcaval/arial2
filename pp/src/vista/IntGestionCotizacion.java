@@ -16,6 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import java.awt.Cursor;
+import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class IntGestionCotizacion extends JInternalFrame {
 	private JTable table;
@@ -173,6 +176,20 @@ public class IntGestionCotizacion extends JInternalFrame {
 		txtEntregasDocumentosRelacionados.setBackground(SystemColor.activeCaption);
 		txtEntregasDocumentosRelacionados.setBounds(0, 494, 380, 20);
 		panel.add(txtEntregasDocumentosRelacionados);
+		
+		JButton btnNuevo = new JButton("Nuevo");
+		btnNuevo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				JdialogCotizacion c=new JdialogCotizacion();
+				c.setVisible(true);
+				c.setLocationRelativeTo(null);
+				
+			}
+		});
+		btnNuevo.setBounds(862, 55, 89, 23);
+		getContentPane().add(btnNuevo);
 
 	}
 }

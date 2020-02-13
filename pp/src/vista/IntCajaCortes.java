@@ -120,7 +120,7 @@ public class IntCajaCortes extends JInternalFrame {
 		
 		
 		modelDetalle.setRowCount(0);
-		modelDetalle.setRowCount(0);
+		modelDetalle.setColumnCount(0);
 		modelDetalle.addColumn("cod Movimiento");
 		modelDetalle.addColumn("fecha");
 		modelDetalle.addColumn("nro venta");
@@ -190,12 +190,10 @@ public class IntCajaCortes extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				int codigoCaja=Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText().toString());
-				System.out.println("codigo caja "+codigoCaja);
-			ArrayList<CorteCaja> listado=new GestionCorteCaja().calcularCalculado(1);
-			System.out.println("el calculado es  "+listado.get(0).getCalculado());
+				
+	
 			
-			double calculado=listado.get(0).getCalculado();
+			double calculado=Double.parseDouble(FrmMenuPrincipal.lblSaldo.getText());
 				
 				
 				JdialogCajaCorte corte=new JdialogCajaCorte();

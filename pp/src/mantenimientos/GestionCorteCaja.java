@@ -331,8 +331,41 @@ public class GestionCorteCaja implements InterfaceCorteCaja{
 		}
 		return lista;
 	}
+	/*
+	@Override
+	public double obtenerSaldo(int codCaja) {
+		double saldo=0;
+		ResultSet rs=null;
+		Connection con=null;
+		PreparedStatement pst=null;
+		try {
+			con=MySQLconexion.getConexion();
+			String sql="select saldo from movimiento where cod_Caja=? order by cod_movimiento desc limit 1;";
+			pst=(PreparedStatement) con.prepareStatement(sql);
+			
+			pst.setInt(1,codCaja);
+			rs=pst.executeQuery();
+			
+			while (rs.next()) {
+				saldo=rs.getDouble(1);
+			}
+			
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "error en la sentencia listadoParaElDetalle"+e.getMessage());
+		}finally {
+			try {
+				if(pst!=null)pst.close();
+				if(con!=null)con.close();
+			} catch (Exception e2) {
+				
+				JOptionPane.showMessageDialog(null, "error al cerrar");
+			}
+		}
+		return saldo;
+	}
 
-
+*/
 
 	
 

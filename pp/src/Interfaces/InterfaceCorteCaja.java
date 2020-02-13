@@ -10,6 +10,9 @@ import model.Movimiento;
 public interface InterfaceCorteCaja {
 	public int ObtenerNumero();
 	
+	
+	/*public double obtenerSaldo(int codCaja);*/
+	
 	public ArrayList<CorteCaja> calcularCalculado(int codCaja);
 	
 	public int registrarCorteDeCaja(CorteCaja c,ArrayList<DetalleCorteCaja> detalle);

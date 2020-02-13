@@ -19,8 +19,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import hilos.Hilo_Tiempo;
+import mantenimientos.GestionCaja;
 import mantenimientos.GestionCompra;
 import mantenimientos.GestionMovimiento;
+import model.Caja;
 import model.DetalleCompra;
 import model.JDateChooserEditor;
 import model.Movimiento;
@@ -776,6 +778,8 @@ void grabar() {
 			
 			
 			/*para la tabla movimiento*/
+			int codCaja=Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText().toString());
+			double saldoTotal=Double.parseDouble(FrmMenuPrincipal.lblSaldo.getText());
 			int codigo=new GestionCompra().ObtenerNumero();
 			Movimiento m=new Movimiento();
 			m.setComentario("nada por mientras");
@@ -784,12 +788,25 @@ void grabar() {
 			m.setCod_regis_com(codigo);
 		
 			m.setSalida(total);
-			m.setSaldo(total);
+			m.setSaldo(saldoTotal-total);
 			m.setCodcaja(Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText().toString()));
 			
+			/*para actualizar la caja*/
+			Caja ca=new Caja();
+			
+			ca.setCodCaja(codCaja);
+			ca.setSaldo(saldoTotal-total);
+			FrmMenuPrincipal.lblSaldo.setText(saldoTotal-total+"");
+			int ok1=new GestionCaja().actualizar(ca);
 			int okey=new GestionMovimiento().insertar(m);
 			System.out.println(":b"+okey);
+			
+			int okey2=new GestionMovimiento().insertar(m);
+			System.out.println(":b"+okey2);
 
+			
+			
+			
 			}
 		
 		

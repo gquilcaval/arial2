@@ -18,6 +18,7 @@ public class GestionMovimiento implements InterfaceMovimiento{
 		int rs=0;
 		Connection con=null;
 		PreparedStatement pst1=null;
+	
 		try {
 			con=MySQLconexion.getConexion();
 			String sql1="insert into movimiento values(null,curdate(),?,?,?,?,?,?,?,?,default);";
@@ -27,6 +28,7 @@ public class GestionMovimiento implements InterfaceMovimiento{
 				}
 				else {
 					pst1.setInt(3, m.getNro_ven());
+				
 				}
 			
 			if(m.getCod_regis_com()==0) {

@@ -30,9 +30,12 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.table.DefaultTableModel;
 
 import componentes.boton;
+import mantenimientos.GestionCaja;
 import mantenimientos.GestionClientes;
+import mantenimientos.GestionCorteCaja;
 import mantenimientos.GestionMovimiento;
 import mantenimientos.GestionVentas;
+import model.Caja;
 import model.Clientes;
 import model.DetalleCompra;
 import model.DetalleVentas;
@@ -126,14 +129,14 @@ public class IntVentasWindow extends JInternalFrame {
 		JPanel panel = new JPanel();
 		panel.setBorder(new MatteBorder(2, 2, 2, 2, (Color) new Color(0, 0, 0)));
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(140, 11, 1317, 871);
+		panel.setBounds(140, 11, 1317, 849);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBackground(new Color(45, 54, 63));
-		panel_1.setBounds(1, 0, 1316, 66);
+		panel_1.setBounds(0, 0, 1316, 66);
 		panel.add(panel_1);
 		
 		JLabel label = new JLabel("Usuario");
@@ -474,7 +477,7 @@ public class IntVentasWindow extends JInternalFrame {
 		tipo_comprovante=cboTipoDeComprovante.getSelectedItem().toString();
 		formaPago=cboFormaPago.getSelectedItem().toString();
 		/*el sdf lo saca del simpledateformat que esta arriba*/
-		dtmFechaVencimiento=sdf.format(dtmFechaVencimineto.getDate());;
+		dtmFechaVencimiento=sdf.format(dtmFechaVencimineto.getDate());
 
 		GestionVentas g=new GestionVentas();
 		numeroCompra =""+g.ObtenerNumero();
@@ -540,15 +543,25 @@ public class IntVentasWindow extends JInternalFrame {
 			
 		
 		/*para la tabla movimiento*/
+		int codCaja=Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText().toString());
+		double saldoTotal=Double.parseDouble(FrmMenuPrincipal.lblSaldo.getText());
 		Movimiento m=new Movimiento();
 		m.setComentario("nada por mientras");
 		m.setTipo_movimiento("venta");
 		m.setNro_ven(Integer.parseInt(numeroCompra));
 		m.setCod_regis_com(0);
 		m.setEntrada(total);
-		m.setSaldo(total);
-		m.setCodcaja(Integer.parseInt(FrmMenuPrincipal.lblCodCaja.getText().toString()));
 		
+		m.setSaldo(total+saldoTotal);
+		m.setCodcaja(codCaja);
+		
+		
+		/*para actualizar la caja*/
+		Caja c=new Caja();
+		c.setCodCaja(codCaja);
+		c.setSaldo(total+saldoTotal);
+		FrmMenuPrincipal.lblSaldo.setText(total+saldoTotal+"");
+		int ok1=new GestionCaja().actualizar(c);
 		int okey=new GestionMovimiento().insertar(m);
 		System.out.println(":b"+okey);
 

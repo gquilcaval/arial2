@@ -10,4 +10,6 @@ public interface InterfaceCaja {
 	
 	public int agregar(Caja c);
 	
+	
+	public int actualizar(Caja c);
 }

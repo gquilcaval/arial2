@@ -3,6 +3,13 @@ package model;
 public class Caja {
 	private int codCaja;
 	private String nomCaja;
+	private double saldo;
+	public double getSaldo() {
+		return saldo;
+	}
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
 	public int getCodCaja() {
 		return codCaja;
 	}

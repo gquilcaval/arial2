@@ -56,7 +56,7 @@ public class JdialogCambiarCaja extends JDialog {
 		getContentPane().setLayout(null);
 		model.addColumn("codigo");
 		model.addColumn("nombre caja");
-		
+		model.addColumn("saldo");
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 43, 385, 159);
 		getContentPane().add(scrollPane);
@@ -68,11 +68,11 @@ public class JdialogCambiarCaja extends JDialog {
 				int fila=table.getSelectedRow();
 				int codigo=Integer.parseInt(table.getValueAt(fila, 0).toString());
 				String caja=(String) table.getValueAt(fila, 1);
-			
+				String saldo=table.getValueAt(fila, 2).toString();
 				
 				FrmMenuPrincipal.lblCodCaja.setText(codigo+"");
 				FrmMenuPrincipal.lblCaja_1.setText(caja);
-			
+			FrmMenuPrincipal.lblSaldo.setText(saldo);
 				dispose();
 				
 			}
@@ -97,7 +97,7 @@ table.setModel(model);
 	
 		for (Caja c : lista) {
 			
-			Object datos[]={c.getCodCaja(),c.getNomCaja()};
+			Object datos[]={c.getCodCaja(),c.getNomCaja(),c.getSaldo()};
 			model.addRow(datos);
 		}
 	}
