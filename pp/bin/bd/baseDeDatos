@@ -270,7 +270,7 @@ facturado boolean,
 total decimal(10,1) ,
 vencimiento date,
 id_cli int ,
-
+estado varchar(70),
 foreign key (id_usu) references usuario(id_usu),
 foreign key (id_cli) references cliente(id_cli)
 );
@@ -289,7 +289,7 @@ FOREIGN KEY (nro_cotizacion)  REFERENCES cotizacion(nro_cotizacion),
 foreign key (id_prod) references producto(id_prod)
 );
 
-insert into detalle_cotizacion values(1,1,3,75.0,0);
+select*from detalle_cotizacion;
 
 	 create TABLE ventas(
 Nro_ven int  NOT NULL primary key auto_increment,
@@ -301,10 +301,13 @@ tipo_comprobante varchar(20) not null,
 
 num_comprobante varchar (10) not null,
 formaPago varchar(70),
+estado varchar(70),
+nro_cotizacion int,
+foreign key (nro_cotizacion) references cotizacion(nro_cotizacion),
 foreign key (id_usu) references usuario(id_usu),
     foreign key (id_cli) references cliente(id_cli)
     );
-
+select*From ventas;
 create TABLE detalle_Venta(
 Nro_ven int  NOT NULL,
 id_prod int  NOT NULL,
@@ -315,7 +318,7 @@ primary key(Nro_ven,id_prod),
   constraint fkpro foreign key (id_prod) references producto(id_prod),
   constraint fkven foreign key (Nro_ven) references ventas(Nro_ven)
 );
-
+select*from detalle_venta;
 /*cajas movimientos cortes de caja etc*/
 
 create table caja(
@@ -375,56 +378,53 @@ constraint fkasdv FOREIGN KEY (codigo_corte_caja)  REFERENCES corteCaja(codigo_c
 
 
 
-select*from corteCaja;
-select*from detalle_corte_caja;
 
-selecT*from movimiento;
+DELIMITER //
+create procedure consulta_cobranza()
 
-select*from caja;
-
-select saldo from movimiento where cod_Caja=1 order by cod_movimiento desc limit 1;
-
-
-/*--*/
-
-create table detalle_cotizacion(
-
-);
-
-create table trasporte(
-
-);
-
-
-create table gui_remision(
-
-);
-
-
-create table movimientos(
-
-);
-
-
-    DELIMITER //
-create PROCEDURE dowhile(in numero int)
 BEGIN
-declare palabra varchar(30);
-declare letra varchar(30);
-  WHILE numero > 0 DO
-	set palabra='abcdefghijklmnopqrstuvwxyz';
-    set letra=SUBSTR(palabra,numero,numero+1);
-    insert into proveedor values (null,concat(letra,'holas'), '98765485213', 'Av.inca garcilazo 268', '2521383', '973755465', 'nefectronicsgm@gmail.com', 'Activo', '45789654123664578682');
-   SET NUMERO=NUMERO-1;
-  END WHILE;
-END //
-    /**/
-    CALL dowhile (100);
+select c.nomb_cli , c.tipo_documento ,c.n_documento,v.tipo_comprobante,v.num_comprobante,v.formaPago,v.fech_venta,v.fecha_vencim,u.nom_usu,(d.precioUnidad*d.CantxUnidad) 'Total' ,if(datediff(v.fecha_vencim,curdate())<0,'',datediff(v.fecha_vencim,curdate())) 'Vence (dias)', if(datediff(curdate(),v.fecha_vencim)<0,'',datediff(curdate(),v.fecha_vencim)) 'Dias mora'
+from  detalle_venta d join ventas v on d.Nro_ven=v.Nro_ven join cliente c on c.id_cli=v.id_cli join usuario u on u.id_usu=v.id_usu ;
+END;
+ //
+ CALL CONSULTA_COBRANZA;
+ 
+ 
+ DELIMITER //
+ create procedure consulta_cobranzaxFecha(in año char(4) , in mes varchar(2) )
 
-    
-    select*from proveedor;
+BEGIN
+ select c.nomb_cli , c.tipo_documento ,c.n_documento,v.tipo_comprobante,v.num_comprobante,v.formaPago,v.fech_venta,v.fecha_vencim,u.nom_usu,(d.precioUnidad*d.CantxUnidad) 'Total' ,if(datediff(v.fecha_vencim,curdate())<0,'',datediff(v.fecha_vencim,curdate())) 'Vence (dias)', if(datediff(curdate(),v.fecha_vencim)<0,'',datediff(curdate(),v.fecha_vencim)) 'Dias mora'
+from  detalle_venta d join ventas v on d.Nro_ven=v.Nro_ven join cliente c on c.id_cli=v.id_cli join usuario u on u.id_usu=v.id_usu where  year(v.fecha_vencim)=año and month(v.fecha_vencim)=mes ;
+END;
+ //
+ call consulta_cobranzaxFecha('','02')
+ 
+ 
+ 
+ 
+ DELIMITER //
+create procedure consultaCobranzaHoy()
+
+BEGIN
+select c.nomb_cli ,sum(d.precioUnidad*d.CantxUnidad) 'Total'
+from  detalle_venta d join ventas v on d.Nro_ven=v.Nro_ven join cliente c on c.id_cli=v.id_cli
+group by c.nomb_cli;
+END;
+ //
+ call consultaCobranzaHoy();
+ 
+  DELIMITER //
+create procedure consultaCobranzaCliente(in nom varchar(45))
+
+BEGIN
+select v.tipo_comprobante,v.num_comprobante,v.fecha_vencim,if(datediff(curdate(),v.fecha_vencim)<0,'',datediff(curdate(),v.fecha_vencim)) 'mora',(d.precioUnidad*d.CantxUnidad) 'Total' ,
+       c.telf_cli,c.celular,c.correo_cli
+from  detalle_venta d join ventas v on d.Nro_ven=v.Nro_ven join cliente c on c.id_cli=v.id_cli
+where c.nomb_cli= nom;
+
+END;
+ //
+ CALL consultaCobranzaCliente('huga');
 
 
-
-
-                

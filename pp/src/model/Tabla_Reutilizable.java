@@ -67,7 +67,7 @@ public void ver_tabla(JTable tabla,ArrayList<DefaultTableModel>models,int longit
   	  btnVer = new JButton();
       btnVer.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
       ImageIcon ver = new ImageIcon(getClass().getResource("/img/ver.png"));
-  	Image r = ver.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+  	Image r = ver.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);	
   	Icon icon = new ImageIcon(r);
   	btnVer.setIcon(icon);
   	btnVer.setName("v");
@@ -147,6 +147,57 @@ public void ver_otraTabla(JTable tabla,ArrayList<DefaultTableModel>models,int lo
 
     }
 
+
+/*--------------------listado de usuarios-----------------------*/
+public static void listarUsuarios(ArrayList<Empleados> listado) {
+   
+	
+
+	
+	for (Empleados cl : listado) {
+		Object datos[] = { cl.getId_emp(), cl.getNom_emp(),cl.getApe_pat_emp(),  cl.getApe_mat_emp(),
+				cl.getSex_emp(),cl.getEmail_emp(),cl.getSueldo_emp(),cl.getEstado_emp(),cl.getDirec_emp(),cl.getTelf_emp()
+				,cl.getCell_emp(),cl.getDni_emp(),cl.getLogin_emp(),cl.getPsw_emp(),null,btn1,btn2 };
+
+		model.addRow(datos);
+
+	}
+}
+	public static void listarNombre(ArrayList<Empleados> listado) {
+		   
+	
+		
+		for (Empleados cl : listado) {
+			Object datos[] = { cl.getId_emp(), cl.getNom_emp(),cl.getApe_pat_emp(),  cl.getApe_mat_emp(),
+					cl.getSex_emp(),cl.getEmail_emp(),cl.getSueldo_emp(),cl.getEstado_emp(),cl.getDirec_emp(),cl.getTelf_emp()
+					,cl.getCell_emp(),cl.getDni_emp(),cl.getLogin_emp(),cl.getPsw_emp(),null,btn1,btn2 };
+
+			model.addRow(datos);
+		}
+	
+}
+/*----------------------------------------------------------------*/
+
+	/*listado Perfiles*/
+	
+	public static void listarPerfiles(ArrayList<PerfilUsuario> listado) {
+		   
+		
+	
+		
+		for (PerfilUsuario cl : listado) {
+			Object datos[] = { cl.getIdPerfil(), cl.getDescPerfil(),btn1,btn2 };
+
+			model.addRow(datos);
+
+		}
+	}
+	
+	
+	
+	
+	/*--------------------------------------------*/
+	
 public static  void listar(ArrayList<Producto> lista) {
    
 	

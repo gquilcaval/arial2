@@ -12,13 +12,18 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import mantenimientos.GestionEmpledos;
+import mantenimientos.GestionProductos;
 import model.Empleados;
 import model.HintTextField;
+import model.Producto;
 import model.RoundedCornerBorder;
 import model.Tabla;
-import model.TablaPerfiles;
+
+import model.Tabla_Reutilizable;
+import utils.FormatoTablaMain;
 import utils.clsArial;
 
 import java.awt.Font;
@@ -39,7 +44,7 @@ import java.awt.Cursor;
 public class IntUsuario extends JInternalFrame {
 	private JTable tblUsuarios;
 	clsArial clsIcono=new clsArial();
-
+DefaultTableModel model=new DefaultTableModel();
 	/**
 	 * Launch the application.
 	 */
@@ -68,7 +73,26 @@ public class IntUsuario extends JInternalFrame {
 		/*-----BORDE SUPERIOR DISABLE ----*/
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
 		/*-----------------------------------------------------------------------------*/
-		
+		model.setRowCount(0);
+		model.setColumnCount(0);
+		 model.addColumn("ID");
+	        model.addColumn("Nombre");
+			model.addColumn("Apellido Paterno");
+			model.addColumn("Apellido Materno");
+			model.addColumn("Sexo");
+			model.addColumn("Email");
+			model.addColumn("Sueldo");
+			model.addColumn("Estado");
+			model.addColumn("Direccion");
+			model.addColumn("Telefono");
+			model.addColumn("Celular");
+			model.addColumn("Dni");
+			model.addColumn("Nick");
+			model.addColumn("Contraseña");
+			model.addColumn("Cargo");
+			model.addColumn("Modificar");
+			model.addColumn("Eliminar");
+			model.addColumn("fecha");
 		getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -76,7 +100,7 @@ public class IntUsuario extends JInternalFrame {
 		getContentPane().add(scrollPane);
 		
 		tblUsuarios = new JTable();
-		t.ver_tabla(tblUsuarios);
+		
 		tblUsuarios.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -167,7 +191,23 @@ public class IntUsuario extends JInternalFrame {
 				
 			}
 		});
+		FormatoTablaMain.formatoTabla(tblUsuarios);
 		scrollPane.setViewportView(tblUsuarios);
+		
+		ArrayList<DefaultTableModel>lista=new ArrayList<>();
+		lista.add(model);
+		
+	
+		
+		Tabla_Reutilizable t=new Tabla_Reutilizable();
+		t.ver_tabla(tblUsuarios,  lista,model.getColumnCount());
+		
+		
+		
+		ArrayList<Empleados> listado =new GestionEmpledos().listado();
+		Tabla_Reutilizable.listarUsuarios(listado);
+		/*-----------------------------------------*/
+		
 		
 		txtBusqUsu =new HintTextField("Search") {
 			

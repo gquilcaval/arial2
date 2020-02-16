@@ -12,12 +12,18 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import mantenimientos.GestionEmpledos;
+import mantenimientos.GestionProductos;
 import model.Empleados;
+import model.PerfilUsuario;
+import model.Producto;
 import model.RoundedCornerBorder;
 import model.Tabla;
-import model.TablaPerfiles;
+
+import model.Tabla_Reutilizable;
+import utils.FormatoTablaMain;
 import utils.clsArial;
 
 import java.awt.Font;
@@ -33,7 +39,7 @@ import java.awt.Cursor;
 
 public class IntPerfiles extends JInternalFrame {
 	private JTable tblPerfiles;
-
+DefaultTableModel model=new DefaultTableModel();
 	/**
 	 * Launch the application.
 	 */
@@ -50,7 +56,7 @@ public class IntPerfiles extends JInternalFrame {
 		});
 	}
 
-	TablaPerfiles tablaPerfiles=new TablaPerfiles();
+	
 	/**
 	 * Create the frame.
 	 */
@@ -62,6 +68,12 @@ public class IntPerfiles extends JInternalFrame {
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
 		/*-----------------------------------------------------------------------------*/
 		
+		 model.addColumn("ID");
+	        model.addColumn("Nombre");
+		
+			model.addColumn("Modificar");
+			model.addColumn("Eliminar");
+			
 		getContentPane().setLayout(null);
 		ImageIcon imgIcon = new ImageIcon(getClass().getResource("/iconos/sumar.png"));
 		Image imgEscalada = imgIcon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
@@ -72,7 +84,7 @@ public class IntPerfiles extends JInternalFrame {
 		getContentPane().add(scrollPane);
 		
 		tblPerfiles = new JTable();
-		tablaPerfiles.ver_tabla(tblPerfiles);
+		
 		tblPerfiles.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -106,7 +118,7 @@ public class IntPerfiles extends JInternalFrame {
 		                	System.out.println("en eliminar es :"+tblPerfiles.getValueAt(fila1, 0).toString());
 		    				String id=tblPerfiles.getValueAt(fila1, 0).toString();	// <-- SE CAPTURA DNI DE LA FILA PA ELIMINAR
 		    			
-		    				eliminar(id);
+		    				/*eliminar(id);*/
 		    				
 		                   
 		                }
@@ -129,7 +141,25 @@ public class IntPerfiles extends JInternalFrame {
 		}
 			                
 			});
+		FormatoTablaMain.formatoTabla(tblPerfiles);
 		scrollPane.setViewportView(tblPerfiles);
+		
+		ArrayList<DefaultTableModel>lista=new ArrayList<>();
+		lista.add(model);
+		
+	
+		
+		Tabla_Reutilizable t=new Tabla_Reutilizable();
+		t.ver_tabla(tblPerfiles,  lista,model.getColumnCount());
+		
+	
+		
+		ArrayList<PerfilUsuario>  listado = new GestionEmpledos().listadoPerfilUsu();
+		Tabla_Reutilizable.listarPerfiles(listado);
+		/*-----------------------------------------*/
+		
+		
+		
 		
 		JPanel panel = new JPanel() {
 			protected void paintComponent(Graphics g) {
@@ -177,7 +207,7 @@ public class IntPerfiles extends JInternalFrame {
 		
 
 			}
-
+/*
 void eliminar(String id) {
 
 	GestionEmpledos gc = new GestionEmpledos();
@@ -193,4 +223,5 @@ void eliminar(String id) {
 	}
 
 }
+*/
 }

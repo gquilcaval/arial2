@@ -24,7 +24,7 @@ import model.HintTextField;
 import model.Producto;
 import model.RoundedCornerBorder;
 import model.Tabla;
-import model.TablaPerfiles;
+
 import model.Tabla_Reutilizable;
 import utils.FormatoTabla;
 import utils.FormatoTablaMain;

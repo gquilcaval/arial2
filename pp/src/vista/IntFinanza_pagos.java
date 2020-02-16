@@ -18,7 +18,6 @@ import model.Empleados;
 import model.HintTextField;
 import model.RoundedCornerBorder;
 import model.Tabla;
-import model.TablaPerfiles;
 
 import java.awt.Font;
 import java.awt.Graphics;

@@ -413,6 +413,7 @@ lblRegistrate.setForeground(Color.LIGHT_GRAY);
 lblRegistrate.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 15));
 lblRegistrate.setBounds(115, 409, 198, 21);
 Jpanel_Login.add(lblRegistrate);
+clsArial c=new clsArial();
 txtClaveUsu.requestFocus();
 
 txtClaveUsu.addKeyListener(new KeyAdapter() {
@@ -485,6 +486,7 @@ lblCerrar.setBounds(372, 0, 36, 30);
 jPanel_Barra.add(lblCerrar);
 lblCerrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
  clsArial.modifiedIcon("/img/close.png", 28, 28,lblCerrar);
+
 
 /*-----------------------> FUNCIONALIDAD CERRAR FRAME  CON OPCIONES <----------------------------*/
 

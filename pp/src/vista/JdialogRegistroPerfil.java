@@ -18,7 +18,7 @@ import model.PerfilUsuario;
 import model.Privilegios;
 import model.RoundedCornerBorder;
 import model.Tabla;
-import model.TablaPerfiles;
+
 import model.Tipo_documento;
 
 import javax.swing.border.LineBorder;
@@ -134,7 +134,7 @@ private  ButtonGroup genero;
 		btnRegistrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				registrar();
+			/*	registrar();*/
 			}
 		});
 		btnRegistrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -152,7 +152,7 @@ private  ButtonGroup genero;
 
 	}
 	
-	
+	/*
 	
 	void registrar() {
 
@@ -199,7 +199,7 @@ private  ButtonGroup genero;
 
 		}
 		
-		
+		*/
 
 		
 			
